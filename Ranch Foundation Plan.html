@@ -1,0 +1,478 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ranch Foundation Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a single drafting-sheet column; drawings sit in framed "sheets" with a Today / Option switch, text panels below. */
+:root{
+  --paper:#F2F3EF; --sheet:#FBFBF8; --ink:#1D2830; --soft:#56636B; --rule:#C9CEC8;
+  --steel:#2F6690; --new:#C07A12; --newfill:rgba(192,122,18,.13);
+  --b8:#2E7D4F; --b7:#7DBB8C; --b5:#CFE6D2; --dim:#7A858B; --shade:#E4E7E1; --dark:#9AA4A8;
+  --bp1:#2F5D8A; --bp2:#4F9BC9; --bp3:#1E9AA0; --gb:rgba(120,110,95,.32); --pipe:#117C84; --slab:#E9E6DE; --fill:#E8DDC4; --clay:#C9A98A; --conc:#D5D3CC; --rebar:#B5482A; --grout:#8E8A80; --steel2:#3B4A55; --wood:#E2C08A; --stone:#E6DAC0;
+  --f-disp:"Archivo Narrow","Arial Narrow",Arial,sans-serif; --f-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#151A1D; --sheet:#1C2226; --ink:#E4E8E6; --soft:#A3AEB3; --rule:#3A4449;
+  --steel:#78A9D1; --new:#E3A43C; --newfill:rgba(227,164,60,.16);
+  --b8:#4FA874; --b7:#3D7A54; --b5:#28463A; --dim:#8E999E; --shade:#2A3236; --dark:#55626A; --bp1:#78A9D1; --bp2:#8DC6E8; --bp3:#4CC3C8; --gb:rgba(200,185,160,.3); --slab:#2A3034; --fill:#4A4232; --clay:#5E4636; --conc:#5A5D5E; --rebar:#E07A5A; --grout:#8E8A80; --steel2:#9FB2C0; --wood:#9C7E52; --stone:#8C8270; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#151A1D; --sheet:#1C2226; --ink:#E4E8E6; --soft:#A3AEB3; --rule:#3A4449;
+  --steel:#78A9D1; --new:#E3A43C; --newfill:rgba(227,164,60,.16);
+  --b8:#4FA874; --b7:#3D7A54; --b5:#28463A; --dim:#8E999E; --shade:#2A3236; --dark:#55626A; --bp1:#78A9D1; --bp2:#8DC6E8; --bp3:#4CC3C8; --gb:rgba(200,185,160,.3); --slab:#2A3034; --fill:#4A4232; --clay:#5E4636; --conc:#5A5D5E; --rebar:#E07A5A; --grout:#8E8A80; --steel2:#9FB2C0; --wood:#9C7E52; --stone:#8C8270; color-scheme:dark }
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding-inline:16px;padding-block:28px 64px;display:grid;gap:28px}
+h1,h2,h3{font-family:var(--f-disp);text-wrap:balance;margin:0;line-height:1.1}
+h1{font-size:clamp(30px,5vw,44px);font-weight:700;letter-spacing:.2px}
+h2{font-size:24px;font-weight:600}
+h3{font-size:17px;font-weight:600}
+p{margin:0;max-width:68ch}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--new)}
+.lede{color:var(--soft);font-size:16px}
+header{display:grid;gap:10px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.tile{background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;display:grid;gap:4px;min-width:0}
+.tile .k{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.tile .v{font-family:var(--f-disp);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.tile .v .from{color:var(--soft);font-size:18px;font-weight:500}
+.tile .s{font-size:13px;color:var(--soft)}
+.controls{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;position:sticky;top:env(safe-area-inset-top,0px);background:var(--paper);padding-block:10px;z-index:3;border-bottom:1px solid var(--rule)}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:5px;overflow:hidden}
+.seg button{font:600 14px var(--f-disp);letter-spacing:.04em;text-transform:uppercase;background:transparent;color:var(--ink);border:0;padding:8px 14px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible{outline:2px solid var(--new);outline-offset:2px}
+.seg button:disabled{opacity:.35;cursor:not-allowed}
+.ctl-label{font-family:var(--f-mono);font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:.06em}
+.sheets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+figure{margin:0;background:var(--sheet);border:1px solid var(--rule);border-radius:6px;padding:14px;display:grid;gap:8px;min-width:0}
+figure svg{width:100%;height:auto;display:block}
+figcaption{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+figcaption .scale{font-family:var(--f-mono);font-size:11.5px;color:var(--soft)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--soft)}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;border:1px solid var(--rule)}
+section{display:grid;gap:12px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px}
+.cols>div{min-width:0;display:grid;gap:8px;align-content:start}
+ul{margin:0;padding-left:20px;display:grid;gap:6px;max-width:72ch}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:6px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--f-mono);font-weight:500;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:11px;padding:1px 7px;border-radius:10px;border:1px solid currentColor}
+.ok{color:var(--b8)} .warn{color:var(--new)}
+.block{display:grid;gap:28px}
+.ibody .tbl table{min-width:0}
+.take{background:var(--sheet);border:1px solid var(--rule);border-left:4px solid var(--new);border-radius:6px;padding:16px 18px;display:grid;gap:8px}
+.foot{font-size:13px;color:var(--soft)}
+svg text{font-family:var(--f-body)}
+@media (prefers-reduced-motion:no-preference){ svg .fade{transition:opacity .2s} }
+</style>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Preliminary foundation design · for the PE to confirm and seal · 43 Percy Howard Road, Huntsville, TX 77320</div>
+  <h1>Foundation and Base Plates</h1>
+  <p class="lede">A stiffened slab on 4' of select fill, with grade beams under every wall and frame line and a square footing under every steel column and post. Each of the 45 steel members that touches the ground gets a base plate with anchor rods cast into its footing, and the 13 main frame columns also sit on drilled concrete piers that reach below the active clay. Tap any plate on the plan for its size, loads and footing.</p>
+</header>
+
+<div class="tiles">
+  <div class="tile"><span class="k">Foundation type</span><span class="v">Stiffened slab</span><span class="s">5" slab, 12" × 30" grade beams, on 4' select fill, plus 13 drilled piers</span></div>
+  <div class="tile"><span class="k">Drilled piers</span><span class="v">13</span><span class="s">18" × 15' under each main frame column</span></div>
+  <div class="tile"><span class="k">Base plates</span><span class="v">45</span><span class="s">13 main frame · 14 porch, suite, bump · 18 posts</span></div>
+  <div class="tile"><span class="k">Concrete</span><span class="v">~223 CY</span><span class="s">Slab 88 · beams 71 incl. stone ledge · footings 40 · piers 13 · 5% waste</span></div>
+  <div class="tile"><span class="k">Select fill</span><span class="v">~1,150 CY</span><span class="s">4' deep over the 7,767 sf pad (slab + 5'), before any side slope</span></div>
+</div>
+
+<div class="controls" role="group" aria-label="Plan layers">
+  <span class="ctl-label">Show</span>
+  <div class="seg" id="seg-type"><button data-t="all" aria-pressed="true">All plates</button><button data-t="BP-1" aria-pressed="false">BP-1 main</button><button data-t="BP-2" aria-pressed="false">BP-2 porch / suite</button><button data-t="BP-3" aria-pressed="false">BP-3 posts</button></div>
+  <div class="seg"><button id="b-beams" aria-pressed="true">Grade beams</button><button id="b-foot" aria-pressed="true">Footings</button><button id="b-pipes" aria-pressed="true">Drain pipes</button><button id="b-elec" aria-pressed="true">Island conduit</button><button id="b-gas" aria-pressed="true">Propane line</button><button id="b-piers" aria-pressed="true">Piers</button></div>
+</div>
+
+<div class="sheets">
+  <figure style="grid-column:1/-1"><figcaption><h3>Foundation plan</h3><span class="scale">Grid squares 5 ft · north up · east (carport) on the right</span></figcaption><div id="plan"></div>
+    <div class="legend"><span><i style="background:var(--bp1)"></i>BP-1 main frame column</span><span><i style="background:var(--bp2)"></i>BP-2 porch, suite, bump, shed column</span><span><i style="background:var(--bp3)"></i>BP-3 end-wall or wind post</span><span><i style="background:var(--gb);border:0"></i>Grade beam</span><span><i style="background:var(--pipe);border:0"></i>Sanitary drain · schematic</span><span><i style="background:var(--pipe);border:0"></i>Arrow: drain runs about 10' more to the Pro-Flo tank, 116' west and 33' south of the carport corner (K&B site plan), off this plan</span><span><i style="background:var(--sheet);border:1px solid var(--pipe);border-radius:50%"></i>Cleanout (CO)</span><span><i style="background:none;border:1px dashed var(--soft)"></i>Footing · select fill limit</span><span><i style="background:none;border:1.5px dashed var(--ink);border-radius:50%"></i>P1 drilled pier, 18" × 15' (symbol enlarged)</span><span><i style="background:var(--new);border:0"></i>Island power conduit · schematic</span><span><i style="background:#9B5DB5;border:0"></i>Propane: tank, buried line to the riser at the suite east wall, overhead lines to the suite and kitchen ranges · schematic</span></div>
+    <p class="foot">Sanitary drain routes are schematic and based on P-101 fixture locations, including the proposed master-toilet shift west of F1. Domestic water and vent routes are not shown. Confirm fixture locations, pipe size, slope, invert, cleanouts, beam sleeves and septic connection with the plumber and PE before trenching; not for construction. The island power conduit is schematic too: the electrician sets the circuits, receptacle location and conduit size. The propane tank spot and the gas range location are proposed: the propane contractor confirms the tank size, clearances, line size and depth, and the range spots come from the kitchen layouts.</p></figure>
+  <figure id="info" style="grid-column:1/-1"><figcaption><h3 id="i-title">Tap a base plate on the plan</h3><span class="scale" id="i-loc"></span></figcaption><div id="i-body" class="ibody"><p class="foot">Each marker is one base plate. The panel shows the column it carries, the loads it sees in a 140 mph wind, its plate and anchor rods, and the footing under it.</p></div></figure>
+  <figure><figcaption><h3>Section A · footing at a main column</h3><span class="scale">F1 with BP-1 · ¾" = 1'-0" scale feel</span></figcaption><div id="secA"></div></figure>
+  <figure><figcaption><h3>Section B · slab edge at an exterior wall</h3><span class="scale">Perimeter grade beam GB-1 with the stone ledge</span></figcaption><div id="secB"></div></figure>
+</div>
+
+<section>
+  <h2>Base plate schedule</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Mark</th><th>Carries</th><th>Plate</th><th>Anchor rods</th><th>Worst loads (ASD)</th><th>Footing</th></tr></thead>
+    <tbody>
+      <tr><td><b>BP-1</b> · 13</td><td>Main frame columns, HSS 8x8x3/8</td><td>14" × 14" × ¾" A36, 1" non-shrink grout, leveling nuts</td><td>(4) ¾" F1554 Gr 36 on a 10" square, 15" embed, heavy hex nut + 3" × 3" × ¼" plate washer at the bottom</td><td class="n">down 15 k · up 8.3 k · side 4.1 k</td><td>F1</td></tr>
+      <tr><td><b>BP-2</b> · 14</td><td>Porch, Mom's suite, bump and laundry-shed columns, HSS 6x6x3/16</td><td>12" × 12" × ⅝" A36, 1" grout</td><td>(4) ¾" F1554 Gr 36 on a 9" square, 12" embed, nut + washer at the bottom</td><td class="n">down 5 k · up 2.5 k · side 1.5 k</td><td>F2</td></tr>
+      <tr><td><b>BP-3</b> · 18</td><td>End-wall posts (carport end, bump and suite gables) and 11 mid-bay wind posts (north wall, great room rear wall, laundry rear wall, suite), HSS 4x4x¼</td><td>10" × 10" × ½" A36, 1" grout</td><td>(4) ⅝" F1554 Gr 36 on a 7" square, 9" embed</td><td class="n">down 2 k · up 1.5 k · side 2 k</td><td>F3</td></tr>
+    </tbody>
+  </table></div>
+  <p class="foot">Galvanized rods, nuts and plates at exposed columns: carport, porches and the open breezeway side. Set every rod group with a steel template tied to the grade-beam steel, and survey the layout before the pour. The grid 7 stub post sits on the bump rafter and has no base plate.</p>
+</section>
+
+<section>
+  <h2>Footing and beam schedule</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Mark</th><th>Size</th><th>Reinforcing</th><th>Check</th></tr></thead>
+    <tbody>
+      <tr><td><b>F1</b> · main columns</td><td>5'-0" × 5'-0", bottom 2'-6" below top of slab, cast with the grade beams</td><td>(6) #5 each way bottom, (4) #5 each way top for uplift</td><td>Uplift: footing + attached beams + slab ≈ 16 k × 0.6 = 9.7 k ≥ 8.3 k. Bearing ≈ 970 psf at the worst column (27', grid A) vs 1,400 psf allowed.</td></tr>
+      <tr><td><b>P1</b> · 13 piers under the F1 caps</td><td>18" diameter drilled shaft, 15'-0" long below the F1 cap, centered on the column. The tip is about 13 ft below existing ground, deeper than the 12 ft the report assumes for the wetted front</td><td>(6) #6 full length, #3 ties at 12", 4,000 psi (preliminary); bars extend into the F1 cap</td><td>Holds the main frames against settlement and heave and anchors the 8.3 k wind uplift. The SoilsTEC pier addendum must give skin friction, end bearing and swell-uplift values; the PE sizes the shaft, bars and any sleeve through the active clay. F1 stays as the cap that ties the frame-line beams to the pier.</td></tr>
+      <tr><td><b>F2</b> · porch / suite columns</td><td>3'-6" × 3'-6", bottom 2'-0" below top of slab</td><td>(4) #5 each way, top and bottom</td><td>Uplift ≈ 7.7 k × 0.6 = 4.6 k ≥ 2.5 k. Bearing ≈ 860 psf, including the 30" stone pier (~2 k) at each porch post.</td></tr>
+      <tr><td><b>F3</b> · posts</td><td>2'-6" × 2'-6", bottom 2'-0" (a widening of the perimeter beam)</td><td>(3) #5 each way</td><td>Small loads; sized for anchor rod embedment and sliding.</td></tr>
+      <tr><td><b>GB-1</b> · perimeter</td><td>12" wide × 30" deep below top of slab, under every exterior wall and slab edge; the preliminary model retains a 17" width with a 5" stone ledge, 1½" below the floor, at house walls except the laundry/pantry shed. Four carport/breezeway faces now omit veneer; ledge retained pending PE review.</td><td>(2) #5 top, (2) #5 bottom continuous, #3 stirrups at 24"; #4 L-bars at 24" into the ledge</td><td>Stiffens the slab against clay movement; carries the wood walls and limestone wainscot where shown. PE to confirm whether the ledge and its reinforcement remain or can be omitted at the four veneer-free faces. Also runs under the carport, breezeway, great room rear and suite porch walls and the suite frame line at 49'.</td></tr>
+      <tr><td><b>GB-2</b> · frame lines</td><td>12" × 30" on every main frame line from grid A to grid B</td><td>Same as GB-1, bars lapped and hooked into F1 at both ends</td><td>Ties each frame's two columns together so the ~4 k outward push at the base stays in the concrete.</td></tr>
+      <tr><td><b>Slab</b></td><td>5", 4,000 psi, on 10 mil vapor retarder over 4' select fill</td><td>#4 at 12" each way (or post-tensioned, PE's choice)</td><td>Carport sloped ⅛" per ft to the drive; porches and breezeway 1½" below the house floor. The PE lays out contraction, control and isolation joints (separate the porch, carport and breezeway slabs from the house slab).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="cols">
+  <div><h2>Why this foundation</h2><ul>
+    <li>The SoilsTEC report found very high swell clay (PI up to 82). Left alone it can heave about 3.3". Replacing the top 4' with compacted select fill brings that down to about 1".</li>
+    <li>Grade beams under every wall and across the house on every revised frame line (13.5'–20' apart) keep the slab stiff. PE-directed Grid 2 is at x=13.5', with its rear column on the y=41.5' main wall; Grid 6 is at x=78', with its rear support at y=36.9' on the Great Room wall. Recheck the 4'7" rear rafter cantilever, beam/footing load path and plumbing sleeve before construction.</li>
+    <li>The steel frames push out about 4 k at each base under roof load and pull up as much as 8.3 k in a 140 mph wind. The footings are heavy enough to hold them down, and the frame-line beams tie each pair of columns together.</li>
+    <li>Each main frame column also sits on an 18" drilled pier, 15' long, that reaches below the active clay. The slab can still move a little with the soil, but the steel frames stay put, and a pier is far cheaper to install now than to add under a finished house. Piers under the porch and suite columns can be added the same way if the PE wants them.</li>
+  </ul></div>
+  <div><h2>Build sequence and tests</h2><ul>
+    <li>Strip vegetation, topsoil, roots and organic material. Set up positive drainage away from the pad.</li>
+    <li>Proof-roll the subgrade to 95% of maximum dry density (ASTM D698) at -2% to +3% of optimum moisture, with a 25-ton pneumatic roller or a loaded dump truck. Undercut soft or wet zones and backfill in 6" compacted lifts. Do not let the exposed subgrade dry out before fill goes on.</li>
+    <li>Place select fill (LL 35 or less, PI 10-20) in 8" loose lifts (about 6" compacted) at 95% D698, -2% to +3% of optimum, 5' past the slab. SoilsTEC density-tests and approves every lift before the next: at least one test per 2,500 sf per lift, about 4 per lift and 32 in all for 4' of fill.</li>
+    <li>Drill the 13 piers (P1) through the accepted pad. SoilsTEC or the PE checks the depth and a clean bottom, the cage goes in with its bars reaching into the F1 cap, and the concrete is placed the same day with no standing water. Spread the spoils (about 17 CY of native clay) away from the house.</li>
+    <li>Dig the beams and footings as soon as the pad is accepted and pour soon after; a long-open excavation weakens the bearing soil. Set vapor retarder, rebar and the anchor-rod templates. Survey every rod group.</li>
+    <li>Plumbing rough-in per plan sheet P-101: drains clear of beams and footings, horizontal sleeves through beams, collars at every slab exit, concrete cut-off collars or clay plugs where a utility trench crosses the building line. Survey the rough-in with the anchor rods.</li>
+    <li>Propane: trench the PE line from the tank pad to the riser outside the suite east wall, 18" deep with tracer wire, clear of the F2 footings, piers and the drain lines. No gas pipe goes under the slab. The propane contractor sets the tank, tests the line and approves the riser before backfill.</li>
+    <li>Before the pour SoilsTEC (or its representative) approves the bearing level: clear of loose soil, standing water and debris. Never pour on soil softened by rain or seepage; remove and replace it. The PE or county inspection follows.</li>
+    <li>Pick the pour date with rainfall in mind: a slab placed at the end of a wet period loses perimeter support as the soil dries; one placed after a long dry spell sees edge uplift when the rains return.</li>
+    <li>Pour beams, footings and slab together. Cure 7 days before setting steel; grout under plates after the frames are plumbed.</li>
+    <li>Grade 5% away from the slab for 10' (report minimum 3%); gutters and downspouts discharge 10'+ away.</li>
+  </ul></div>
+</section>
+
+<section>
+  <h2>Soil report basis · SoilsTEC KT26G0358</h2>
+  <p>Geotechnical report dated September 28, 2026, written for J Edwards Concrete &amp; Construction. Two borings were drilled 9/18/2026, B-1 to 25 ft and B-2 to 15 ft, and neither hit groundwater. The report assumes a slab of about 5,000 sq ft; this plan's slab is 5,742 sq ft. These are the report values behind the design above; the PE confirms them.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Boring and depth</th><th>Soil</th><th>Key data</th></tr></thead>
+    <tbody>
+      <tr><td class="n">B-1 · 0 to about 7 ft</td><td>Stiff to very stiff clay with sand (CH), organic near the surface</td><td>Liquid limit 73-100, plasticity index 51-82 (highly expansive), 77% passing the #200 sieve, unit weight 113 pcf, pocket penetrometer 2.2 tsf. This layer drives the shrink/swell hazard.</td></tr>
+      <tr><td class="n">B-1 · about 7 to 25 ft</td><td>Stiff to very stiff light gray sandy clay (CL)</td><td>Blow counts 16, 21, 23, 27; plasticity index falls from 35 to 16, so strength improves with depth.</td></tr>
+      <tr><td class="n">B-2 · 0 to about 4 ft</td><td>Very stiff light gray clay with sand (CH), organic near the surface</td><td>Pocket penetrometer 2.2 tsf; no index tests on this layer.</td></tr>
+      <tr><td class="n">B-2 · about 4 to 15 ft</td><td>Stiff to very stiff light gray sandy clay (CL)</td><td>Blow counts 15, 20, 27, 35; liquid limit 47 to 36, plasticity index 29 to 19, 60% passing the #200 sieve at 5 ft.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="foot">Layer depths are read from the plotted logs (Plates 2 and 3), so treat them as approximate.</p>
+  <div class="cols">
+    <div><h3>Potential vertical rise (TxDOT method)</h3>
+      <div class="tbl"><table style="min-width:0"><thead><tr><th>Select fill</th><th>PVR</th></tr></thead><tbody>
+        <tr><td>None</td><td class="n">about 3.3 in</td></tr>
+        <tr><td>2 ft compacted</td><td class="n">about 2.0 in</td></tr>
+        <tr><td>4 ft compacted (used here)</td><td class="n">about 1.0 in</td></tr>
+      </tbody></table></div></div>
+    <div><h3>Bearing and settlement</h3>
+      <div class="tbl"><table style="min-width:0"><thead><tr><th>Load case</th><th>Allowable</th><th>FS</th></tr></thead><tbody>
+        <tr><td>Dead + sustained live</td><td class="n">1,400 psf</td><td class="n">3</td></tr>
+        <tr><td>Plus transient live</td><td class="n">2,100 psf</td><td class="n">2</td></tr>
+      </tbody></table></div>
+      <p class="foot">Grade beams at least 18 in below final grade (30 in used here). Settlement under 1 in with proper compaction control.</p></div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Slab design method</th><th>No select fill</th><th>2 ft select fill</th></tr></thead>
+    <tbody>
+      <tr><td><b>PTI</b> (3rd Ed. + 2008 Supplement): fine clay / mineral</td><td>71% / montmorillonite</td><td>64% / montmorillonite</td></tr>
+      <tr><td>PTI: Thornthwaite index, suction depth, constant suction</td><td>Im 18, 7 ft, 3.3 pF</td><td>Im 18, 7 ft, 3.3 pF</td></tr>
+      <tr><td>PTI: edge moisture variation em (center / edge lift)</td><td>8.8 ft / 6.8 ft</td><td>8.8 ft / 4.9 ft</td></tr>
+      <tr><td>PTI: differential movement ym (center / edge lift)</td><td>1.18 in / 0.97 in</td><td>0.91 in / 0.74 in</td></tr>
+      <tr><td><b>BRAB</b> (FHA Report 33): design PI, Cw, Qu, support index C</td><td>44, 25, 1,400 psf, 0.78</td><td>38, 25, 1,400 psf, 0.83</td></tr>
+      <tr><td>Slab-subgrade friction, moisture velocity</td><td>0.6-0.7, 0.70 in/month</td><td>0.6-0.7, 0.70 in/month</td></tr>
+    </tbody>
+  </table></div>
+  <div class="cols">
+    <div><h3>Extra fill and slab checks from the report</h3><ul>
+      <li>Proof-roll the subgrade to 95% of maximum dry density (ASTM D698) at -2% to +3% of optimum moisture. Do not let the exposed subgrade dry out before fill goes on.</li>
+      <li>Undercut and replace soft or compressible zones, backfilled in 6 in compacted lifts to 95% D698.</li>
+      <li>Select fill: LL 35% or less, PI 10-20, 8 in loose lifts (about 6 in compacted), density-tested and approved before the next lift.</li>
+      <li>Polyethylene moisture barrier under the slab. Sleeves or flexibility where utilities pass through the slab.</li>
+      <li>Joints (contraction, control, expansion) per the engineer's plan. The geotechnical engineer inspects the excavation before the pour; never pour on rain-softened or disturbed subgrade.</li>
+    </ul></div>
+    <div><h3>Lateral earth pressure (any stem or retaining wall)</h3>
+      <div class="tbl"><table style="min-width:0"><thead><tr><th>Backfill</th><th>Active</th><th>At rest</th></tr></thead><tbody>
+        <tr><td>Crushed limestone</td><td class="n">40 pcf</td><td class="n">55 pcf</td></tr>
+        <tr><td>Clean sand</td><td class="n">45 pcf</td><td class="n">60 pcf</td></tr>
+        <tr><td>On-site clays</td><td class="n">75 pcf</td><td class="n">95 pcf</td></tr>
+      </tbody></table></div>
+      <p class="foot">Maximum toe pressure (footing at 2 ft): 1,300 psf. Adhesion on native clay: 600 psf. Sliding friction on compacted select fill: 0.4.</p></div>
+  </div>
+  <p class="foot">Address check: the SoilsTEC report lists the site as 17 Percy Howards Road. The official 911 address is 43 Percy Howard Road, Huntsville, TX 77320, and the architectural title block reads "Houston, Texas." Ask SoilsTEC to reference the 911 address, and confirm with the architect that the plans use the correct address and jurisdiction (wind speed, flood zone and permitting depend on it).</p>
+</section>
+
+<section>
+  <h2>Does the plan meet the SoilsTEC report?</h2>
+  <p>Each recommendation in report KT26G0358, checked against this plan and sheet S-101. <span class="pill ok">Met</span> means the plan already does it; <span class="pill warn">Open</span> means someone still has to act before the PE seals.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Report requirement</th><th>What the plan does</th><th style="min-width:17em">Status</th></tr></thead>
+    <tbody>
+      <tr><td>Very high PVR (3.3 in as-is, 2.0 in with 2 ft fill, 1.0 in with 4 ft); use compacted select fill</td><td>4 ft of select fill under every slab, about 1.0 in PVR</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Select fill: LL 35 or less, PI 10-20, 95% D698 at -2% to +3% of optimum, 8 in loose lifts, 5 ft past the building</td><td>Same, written into the build sequence and S-101</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Strip vegetation, proof-roll the subgrade, undercut soft zones</td><td>First two steps of the build sequence</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Bearing 1,400 psf (dead + sustained live), 2,100 psf (total); settlement under 1 in</td><td>F1 about 970 psf, F2 about 860 psf; settlement controlled by the compaction testing</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Grade beams at least 18 in below final grade</td><td>Beams are 30 in below top of slab, so 18 in or more below final grade as long as the slab top is no more than 12 in above it. Check at final grading</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Polyethylene moisture barrier under the slab</td><td>10 mil vapor retarder under the slab</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Flexible or sleeved utilities through the slab; cut-off collars or clay plugs where utilities cross the building line</td><td>Sleeves and slab-exit collars were already shown; cut-off collars and clay plugs added to the build sequence and S-101</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Positive drainage: 3% minimum for 10 ft, gutters and downspouts 10 ft out, roof drains on pavement or in closed pipe</td><td>5% for 10 ft; gutters and downspouts 10 ft+; upkeep list added below</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Geotechnical engineer approves the bearing level before concrete; density test every lift (one per 2,500 sf)</td><td>Pre-pour approval by SoilsTEC and about 32 density tests added to the build sequence</td><td><span class="pill ok">Met</span></td></tr>
+      <tr><td>Slab designed to PTI 3rd Ed. or BRAB values</td><td>Stiffened slab (or post-tensioned, PE's choice), but the report gives PTI and BRAB values only for no fill and 2 ft of fill, not for the 4 ft used here</td><td><span class="pill warn">Open</span> Ask SoilsTEC for 4 ft values. Until then the PE can design to the 2 ft values (ym 0.91 / 0.74 in, em 8.8 / 4.9 ft) as the safe side</td></tr>
+      <tr><td>Pier foundation recommendations</td><td>13 drilled piers (P1) added under the main frame columns. The report has no pier values because the work order left the pier line blank</td><td><span class="pill warn">Open</span> Ask SoilsTEC for a pier addendum: skin friction, end bearing, swell uplift, depth</td></tr>
+      <tr><td>Contraction, control and expansion joints placed per the engineer</td><td>Not laid out yet</td><td><span class="pill warn">Open</span> PE to draw the joint layout</td></tr>
+      <tr><td>Effective site drainage plan by others before construction starts</td><td>Only the 5% for 10 ft rule is shown; no grading plan</td><td><span class="pill warn">Open</span> Need a grading and drainage plan</td></tr>
+      <tr><td>Geotechnical engineer reviews the final plans. Report is written for J Edwards Concrete &amp; Construction and not to be used by others</td><td>G-002 already lists a reliance letter and plan review</td><td><span class="pill warn">Open</span> Get a reliance letter naming the owner and the PE, then send SoilsTEC this set</td></tr>
+      <tr><td>Report basis: slab about 5,000 sq ft</td><td>This plan's slab is 5,742 sq ft (pad 7,767 sf with the 5 ft margin)</td><td><span class="pill warn">Open</span> Tell SoilsTEC</td></tr>
+      <tr><td>Vegetation: large trees dry the clay; keep trees about their mature height from the foundation</td><td>Plate 1 and the boring photos show large trees at or near the building area</td><td><span class="pill warn">Open</span> Walk the site, mark trees against the slab, tell SoilsTEC what was cleared</td></tr>
+      <tr><td>Report wording to clarify</td><td>The PVR text says the upper 8 ft, but a later paragraph assumes 12 ft; the page reference in that paragraph is off by one; the address is 17 Percy Howards Road</td><td><span class="pill warn">Open</span> Ask SoilsTEC to reissue with the 43 Percy Howard Road address</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Drainage, planting and upkeep</h2>
+  <p>The PVR values in the report hold only while the site stays drained. If water ponds or the wetted front reaches deeper, the report warns movement can run 2 to 3 times higher. These are owner duties for the life of the house.</p>
+  <ul>
+    <li>Keep final grade within 10 ft of the house sloping away, 3% at least (the plan uses 5%). Walks, drives and flatwork within 10 ft slope away too.</li>
+    <li>Seal the joint between the house and any pavement or sidewalk. Walk the joints each year and re-seal where needed. Plan for flatwork to move a little after construction.</li>
+    <li>Gutters and downspouts carry roof water 10 ft or more from the house. Roof drains discharge onto pavement or are extended away, ideally to a closed pipe.</li>
+    <li>Plant no large trees or shrubs closer than roughly their mature height. Keep beds next to the slab from staying wet; use self-contained planters. Run sprinkler mains at least 5 ft from the house.</li>
+    <li>Hold moisture steady around the slab edge: no ponding in planters, bare ground or paving joints. Fix plumbing and irrigation leaks promptly.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Plumbing to settle before the pour</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Where</th><th>Conflict</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr><td>Mom's toilet and shower</td><td>Toilet sits on the suite frame-line beam at 49'; the curbless shower recess starts 1'-3" from it</td><td>Move the toilet about 1' north, or PE details a sleeved block-out; keep the recess off the beam</td></tr>
+      <tr><td>Mom's suite drain (combined with the main house)</td><td>The separate outside suite run, 110' or more along the slab edge, is gone. The suite now ties into the main house drain</td><td>Toilet and shower run north to a cleanout at 22'-2" / 44'-6", then through the kitchen-sink branch to the start of the main drain at 28'-6". Two new sleeved beam crossings (suite north wall at 41'-6", frame line at 27'). Keep 3' clear of the F1 footing and pier at grid 3/B. 4" Sch 40 or SDR26 at 1/8" per ft minimum (K&B); use 1/4" where the depth allows. The revised K&B site plan also calls for two-way cleanouts (2/w CO's) on the sewer to the Pro-Flo 800 PTSL tank</td></tr>
+      <tr><td>Propane to the kitchen and Mom's suite (new)</td><td>No gas line was drawn before. The tank, buried line, riser and both range connections are now shown; only the two ranges are assumed to use gas</td><td>500 gal tank about 26 ft east of the suite wall (10 ft minimum; 25 ft for 1,000 gal), on a pad outside the select fill, with a flexible pigtail at the tank for clay movement. Buried 3/4" PE line at least 18" deep with tracer wire and warning tape, 3' or more clear of footings and piers. Anodeless riser outside the suite east wall between the F2 footings, so no pipe crosses a beam or runs under the slab; the line then runs overhead in the attic and walls to the suite range, on to the kitchen range, with a shutoff at each appliance. Propane contractor sizes, tests and approves it (Railroad Commission rules)</td></tr>
+      <tr><td>Master toilet</td><td>Flange inside footing F1 at grid 3/A</td><td>Shift 1' west, or PE makes F1 eccentric</td></tr>
+      <tr><td>Laundry sink</td><td>Drain inside footing F1 at grid 4/B</td><td>Set the sink south of 44'-6", or route the drain clear</td></tr>
+      <tr><td>Washer box</td><td>Over the shed rear beam, in an exterior wall</td><td>Put the box on the laundry/pantry partition</td></tr>
+      <tr><td>Bath 2, bath 3 and master showers</td><td>Next to or over frame-line beams (61', 95', 27')</td><td>Drains at least 1'-6" off the beam line</td></tr>
+      <tr><td>Kitchen island power</td><td>The island has a sink and drain under it, and a slab on grade leaves no way to pull wire to it later</td><td>Cast in (2) 1" PVC conduits from the base of the east counter wall (about 48'-7") to the island base (about 54'-5"), 2' off the sink drain and 1'-7" off the main drain; one for power, one spare. Long-sweep elbows, sleeve and collar at the slab, capped and marked. The electrician confirms circuits and receptacle location</td></tr>
+    </tbody>
+  </table></div>
+  <p class="foot">All 12 coordination items are on plan sheet P-101. Pipes cross beams only sideways, in sleeves two sizes larger; never down through a beam or footing.</p>
+</section>
+
+<p class="foot">Owner-side preliminary design from the SoilsTEC KT26G0358 values and the frame analysis in the materials list. The Texas PE's sealed foundation design governs.</p>
+</div>
+
+<script>
+const f = n => Math.round(n*100)/100;
+const DATA = {"plates":[{"t":"BP-1","xy":[0,0],"name":"grid 1/A \u00b7 carport header end"},{"t":"BP-1","xy":[0,41.5],"name":"grid 1/B"},{"t":"BP-1","xy":[13.5,41.5],"name":"grid 2/B on main wall, suite ridge axis"},{"t":"BP-1","xy":[27,0],"name":"grid 3/A \u00b7 carport header end"},{"t":"BP-1","xy":[27,41.5],"name":"grid 3/B"},{"t":"BP-1","xy":[47,0],"name":"grid 4/A"},{"t":"BP-1","xy":[47,41.5],"name":"grid 4/B"},{"t":"BP-1","xy":[61,0],"name":"grid 5/A"},{"t":"BP-1","xy":[61,41.5],"name":"grid 5/B"},{"t":"BP-1","xy":[78,0],"name":"grid 6/A"},{"t":"BP-1","xy":[78,36.9],"name":"grid 6/B"},{"t":"BP-1","xy":[95,0],"name":"grid 7/A"},{"t":"BP-1","xy":[95,41.5],"name":"grid 7/B"},{"t":"BP-2","xy":[103.5,10.3],"name":"bump column at 103.5'"},{"t":"BP-2","xy":[103.5,36.9],"name":"bump column at 103.5'"},{"t":"BP-2","xy":[95,10.3],"name":"bump column at 95'"},{"t":"BP-2","xy":[95,36.9],"name":"bump column at 95'"},{"t":"BP-2","xy":[61,-12],"name":"front porch column at 61'"},{"t":"BP-2","xy":[95,-12],"name":"front porch column at 95'"},{"t":"BP-2","xy":[61,53],"name":"back porch column at 61'"},{"t":"BP-2","xy":[95,53],"name":"back porch column at 95'"},{"t":"BP-2","xy":[47,48.4],"name":"laundry shed column at 47'"},{"t":"BP-2","xy":[61,48.4],"name":"laundry shed column at 61'"},{"t":"BP-2","xy":[0,49],"name":"Mom's suite column at 0'"},{"t":"BP-2","xy":[27,49],"name":"Mom's suite column at 27'"},{"t":"BP-2","xy":[0,65],"name":"Mom's suite rear column at 0'"},{"t":"BP-2","xy":[27,65],"name":"Mom's suite rear column at 27'"},{"t":"BP-3","xy":[0,10.4],"name":"end-wall post at 0', 10.4'"},{"t":"BP-3","xy":[0,20.75],"name":"end-wall post at 0', 20.75'"},{"t":"BP-3","xy":[0,31.1],"name":"end-wall post at 0', 31.1'"},{"t":"BP-3","xy":[103.5,19.2],"name":"end-wall post at 103.5', 19.2'"},{"t":"BP-3","xy":[103.5,28],"name":"end-wall post at 103.5', 28'"},{"t":"BP-3","xy":[9,65],"name":"end-wall post at 9', 65'"},{"t":"BP-3","xy":[18,65],"name":"end-wall post at 18', 65'"},{"t":"BP-3","xy":[37,0],"name":"wind post at 37', 0' \u00b7 north wall"},{"t":"BP-3","xy":[55.1,0],"name":"wind post at 55.1', 0' \u00b7 north wall"},{"t":"BP-3","xy":[71.25,0],"name":"wind post at 71.25', 0' \u00b7 north wall"},{"t":"BP-3","xy":[85.7,0],"name":"wind post at 85.7', 0' \u00b7 north wall"},{"t":"BP-3","xy":[0,57.7],"name":"wind post at 0', 57.7' \u00b7 Mom's suite west wall"},{"t":"BP-3","xy":[27,57.4],"name":"wind post at 27', 57.4' \u00b7 Mom's suite porch corner"},{"t":"BP-3","xy":[55,48.4],"name":"wind post at 55', 48.4' \u00b7 laundry/pantry rear wall"},{"t":"BP-3","xy":[66.6,36.9],"name":"wind post at 66.6', 36.9' \u00b7 great room rear wall"},{"t":"BP-3","xy":[75,36.9],"name":"wind post at 75', 36.9' \u00b7 great room rear wall"},{"t":"BP-3","xy":[81.5,36.9],"name":"wind post at 81.5', 36.9' \u00b7 great room rear wall"},{"t":"BP-3","xy":[90.25,36.9],"name":"wind post at 90.25', 36.9' \u00b7 great room rear wall"}],"slabs":[[0,0,95,41.5,"house"],[95,10.3,103.5,36.9,""],[61,-12,95,0,"front porch"],[61,41.5,95,53,"back porch"],[47,41.5,61,48.4,""],[0,41.5,27,65,"Mom's suite"]],"beams":[[0,0,95,0],[95,0,95,41.5],[95,41.5,0,41.5],[0,41.5,0,0],[95,10.3,103.5,10.3],[103.5,10.3,103.5,36.9],[103.5,36.9,95,36.9],[95,36.9,95,10.3],[61,-12,95,-12],[95,-12,95,0],[95,0,61,0],[61,0,61,-12],[61,41.5,95,41.5],[95,41.5,95,53],[95,53,61,53],[61,53,61,41.5],[47,41.5,61,41.5],[61,41.5,61,48.4],[61,48.4,47,48.4],[47,48.4,47,41.5],[0,41.5,27,41.5],[27,41.5,27,65],[27,65,0,65],[0,65,0,41.5],[13.5,0,13.5,41.5],[27,0,27,41.5],[47,0,47,41.5],[61,0,61,41.5],[78,0,78,36.9],[0,49,27,49],[27,0,27,25.2],[27,25.2,47,25.2],[47,25.2,47,41.5],[0,32,27,32],[61,36.9,95,36.9],[12.4,57.4,12.4,65],[12.4,57.4,27,57.4]]};
+const ZN = 30.7; // D + Lr psf
+const FR = [0,13.5,27,47,61,78,95];
+function tribFrame(x){ const i = FR.indexOf(x); const l = i>0 ? (x-FR[i-1])/2 : 0, r = i<FR.length-1 ? (FR[i+1]-x)/2 : 0; return l+r; }
+function info(p){
+  const [x,y] = p.xy, t = p.t;
+  let down, up, side, member, where, foot;
+  if (t==='BP-1'){ const tr = tribFrame(x); down = ZN*tr*20.75/1000; if (y===0 && x===0) down += 4.8; if (y===0 && x===27) down += 3.8;
+    up = Math.min(8.3, Math.max(4, 8.3*tr/17.25)); side = Math.min(4.1, 4.1*tr/17.25); member = 'Main frame column, HSS 8x8x3/8'; foot = "F1 · 5'-0\" × 5'-0\" × 2'-6\""; }
+  else if (t==='BP-2'){ member = 'Column, HSS 6x6x3/16'; foot = "F2 · 3'-6\" × 3'-6\" × 2'-0\"";
+    if (y===-12 || y===53){ down=3.1; up=2.3; side=1.2; }
+    else if (y===49){ down=4.9; up=2.4; side=1.5; } else if (y===65){ down=3.3; up=1.6; side=1.1; }
+    else if (y===48.4){ down=1.5; up=1.0; side=0.6; } else { down=2.2; up=1.4; side=0.9; } }
+  else { member = 'Post, HSS 4x4x1/4'; foot = "F3 · 2'-6\" × 2'-6\" × 2'-0\""; down = 1.2; up = 1.0; side = (x===0||x===103.5) ? 2.0 : 1.5; }
+  const plate = {"BP-1":"14\" × 14\" × ¾\", (4) ¾\" rods on a 10\" square, 15\" embed","BP-2":"12\" × 12\" × ⅝\", (4) ¾\" rods on a 9\" square, 12\" embed","BP-3":"10\" × 10\" × ½\", (4) ⅝\" rods on a 7\" square, 9\" embed"}[t];
+  const exposed = (x<=27 && y<=32) || y<0 || (y===53) || (x===27 && (y===57.4||y===65));
+  return { title: `${t} · ${p.name}`, loc: `${ftin(x)} from the east end, ${y<0?ftin(-y)+' north of':ftin(y)+' south of'} the front wall`,
+    rows: [["Carries", member],["Plate and rods", plate],["Pushes down", `${down.toFixed(1)} k (roof dead + live)`],["Pulls up", `${up.toFixed(1)} k (140 mph wind)`],["Pushes sideways", `${side.toFixed(1)} k`],["Footing", foot],...(t==='BP-1'?[["Pier","P1 · 18\" drilled pier, 15' long, under the F1 cap, tip about 13 ft below existing ground"]]:[]),["Finish", exposed ? 'Exposed: galvanized rods, nuts and plate' : 'Inside the walls: standard rods, primer']] };
+}
+function ftin(v){ v=Math.abs(v); const ft=Math.floor(v+1e-6); let i=Math.round((v-ft)*12); return i===12?`${ft+1}'-0"`:`${ft}'-${i}"`; }
+const S = { t:'all', beams:true, foot:true, pipes:true, elec:true, gas:true, piers:true, sel:null };
+const GAS_CLR = '#9B5DB5';
+const PROPANE_TANK = {x:-28, y:40, len:9, dia:3.2};  // 500 gal, proposed, east of Mom's suite, N-S
+const GAS_BURIED = [[-28,44.5],[-28,56],[-2,56]];   // PE line, 18" deep, to the riser outside the suite east wall
+const GAS_RISER = [-2,56];
+const GAS_RANGES = [[19.8,41.8,"Mom's suite range"],[48.2,28.5,"Kitchen range"]];  // to confirm on the kitchen layouts
+const GAS_OVERHEAD = [[-2,56],[19.8,41.8],[48.2,28.5]];
+const X = x => 106 - x;
+const DRAIN_ROUTES = [
+  {name:'Main building drain, continues off plan to the Pro-Flo tank (C-101)',points:[[28.5,32],[47,32],[55.5,32],[61,32],[78,32],[95,32],[103.5,32],[109,32]]},
+  {name:'Master bath branch · proposed toilet shift west of F1',points:[[29.7,2.1],[29.7,11.2],[28.5,20],[28.5,32]]},
+  {name:'Bath 2 branch',points:[[56.3,13.7],[55.2,17],[55.2,28],[55.5,32]]},
+  {name:'Kitchen island branch',points:[[54.1,28],[55.2,28],[55.5,32]]},
+  {name:'Mom kitchen sink branch, runs on to the start of the main drain',points:[[22.2,41],[22.2,32],[28.5,32]]},
+  {name:'Laundry sink and washer branch',points:[[48.2,43.5],[55,43.5],[55,45],[55,32]]},
+  {name:'Bath 3 branch',points:[[101.3,12.5],[99.5,16],[96.6,21.5],[99,32]]},
+  {name:'Suite toilet and shower drain, joins the kitchen sink branch (combined with the main house drain)',points:[[9.4,52],[8.4,49.2],[8.4,44.5],[22.2,44.5],[22.2,41]]},
+];
+const TANK_AT = [116,33];  // Pro-Flo 800 PTSL + 1,000 gal pump tank per the K&B site plan (08-14-26); off this plan
+const DRAIN_FIXTURES = [
+  {x:8.4,y:49.2,k:'wc',n:'Mom suite toilet flange · location to resolve at beam 49'},
+  {x:29.7,y:2.1,k:'wc',n:'Master toilet flange · proposed 1 ft west of F1 per P-101'},
+  {x:101.3,y:12.5,k:'wc',n:'Bath 3 toilet flange'},
+  {x:56.3,y:13.7,k:'wc',n:'Bath 2 toilet flange'},
+  {x:48.2,y:43.5,k:'sink',n:'Laundry sink drain'},
+  {x:22.2,y:41,k:'sink',n:'Mom kitchen sink drain'},
+  {x:54.1,y:28,k:'sink',n:'Kitchen island sink drain'},
+  {x:50.5,y:48.4,k:'washer',n:'Washer box · relocate per P-101'},
+  {x:55.2,y:17,k:'shower',n:'Bath 2 shower drain'},
+  {x:96.6,y:21.5,k:'shower',n:'Bath 3 shower drain'},
+  {x:28.9,y:11.2,k:'shower',n:'Master shower drain'},
+  {x:9.4,y:52,k:'shower',n:'Suite shower drain'},
+];
+const DRAIN_SLEEVES = [[47,32],[61,32],[78,32],[95,32],[103.5,32],[28.5,25.2],[55,41.5],[8.4,49.2],[22.2,41.5],[27,32]];
+const DRAIN_CLEANOUTS = [[22.2,44.5]];
+const ELEC_ROUTES = [{name:'Kitchen island power: (2) 1" PVC conduits under the slab, stub-ups at both ends',points:[[48.6,30.4],[54.4,30.4]]}];
+function plan(){
+  let s = `<svg viewBox="-4 -18 150 89" role="img" aria-label="Foundation plan with base plates">`;
+  for(let x=-40;x<=110;x+=5) s += `<line x1="${X(x)}" y1="-18" x2="${X(x)}" y2="71" stroke="var(--rule)" stroke-width="0.06"/>`;
+  for(let y=-15;y<=70;y+=5) s += `<line x1="-4" y1="${y}" x2="146" y2="${y}" stroke="var(--rule)" stroke-width="0.06"/>`;
+  // select fill limit and slabs
+  s += `<rect x="${X(108.5)}" y="-17" width="${108.5+5}" height="${70+17}" fill="none" stroke="var(--soft)" stroke-width="0.12" stroke-dasharray="1 0.6"/>`;
+  s += `<text x="${X(108)}" y="-15.6" font-size="1" fill="var(--soft)">select fill, 4' deep, 5' past the slab edges</text>`;
+  DATA.slabs.forEach(([a,b,c,d,lbl])=>{ s += `<rect x="${X(c)}" y="${b}" width="${c-a}" height="${d-b}" fill="var(--slab)" stroke="var(--ink)" stroke-width="0.25"/>`; if(lbl) s += `<text x="${X((a+c)/2)}" y="${(b+d)/2}" font-size="1.4" fill="var(--soft)" text-anchor="middle" font-weight="600">${lbl}</text>`; });
+  // grade beams
+  if (S.beams) DATA.beams.forEach(([x1,y1,x2,y2])=>{ s += `<line x1="${X(x1)}" y1="${y1}" x2="${X(x2)}" y2="${y2}" stroke="var(--gb)" stroke-width="1" stroke-linecap="square"/>`; });
+  if (S.pipes){
+    [32].forEach(y=>{ s+=`<polygon points="${X(110)},${y} ${X(110)+1.4},${y-0.8} ${X(110)+1.4},${y+0.8}" fill="var(--pipe)"><title>Continues about 10' to the Pro-Flo tank at ${TANK_AT[0]}' west and ${TANK_AT[1]}' south of the carport corner (K&B site plan)</title></polygon>`; });
+    DRAIN_ROUTES.forEach(r=>{ const points=r.points.map(([x,y])=>`${X(x)},${y}`).join(' '); s+=`<polyline points="${points}" fill="none" stroke="var(--pipe)" stroke-width="0.38" stroke-dasharray="0.9 0.35" stroke-linecap="round" stroke-linejoin="round"><title>${r.name}</title></polyline>`; });
+    DRAIN_SLEEVES.forEach(([x,y])=>{ s+=`<circle cx="${X(x)}" cy="${y}" r="0.42" fill="var(--sheet)" stroke="var(--new)" stroke-width="0.22"><title>Beam crossing: sleeve or block-out to be detailed</title></circle>`; });
+    DRAIN_CLEANOUTS.forEach(([x,y])=>{ s+=`<g stroke="var(--pipe)" stroke-width="0.16" fill="var(--sheet)"><circle cx="${X(x)}" cy="${y}" r="0.6"/><line x1="${X(x)-0.6}" y1="${y}" x2="${X(x)+0.6}" y2="${y}"/><line x1="${X(x)}" y1="${y-0.6}" x2="${X(x)}" y2="${y+0.6}"/><title>Cleanout on the suite line</title></g><text x="${X(x)+0.9}" y="${y+0.35}" font-size="0.7" fill="var(--pipe)">CO</text>`; });
+    DRAIN_FIXTURES.forEach(p=>{ const cx=X(p.x), cy=p.y; let mark='';
+      if(p.k==='wc') mark=`<circle cx="${cx}" cy="${cy}" r="0.42"/>`;
+      else if(p.k==='sink') mark=`<rect x="${cx-0.35}" y="${cy-0.35}" width="0.7" height="0.7"/>`;
+      else if(p.k==='washer') mark=`<path d="M ${cx} ${cy-0.48} L ${cx+0.48} ${cy} L ${cx} ${cy+0.48} L ${cx-0.48} ${cy} Z"/>`;
+      else mark=`<path d="M ${cx} ${cy-0.48} L ${cx+0.48} ${cy+0.42} L ${cx-0.48} ${cy+0.42} Z"/>`;
+      s+=`<g fill="var(--pipe)" stroke="var(--sheet)" stroke-width="0.12">${mark}<title>${p.n}</title></g>`;
+    });
+    s+=`<text x="${X(108.5)+2.8}" y="30.8" font-size="1.05" fill="var(--pipe)" text-anchor="start">Main drain exits west; about 10' more to the Pro-Flo tank (K&B)</text>`;
+    s+=`<text x="${X(13.5)}" y="59" font-size="1.05" fill="var(--pipe)" text-anchor="middle">Suite drains tie into the main house drain</text>`;
+  }
+  if (S.elec) ELEC_ROUTES.forEach(r=>{ const pts=r.points.map(([x,y])=>`${X(x)},${y}`).join(' '); s+=`<polyline points="${pts}" fill="none" stroke="var(--new)" stroke-width="0.34" stroke-dasharray="1.1 0.4" stroke-linecap="round"><title>${r.name}</title></polyline>`; r.points.forEach(([x,y])=>{ s+=`<rect x="${f(X(x)-0.4)}" y="${f(y-0.4)}" width="0.8" height="0.8" fill="var(--sheet)" stroke="var(--new)" stroke-width="0.2"><title>Conduit stub-up</title></rect>`; }); s+=`<text x="${X(51.5)}" y="29.6" font-size="0.85" fill="var(--new)" text-anchor="middle">island power</text>`; });
+  if (S.gas){
+    const T = PROPANE_TANK;
+    s += `<polyline points="${GAS_BURIED.map(([x,y])=>`${X(x)},${y}`).join(' ')}" fill="none" stroke="${GAS_CLR}" stroke-width="0.38" stroke-dasharray="2.2 0.5 0.5 0.5" stroke-linecap="round" stroke-linejoin="round"><title>Buried 3/4" PE gas line, 18" deep with tracer wire, from the tank to the riser outside the suite east wall; no pipe under the slab</title></polyline>`;
+    s += `<polyline points="${GAS_OVERHEAD.map(([x,y])=>`${X(x)},${y}`).join(' ')}" fill="none" stroke="${GAS_CLR}" stroke-width="0.26" stroke-dasharray="0.3 0.5" stroke-linecap="round" stroke-linejoin="round"><title>Gas line overhead in the attic and walls to the suite range, then on to the kitchen range; the plumber sets the route. Not under the slab</title></polyline>`;
+    s += `<rect x="${f(X(T.x)-T.dia/2)}" y="${f(T.y-T.len/2)}" width="${T.dia}" height="${T.len}" rx="1.6" fill="var(--sheet)" stroke="${GAS_CLR}" stroke-width="0.3"><title>Proposed 500 gal propane tank, 9' long, on a pad; 10 ft from buildings (25 ft if 1,000 gal)</title></rect>`;
+    s += `<circle cx="${f(X(T.x))}" cy="${T.y}" r="0.55" fill="${GAS_CLR}"/>`;
+    s += `<rect x="${f(X(GAS_RISER[0])-0.5)}" y="${GAS_RISER[1]-0.5}" width="1" height="1" fill="${GAS_CLR}" stroke="var(--sheet)" stroke-width="0.15"><title>Anodeless riser outside the suite east wall, clear of the grade beam and the F2 footings</title></rect>`;
+    GAS_RANGES.forEach(([x,y,n])=>{ s += `<circle cx="${f(X(x))}" cy="${y}" r="0.75" fill="var(--sheet)" stroke="${GAS_CLR}" stroke-width="0.25"><title>${n}: gas connection with shutoff \u00b7 location to confirm on the kitchen layout</title></circle><text x="${f(X(x))}" y="${y+0.3}" font-size="0.8" fill="${GAS_CLR}" text-anchor="middle" font-weight="700">G</text>`; });
+    s += `<text x="${f(X(T.x))}" y="${T.y+T.len/2+1.8}" font-size="1.05" fill="${GAS_CLR}" text-anchor="middle">500 gal propane tank (proposed)</text>`;
+    s += `<text x="${f(X(-15))}" y="58.2" font-size="1" fill="${GAS_CLR}" text-anchor="middle">buried PE line, 18" deep</text>`;
+    s += `<text x="${f(X(19.8))}" y="47.2" font-size="0.85" fill="${GAS_CLR}" text-anchor="middle">suite range gas</text>`;
+    s += `<text x="${f(X(48.2)+1.4)}" y="${GAS_RANGES[1][1]-1.2}" font-size="0.85" fill="${GAS_CLR}">range gas</text>`;
+  }
+  // grids
+  FR.forEach((x,i)=>{ s += `<line x1="${X(x)}" y1="-14" x2="${X(x)}" y2="68" stroke="var(--dim)" stroke-width="0.08" stroke-dasharray="1.2 0.5 0.3 0.5"/><circle cx="${X(x)}" cy="-15.6" r="1.3" fill="var(--sheet)" stroke="var(--ink)" stroke-width="0.12"/><text x="${X(x)}" y="-15.1" font-size="1.3" text-anchor="middle" font-weight="700" fill="var(--ink)">${i+1}</text>`; });
+  [[0,'A'],[41.5,'B']].forEach(([y,g])=>{ s += `<line x1="${X(109)}" y1="${y}" x2="${X(-2)}" y2="${y}" stroke="var(--dim)" stroke-width="0.08" stroke-dasharray="1.2 0.5 0.3 0.5"/><circle cx="${X(109.5)}" cy="${y}" r="1.3" fill="var(--sheet)" stroke="var(--ink)" stroke-width="0.12"/><text x="${X(109.5)}" y="${y+0.5}" font-size="1.3" text-anchor="middle" font-weight="700" fill="var(--ink)">${g}</text>`; });
+  // footings and plates
+  const FS = {"BP-1":5,"BP-2":3.5,"BP-3":2.5}, PS = {"BP-1":1.6,"BP-2":1.3,"BP-3":1.05}, COL = {"BP-1":'var(--bp1)',"BP-2":'var(--bp2)',"BP-3":'var(--bp3)'};
+  if (S.piers) DATA.plates.forEach(p=>{ if(p.t!=='BP-1') return; const on = S.t==='all' || S.t==='BP-1'; s += `<circle cx="${X(p.xy[0])}" cy="${p.xy[1]}" r="1.15" fill="var(--sheet)" fill-opacity="0.6" stroke="var(--ink)" stroke-width="0.14" stroke-dasharray="0.4 0.25" opacity="${on?1:0.3}"><title>P1 drilled pier, 18" × 15', under the F1 cap (symbol enlarged)</title></circle>`; });
+  DATA.plates.forEach((p,i)=>{ const on = S.t==='all' || S.t===p.t; const [x,y]=p.xy;
+    if (S.foot) s += `<rect x="${f(X(x)-FS[p.t]/2)}" y="${f(y-FS[p.t]/2)}" width="${FS[p.t]}" height="${FS[p.t]}" fill="none" stroke="var(--soft)" stroke-width="0.12" stroke-dasharray="0.5 0.3" opacity="${on?1:0.3}"/>`;
+    const sel = S.sel===i, w = PS[p.t]*(sel?1.5:1);
+    s += `<rect class="pl" data-i="${i}" tabindex="0" role="button" aria-label="${p.t} at ${p.name}" x="${f(X(x)-w/2)}" y="${f(y-w/2)}" width="${f(w)}" height="${f(w)}" fill="${COL[p.t]}" stroke="${sel?'var(--ink)':'var(--sheet)'}" stroke-width="${sel?0.35:0.15}" opacity="${on?1:0.18}" style="cursor:pointer"/>`;
+  });
+  s += `<text x="${X(13.5)}" y="22" font-size="1.2" fill="var(--soft)" text-anchor="middle">carport slab sloped to the drive</text>`;
+  s += `<text x="-3.5" y="69.5" font-size="1.1" fill="var(--dim)">↑ N · front of the house at grid A</text>`;
+  return s+'</svg>';
+}
+function secA(){ // F1 footing at a main column, section through the frame-line grade beam
+  const Z = z => 10 - z, H = x => x;
+  let s = `<svg viewBox="-1 -0.5 30 29" role="img" aria-label="Section through F1 footing and P1 pier">`;
+  // fill and soil
+  s += `<rect x="-1" y="${Z(0)}" width="31" height="9" fill="var(--fill)"/><text x="0" y="${Z(-5.6)}" font-size="0.6" fill="var(--soft)">4' select fill, 95% D698, density-tested every lift</text>`;
+  s += `<rect x="-1" y="${Z(-4)}" width="31" height="14" fill="var(--clay)"/><text x="0" y="${Z(-7.6)}" font-size="0.6" fill="var(--soft)">native CH clay (PI to 82)</text>`;
+  // slab, grade beam, footing
+  s += `<rect x="-1" y="${Z(0.42)}" width="31" height="0.42" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.06"/>`;
+  s += `<rect x="-1" y="${Z(0)}" width="31" height="2.08" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.06" opacity="0.6"/>`;
+  s += `<rect x="${H(11.5)}" y="${Z(0.42)}" width="5" height="2.5" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.1"/>`;
+  // P1 drilled pier below the F1 cap
+  s += `<rect x="13.25" y="${Z(-2.08)}" width="1.5" height="15" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.08"/>`;
+  [13.5,14.5].forEach(x=>{ s += `<line x1="${x}" y1="${Z(-1.2)}" x2="${x}" y2="${Z(-16.8)}" stroke="var(--rebar)" stroke-width="0.1"/>`; });
+  for(let z=-2.6; z>-16.9; z-=1) s += `<line x1="13.5" y1="${Z(z)}" x2="14.5" y2="${Z(z)}" stroke="var(--rebar)" stroke-width="0.04"/>`;
+  s += `<line x1="-1" y1="${Z(-16)}" x2="30" y2="${Z(-16)}" stroke="var(--dim)" stroke-width="0.06" stroke-dasharray="0.5 0.3"/>`;
+  // bars
+  [Z(-1.85),Z(-1.6)].forEach((yy,i)=>{ s += `<line x1="-1" y1="${yy-0.0}" x2="30" y2="${yy}" stroke="var(--rebar)" stroke-width="0.12" stroke-dasharray="${i?'':'0'}"/>`; });
+  s += `<line x1="-1" y1="${Z(0.1)}" x2="30" y2="${Z(0.1)}" stroke="var(--rebar)" stroke-width="0.12"/>`;
+  for(let x=11.8;x<16.4;x+=0.6) s += `<circle cx="${x}" cy="${Z(-1.75)}" r="0.09" fill="var(--rebar)"/><circle cx="${x}" cy="${Z(0.0)}" r="0.09" fill="var(--rebar)"/>`;
+  // column, plate, grout, rods
+  s += `<rect x="13.67" y="${Z(9.5)}" width="0.67" height="${9.5-0.6}" fill="var(--bp1)"/>`;
+  s += `<rect x="13.42" y="${Z(0.6)}" width="1.17" height="0.07" fill="var(--steel2)"/><rect x="13.42" y="${Z(0.53)}" width="1.17" height="0.11" fill="var(--grout)"/>`;
+  [13.58,14.42].forEach(x=>{ s += `<line x1="${x}" y1="${Z(0.85)}" x2="${x}" y2="${Z(-0.83)}" stroke="var(--ink)" stroke-width="0.08"/><rect x="${x-0.13}" y="${Z(-0.83)}" width="0.26" height="0.05" fill="var(--ink)"/>`; });
+  // labels
+  const lab = (x,y,t,tx,ty,anchor='start') => `<line x1="${x}" y1="${y}" x2="${tx}" y2="${ty}" stroke="var(--soft)" stroke-width="0.04"/><text x="${tx+(anchor==='start'?0.2:-0.2)}" y="${ty+0.2}" font-size="0.55" fill="var(--ink)" text-anchor="${anchor}">${t}</text>`;
+  s += lab(14,Z(5),'HSS 8x8x3/8 main frame column',18,Z(6.2));
+  s += lab(14.6,Z(0.6),'BP-1: 14" × 14" × ¾" plate on 1" grout',18,Z(3.4));
+  s += lab(14.42,Z(-0.6),'(4) ¾" F1554 rods, 15" embed, nut + plate washer',18,Z(2.6));
+  s += lab(16.2,Z(-1.0),"F1: 5' × 5', 2'-6\" below top of slab",18,Z(1.8));
+  s += lab(16.2,Z(-1.75),'(6) #5 e.w. bottom · (4) #5 e.w. top',18,Z(-2.6));
+  s += lab(4,Z(-1.0),'GB-2 frame-line beam 12" × 30",',0,Z(3.0)); s += `<text x="0" y="${Z(2.25)}" font-size="0.55" fill="var(--ink)">bars run column to column as a tie</text>`;
+  s += lab(6,Z(0.21),'5" slab, #4 @ 12" e.w., vapor retarder',0,Z(4.6)) ;
+  s += lab(14.75,Z(-5.5),'P1: 18" drilled pier, 15\'-0" long',18,Z(-6.5));
+  s += lab(14.5,Z(-8.5),'(6) #6 + #3 ties @ 12" (prelim.)',18,Z(-9.6));
+  s += lab(14.75,Z(-11.5),'bars reach into the F1 cap',18,Z(-12.4));
+  s += `<text x="0" y="${Z(-15.75)}" font-size="0.55" fill="var(--soft)">12 ft below ground: report's wetted front</text>`;
+  s += lab(14,Z(-17.0),'tip clean, dry, inspected by SoilsTEC',18,Z(-17.4));
+  s += `<text x="0" y="${Z(9)}" font-size="0.7" fill="var(--dim)" font-weight="600">Looking along grid A–B frame line</text>`;
+  return s+'</svg>';
+}
+function secB(){ // slab edge at an exterior 2x6 wall
+  const Z = z => 10 - z;
+  let s = `<svg viewBox="-1 -0.5 30 19" role="img" aria-label="Section at slab edge">`;
+  s += `<rect x="-1" y="${Z(-0.6)}" width="13" height="9" fill="var(--fill)"/><rect x="12" y="${Z(0)}" width="18" height="9" fill="var(--fill)"/>`;
+  s += `<polygon points="-1,${Z(-0.1)} 12,${Z(-0.45)} 12,${Z(-0.6)} -1,${Z(-0.6)}" fill="var(--fill)"/>`;
+  s += `<rect x="-1" y="${Z(-4)}" width="31" height="5" fill="var(--clay)"/>`;
+  s += `<rect x="12" y="${Z(0.42)}" width="18" height="0.42" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.06"/>`;
+  s += `<rect x="12" y="${Z(0.42)}" width="1" height="2.5" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.1"/>`;
+  [12.25,12.75].forEach(x=>{ s += `<circle cx="${x}" cy="${Z(-1.75)}" r="0.09" fill="var(--rebar)"/><circle cx="${x}" cy="${Z(0.05)}" r="0.09" fill="var(--rebar)"/>`; });
+  s += `<rect x="12.05" y="${Z(0.42)+0.02}" width="0.9" height="2.4" fill="none" stroke="var(--rebar)" stroke-width="0.06"/>`;
+  // wall
+  s += `<rect x="12.1" y="${Z(9)}" width="0.46" height="${9-0.42}" fill="var(--wood)" stroke="var(--ink)" stroke-width="0.05"/><rect x="11.98" y="${Z(9)}" width="0.1" height="${9-0.42}" fill="var(--soft)"/>`;
+  s += `<line x1="12.33" y1="${Z(0.7)}" x2="12.33" y2="${Z(-0.4)}" stroke="var(--ink)" stroke-width="0.08"/>`;
+  // stone ledge (5" wide, 1½" down) and 4' limestone wainscot with 1" air space and a sawn cap
+  s += `<rect x="11.55" y="${Z(0.295)}" width="0.47" height="${0.295+2.08}" fill="var(--conc)" stroke="var(--ink)" stroke-width="0.06"/>`;
+  s += `<rect x="11.57" y="${Z(4)}" width="0.33" height="${4-0.295}" fill="var(--stone)" stroke="var(--ink)" stroke-width="0.05"/>`;
+  [0.95,1.7,2.35,3.2].forEach(z=>{ s += `<line x1="11.57" x2="11.9" y1="${Z(z)}" y2="${Z(z)}" stroke="var(--ink)" stroke-width="0.03"/>`; });
+  s += `<rect x="11.5" y="${Z(4.17)}" width="0.47" height="0.17" fill="var(--stone)" stroke="var(--ink)" stroke-width="0.05"/>`;
+  s += `<line x1="11.57" x2="12.0" y1="${Z(0.3)}" y2="${Z(0.3)}" stroke="var(--ink)" stroke-width="0.07"/>`;
+  const lab = (x,y,t,tx,ty) => `<line x1="${x}" y1="${y}" x2="${tx}" y2="${ty}" stroke="var(--soft)" stroke-width="0.04"/><text x="${tx+0.2}" y="${ty+0.2}" font-size="0.55" fill="var(--ink)">${t}</text>`;
+  s += lab(12.33,Z(6),'2x6 DF wall, OSB, wrap, 26 ga PBR above the stone',15,Z(7.2));
+  s += lab(11.75,Z(3),'4" limestone, 1" air space, ties @ 16"; sawn cap at 4\'',15,Z(5.0));
+  s += lab(11.8,Z(0.25),'5" ledge, 1½" down; flashing + weep screed',15,Z(-1.0));
+  s += lab(12.33,Z(0.5),'treated plate, ½" anchor bolts at 6\' o.c.',15,Z(3.4));
+  s += lab(13,Z(-1),'GB-1: 12" × 30" perimeter beam',15,Z(2.6));
+  s += lab(12.75,Z(-1.75),'(2) #5 top, (2) #5 bottom, #3 stirrups @ 24"',15,Z(-2.6));
+  s += lab(20,Z(0.21),'5" slab on 10 mil vapor retarder',15,Z(1.8));
+  s += `<text x="-0.6" y="${Z(0.9)}" font-size="0.55" fill="var(--ink)">grade falls 5% for 10'</text><text x="0" y="${Z(-2.6)}" font-size="0.6" fill="var(--soft)">select fill extends 5' past the slab edge</text>`;
+  s += `<text x="0" y="${Z(-7.6)}" font-size="0.6" fill="var(--soft)">native CH clay</text>`;
+  return s+'</svg>';
+}
+function showInfo(i){
+  const p = DATA.plates[i], d = info(p);
+  document.getElementById('i-title').textContent = d.title;
+  document.getElementById('i-loc').textContent = d.loc;
+  document.getElementById('i-body').innerHTML = `<div class="tbl"><table style="min-width:0"><tbody>${d.rows.map(([k,v])=>`<tr><th style="width:9.5em">${k}</th><td>${v}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function render(){
+  const el = document.getElementById('plan'); el.innerHTML = plan();
+  el.querySelectorAll('.pl').forEach(r=>{ const go=()=>{ S.sel=+r.dataset.i; showInfo(S.sel); render(); }; r.addEventListener('click',go); r.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }); });
+  document.querySelectorAll('#seg-type button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.t===S.t));
+  document.getElementById('b-beams').setAttribute('aria-pressed', S.beams); document.getElementById('b-foot').setAttribute('aria-pressed', S.foot);
+  document.getElementById('b-pipes').setAttribute('aria-pressed', S.pipes);
+  document.getElementById('b-elec').setAttribute('aria-pressed', S.elec); document.getElementById('b-gas').setAttribute('aria-pressed', S.gas); document.getElementById('b-piers').setAttribute('aria-pressed', S.piers);
+}
+document.querySelectorAll('#seg-type button').forEach(b=>b.addEventListener('click',()=>{ S.t=b.dataset.t; render(); }));
+document.getElementById('b-beams').onclick=()=>{ S.beams=!S.beams; render(); };
+document.getElementById('b-foot').onclick=()=>{ S.foot=!S.foot; render(); };
+document.getElementById('b-pipes').onclick=()=>{ S.pipes=!S.pipes; render(); };
+document.getElementById('b-elec').onclick=()=>{ S.elec=!S.elec; render(); };
+document.getElementById('b-gas').onclick=()=>{ S.gas=!S.gas; render(); };
+document.getElementById('b-piers').onclick=()=>{ S.piers=!S.piers; render(); };
+document.getElementById('secA').innerHTML = secA(); document.getElementById('secB').innerHTML = secB();
+render(); S.sel = DATA.plates.findIndex(p=>p.xy[0]===27&&p.xy[1]===0); showInfo(S.sel); render();
+</script>
+
+</body></html>

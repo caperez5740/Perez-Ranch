@@ -1,0 +1,1244 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Perez Ranch Frame</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one working screen — 3D viewport on top, erection-step rail and member legend below (side panel on wide screens). */
+:root{
+  --ok:#2E8B57; --warn:#D99A00; --bad:#C62828; --na:#9AA3A6;
+  --bg:#EEF0EE; --panel:#FFFFFF; --fg:#1D2326; --muted:#5E6A6E; --line:#D3D8D6; --accent:#B5482A; --scene:#E4E8E6; --chip:#F3F5F4;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14191B; --panel:#1C2326; --fg:#E7ECEA; --muted:#93A09F; --line:#2E383B; --accent:#E07650; --scene:#182023; --chip:#232C2F; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14191B; --panel:#1C2326; --fg:#E7ECEA; --muted:#93A09F; --line:#2E383B; --accent:#E07650; --scene:#182023; --chip:#232C2F; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;margin:0}
+.app{display:grid;grid-template-columns:1fr 340px;grid-template-rows:auto 1fr;height:100%;min-height:0}
+header{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel)}
+h1{font-family:var(--display);font-weight:700;font-size:1.55rem;letter-spacing:.01em;margin:0;text-wrap:balance}
+.sub{color:var(--muted);font-size:.85rem}
+.stage{position:relative;min-height:0;background:var(--scene)}
+#view{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none}
+.labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.tag{position:absolute;transform:translate(-50%,-50%);font-family:var(--display);font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;background:var(--panel);color:var(--fg);border:1px solid var(--line);padding:1px 6px;border-radius:3px;white-space:nowrap}
+.tag.compass{background:var(--accent);color:#fff;border-color:var(--accent);font-size:1rem;padding:2px 8px}
+.views{position:absolute;top:10px;left:10px;display:flex;flex-wrap:wrap;gap:6px}
+.walk-hud{position:absolute;left:10px;bottom:10px;z-index:4;max-width:min(420px,calc(100% - 20px));background:var(--panel);color:var(--fg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:9px 12px;box-shadow:0 4px 18px rgba(0,0,0,.15);font-size:.82rem;line-height:1.4;pointer-events:auto}
+.walk-hud{position:absolute;left:10px;bottom:10px;z-index:4;max-width:min(420px,calc(100% - 20px));background:var(--panel);color:var(--fg);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:9px 12px;box-shadow:0 4px 18px rgba(0,0,0,.15);font-size:.82rem;line-height:1.4;pointer-events:auto}
+.stage.walking canvas{cursor:grab}
+.stage.walking canvas.dragging-look{cursor:grabbing}
+.walk-hud strong{display:block;font-family:var(--display);font-size:1rem;text-transform:uppercase}
+.walk-look-controls{display:flex;gap:5px;margin-top:7px}
+.walk-look-controls button{font-size:.78rem;padding:4px 8px}
+.stage.walking .measure-readout,.stage.walking .measure-overlay{display:none}
+button,.btn{font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:4px;padding:5px 10px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.card{position:absolute;left:10px;right:10px;bottom:10px;max-width:360px;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:10px 12px;box-shadow:0 4px 18px rgba(0,0,0,.15)}
+.card h3{margin:0 0 4px;font-family:var(--display);font-size:1.15rem}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:.88rem}
+.card dt{color:var(--muted)} .card dd{margin:0;font-family:var(--mono);font-size:.82rem}
+.card .x{position:absolute;top:6px;right:6px;padding:2px 8px}
+.measure-readout{position:absolute;right:10px;bottom:10px;z-index:2;max-width:min(340px,calc(100% - 20px));background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:4px;padding:9px 12px;box-shadow:0 4px 18px rgba(0,0,0,.15);pointer-events:none}
+.measure-readout strong{display:block;font-family:var(--mono);font-size:.9rem;font-variant-numeric:tabular-nums}
+.measure-readout p{margin:3px 0 0;color:var(--muted);font-size:.8rem;line-height:1.35}
+.measure-overlay{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:hidden}
+.labels{z-index:2}
+.views,.card,.measure-readout{z-index:3}
+aside{background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;min-height:0;padding:14px 16px;display:flex;flex-direction:column;gap:16px}
+.sec-h{font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.step-now{font-family:var(--display);font-size:1.25rem;font-weight:700;margin:2px 0}
+.step-desc{color:var(--muted);font-size:.9rem;margin:0}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.steprow{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.seg{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px}
+.scale{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.78rem;color:var(--muted);margin-bottom:6px}
+.scale i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.ptbl{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:6px}
+.ptbl td{padding:3px 4px;border-bottom:1px solid var(--line);vertical-align:top}
+.ptbl td:last-child{text-align:right;font-family:var(--mono);font-size:.76rem;white-space:nowrap}
+.ptbl .bad{color:var(--bad);font-weight:700}.ptbl .wn{color:var(--warn);font-weight:700}.ptbl .okc{color:var(--ok)}
+.util{font-family:var(--mono);font-size:.75rem;font-weight:500;padding:0 4px;border-radius:3px;color:#fff}
+.legend{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.legend label{display:grid;grid-template-columns:18px 14px 1fr auto;align-items:center;gap:8px;padding:4px 6px;border-radius:4px;cursor:pointer}
+.legend label:hover{background:var(--chip)}
+.sw{width:14px;height:14px;border-radius:2px}
+.lname{font-size:.9rem;line-height:1.2;min-width:0}
+.lname small{display:block;color:var(--muted);font-family:var(--mono);font-size:.72rem}
+.lqty{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.note{font-size:.82rem;color:var(--muted);line-height:1.45;margin:0}
+.note b{color:var(--fg)}
+@media (max-width:820px){
+  .app{grid-template-columns:1fr;grid-template-rows:auto 58vh auto;height:auto}
+  aside{border-left:0;border-top:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app">
+  <header>
+    <h1>Perez Ranch — Steel Frame</h1>
+    <span class="sub">43 Percy Howard Road, Huntsville, TX 77320 (Walker County) · front faces north · 12' walls · 41'6" × 95' main + sections A–E · schematic for crew walkthrough, PE drawings govern</span>
+  </header>
+
+  <div class="stage" id="stage">
+    <canvas id="view" aria-label="3D model of the steel frame. Drag to rotate, pinch or scroll to zoom, tap a member for details, or use Measure to select two points."></canvas>
+    <svg class="measure-overlay" id="measure-overlay" aria-hidden="true" preserveAspectRatio="none">
+      <line id="measure-outline" visibility="hidden" stroke="#172026" stroke-width="4.5" stroke-linecap="round" />
+      <line id="measure-line" visibility="hidden" stroke="#FF00FF" stroke-width="2.5" stroke-linecap="round" />
+    </svg>
+    <div class="labels" id="labels"></div>
+    <div class="walk-hud" id="walk-hud" hidden><strong>Walkthrough · 5'8" person</strong><span>Eye level 5'4" · WASD/arrows move · Shift faster · drag to look · wheel zoom</span><div class="walk-look-controls"><button id="walk-ceiling-toggle" type="button" aria-pressed="true" title="Toggle roof cutaway">Roof cutaway</button><button id="walk-look-up" type="button" title="Look up">Look up</button><button id="walk-look-center" type="button" title="Center view">Center view</button><button id="walk-look-down" type="button" title="Look down">Look down</button></div><span>Esc exits</span></div>
+    <div class="views" role="group" aria-label="Model views and tools">
+      <button id="v-iso" aria-pressed="true">3D</button>
+      <button id="v-front">North (front)</button>
+      <button id="v-rear">South (rear)</button>
+      <button id="v-top">Plan</button>
+      <button id="v-site">Site</button>
+      <button id="v-walk" aria-pressed="false">Walk</button>
+      <button id="v-tags" aria-pressed="true">Labels</button>
+      <button id="v-siteitems" aria-pressed="true">Site items</button>
+      <button id="v-prop">Property</button>
+      <button id="v-proplines" aria-pressed="true">Property lines</button>
+      <button id="v-wood" aria-pressed="false">Wood only</button>
+      <button id="v-metal" aria-pressed="false">Metal only</button>
+      <button id="v-attic" aria-pressed="false">Attic space</button>
+      <button id="v-measure" aria-pressed="false">Measure</button>
+      <button id="measure-clear" disabled>Clear</button>
+    </div>
+    <div class="card" id="card" hidden>
+      <button class="x" id="card-x" aria-label="Close details">×</button>
+      <h3 id="c-title">Member</h3>
+      <dl id="c-dl"></dl>
+    </div>
+    <div class="measure-readout" aria-live="polite">
+      <strong id="measure-distance">No measurement yet</strong>
+      <p id="measure-status">Turn on Measure, then select two points on the model. Values are approximate model dimensions.</p>
+    </div>
+  </div>
+
+  <aside>
+    <section id="prop-sec">
+      <p class="sec-h">Property lines · plat 23051-3 · 13.86 ac</p>
+      <div class="seg" role="group" aria-label="How the property is placed">
+        <button id="a-pin" aria-pressed="true">GPS pin</button>
+        <button id="a-kb" aria-pressed="false">K&amp;B 59' · road 144'</button>
+      </div>
+      <p class="step-desc" id="prop-note"></p>
+      <table class="ptbl" id="prop-tbl"></table>
+      <p class="step-desc" style="margin-top:6px">Red wall = property line; dashed orange = 10' setback. Distances are to the nearest line. Schematic: a surveyor's stake-out governs.</p>
+    </section>
+    <section>
+      <p class="sec-h">Preliminary stress check · plywood deck / framing, 140 mph</p>
+      <div class="seg" role="group" aria-label="Stress test view">
+        <button id="s-off" aria-pressed="true">Off</button>
+                <button id="s-fixed" aria-pressed="false">On</button>
+      </div>
+      <div class="scale" id="s-scale" hidden>
+        <span><i style="background:var(--ok)"></i>&lt; 0.90 OK</span><span><i style="background:var(--warn)"></i>0.90–1.00 at limit</span><span><i style="background:var(--bad)"></i>&gt; 1.00 fails</span><span><i style="background:var(--na)"></i>not checked</span>
+      </div>
+      <p class="note" id="s-note">Color each modeled member by demand ÷ allowable. Roof-panel and clip capacity is not checked.</p>
+    </section>
+    <section>
+      <p class="sec-h">Erection sequence</p>
+      <p class="step-now" id="step-now"></p>
+      <p class="step-desc" id="step-desc"></p>
+      <input type="range" id="step" min="1" max="8" value="8" step="1" aria-label="Erection step">
+      <div class="steprow"><span>1 Anchors</span><span>8 Panels</span></div>
+    </section>
+    <section>
+      <p class="sec-h">Members · BOM line</p>
+      <ul class="legend" id="legend"></ul>
+    </section>
+    <section>
+      <p class="sec-h">Where wood goes</p>
+      <p class="note"><b>Exterior walls</b> below the 12' eave, between the steel columns: 2x6 Douglas fir #2 at 16" o.c. (don't substitute SPF or pine at 16"). <b>Bottom plate:</b> ground-contact treated 2x6, anchored to the slab. <b>Top plate:</b> double 2x6, clipped to the steel eave strut. <b>Openings:</b> 2x6 king + jack studs, 2-ply 2x12 headers, 2x6 sills. <b>Sheathing:</b> 7/16" OSB + taped house wrap under the 26 ga panels, and a 4'-0" limestone wainscot below them. <b>Interior walls</b> (shown with "Wood only"): 2x4 SPF at 16" o.c., non-bearing, treated bottom plate, double top plate. Main-house partitions are 10' tall; Mom's suite partitions are 8'. <b>Stained beams:</b> exposed 8x10 beams under the stand-alone vaults of the great room and master bedroom (ridge beam, edge beam, two cross beams each). Every door opening is framed 3'-2" wide for a 36" door (wheelchair access), with 2x4 king + jack studs and a flat 2x4 header Everything else (frames, posts, purlins, eave struts, gable girts, porches, carport) stays steel.</p>
+    </section>
+    <section>
+      <p class="sec-h">Attic space above the 10' ceilings</p>
+      <p class="note">The <b>Wood only</b> (exterior and interior wood framing) and <b>Attic space</b> buttons can be combined; tap again to turn one off. Tap <b>Attic space</b>. Flat ceilings are 10' in the house (bedroom 2, foyer and office included), carport and breezeway, and <b>8' in Mom's suite and on her porch</b>; the <b>master bedroom</b> has a <b>stand-alone vault</b> (10' at the east and west walls rising to 12' at the ridge) with attic above it, and the great room stays vaulted. With a flat ceiling under the foamed roof: <b>dark green</b> = room for an <b>8' ceiling</b> (about <b>1,000 sq ft</b>); <b>medium green</b> = a <b>7' ceiling</b> fits (about <b>255 sq ft</b> more, 1,255 total); <b>light green</b> = 5'–7', storage or sloped ceiling to a knee wall. <b>Main attic</b> (floor at about 11'): one continuous space from the east gable over the carport, breezeway, master bath, master bedroom, closets and kitchen, about <b>890 sq ft at 8'</b> (a strip about 14' wide, 61' long) or about 1,060 sq ft at 7'. The steel frames at grids 2, 3 and 4 cross it as exposed beams. <b>Front attic</b> (floor at about 11', under the front porch gable roof over bedroom 2, the foyer and the office): about <b>90 sq ft at 8'</b> and 180 sq ft at 7', highest over the foyer; over bedroom 2 itself it is mostly 5'–7' (storage) because the porch roof slopes down toward its west wall. The great room vault separates it from the main attic, so it needs its own stair or pull-down. <b>Mom's suite attic</b> (orange, floor at about 9' over her 8' ceilings and the 8' porch ceiling, about 400 sq ft at 5'+): her own A/C air handler and water heater, right above her rooms for short ducts and pipes. It is a separate space (the main roof runs under the suite roof) with its own pull-down stair in the suite. <b>Main house mechanical attic</b> (orange, over bedroom 3 and bath 3, about 165 sq ft at 5'+): the main house A/C air handler and water heater on a framed platform, reached by a pull-down stair in the bedroom 3 closet or hall below. Code needs for each: an access opening at least 22" × 30" (big enough for the largest unit), a solid 24"-wide walkway no longer than 20', a 30" × 30" service platform, a light switched at the access and an outlet by the equipment, a drain pan under the water heater and a secondary pan or float switch under the air handler. <b>Study only:</b> needs a structural floor (40–50 psf+, steel floor beams over the carport span), an insulated floor over the open carport, code stairs and the PE's frame check.</p>
+    </section>
+    <section>
+      <p class="sec-h">Sections</p>
+      <p class="note"><b>Orientation:</b> front faces north, back porch faces south. Carport is the east end, open on the north (car entry) and east sides. <b>Main</b> 41'6" × 95', 7/12 — carport, breezeway, master suite, kitchen, great room, bedrooms · <b>A</b> bedroom 3 bump 8'6" × 26'7" · <b>B</b> front porch 34' × 12', 7/12 · <b>C</b> back porch 34' × 11'6" (~391 SF by current frame), 7/12 · <b>D</b> laundry/pantry shed 14' × 7', 2/12 · <b>E</b> Mom's suite 27' × 33' with its porch. The back porch gable opens into the house: no main roof under it, so the great room has its own stand-alone vault (10' at the walls rising to 18' at the ridge) under the gable. The master bedroom has a stand-alone vault, 10' at the east and west walls rising to 12' at the ridge (x=47'); Mom's suite has flat 8' ceilings; every other room has a flat 10' ceiling. Attic space above all of them. The gable at the house wall is a framed wood wall. All roofs 7/12. Layout traced from the Quality First framing and roof plans; darker slab = open areas.</p>
+    </section>
+    <section>
+      <p class="sec-h">Scale audit</p>
+      <p class="note">PE-directed model revisions align Grid 2 at x=13.5' with the Suite E ridge and Grid 6 at x=78' with the porch ridge/valley. The Suite E ridge currently terminates at the main-wall/frame intersection; show and engineer that connection in the revised roof details. Current bay chain: 13.5', 13.5', 20', 14', 17', 17' (95' overall). Grid 2/B is on the main wall at y=41.5'; Grid 6/B is on the Great Room wall at y=36.9', leaving a 4'7" rear-rafter cantilever. Recheck frame, collectors, connections, portal, anchorage and foundation before construction. A-sheets plot at 1/4" = 1'-0"; S-sheets at 3/16" = 1'-0".</p>
+      <p class="note">Area labels are not cut dimensions: original schedule vs model footprint is front porch 438/408 SF, breezeway 330/326 SF, suite porch 116/111 SF, and back porch 544/about 547 SF. The back-porch 34' x 11'6" note is the outer projection only; the 4'6" Great Room recess is included in the covered footprint. Use approved shop drawings for cuts.</p>
+      <p class="note">Stone omitted from the carport/master-bath wall, carport/suite wall, master-closet/breezeway wall, and kitchen/breezeway wall. Framing and metal cladding remain. Coordinated BOM: 864 SF wainscot, 295.5 LF cap/sills, 1,064 SF stone accessories, and 4,542.9 SF wall panels. The concrete slab-edge ledge is unchanged pending PE review.</p>
+    </section>
+    <section>
+      <p class="sec-h">Openings</p>
+      <p class="note" id="op-note"></p>
+    </section>
+    <section>
+      <p class="note">140 mph / Exposure C is the preliminary design target. Grid 6 is PE-directed at x=78' to align with the vault ridge/valley; its rear support is on the Great Room wall, creating a 4'7" rafter cantilever. Prior stress values are stale for this revision. Recheck the frame, 17' portal bay, valley collector, connections and anchorage before construction. <b>This model is not a substitute for revised PE-stamped shop drawings.</b></p>
+    </section>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+const TYPES = {
+  anchor:  {name:"Base plates & anchor bolts", bom:"11–12", size:"3/4\" plate · 4× 3/4\" F1554 bolts", color:0x6B6F72, step:1},
+  colMain: {name:"Main frame columns", bom:"4", size:"HSS 8x8x3/8", color:0x2F5D8A, step:2},
+  colAtt:  {name:"Attached & porch columns", bom:"5", size:"HSS 6x6x3/16", color:0x4F86B8, step:2},
+  rafMain: {name:"Main frame rafters", bom:"1", size:"W14x22; PE-directed Grid 6 at x=78' aligns with porch ridge/valley; 4'7\" rear cantilever requires recheck", color:0xB5482A, step:3},
+  rafAtt:  {name:"Attached & porch rafters", bom:"2", size:"W12x14", color:0xD2693C, step:3},
+  rafShed: {name:"Shed rafters", bom:"3", size:"W8x10", color:0xE6A06F, step:3},
+  header:  {name:"Carport header + tie rod", bom:"9", size:"W16x45, 27' clear span; sized so the carport attic can take a floor later", color:0x9C2F2F, step:3},
+  post:    {name:"Endwall & carport posts", bom:"6", size:"HSS 4x4x1/4", color:0x7FB0D6, step:4},
+  wpost:   {name:"Mid-bay wall wind posts (11)", bom:"7", size:"HSS 4x4x1/4: north wall ×4, great room rear wall ×4, laundry rear wall, suite west wall, suite porch corner; top-of-wall span ≤ 10'-5\"", color:0x1E9AA0, step:4},
+  portal:  {name:"Portal frame beams (north wall + grid B)", bom:"8", size:"W12x26 moment beam", color:0x6A3FA0, step:4},
+  over:    {name:"Overframe, valley & ridge members", bom:"10", size:"~W8x10 / C10; align ridge/valley at x=78' with Grid 6 rafter; PE connection detail required", color:0x8E5B9E, step:4},
+  eave:    {name:"Eave struts", bom:"17", size:"8\" 14 ga eave strut, G90", color:0xA8781A, step:5},
+  purlin:  {name:"Roof purlins", bom:"16", size:"8\" Z 14 ga, G90, lapped, 24\" o.c.", color:0xD9A521, step:5},
+  girt:    {name:"Gable girts (steel, above eave)", bom:"18", size:"8\" C 14 ga, G90, 4' o.c.", color:0x3E9A6B, step:6},
+  stud:    {name:"Wall studs (wood)", bom:"20, 23", size:"2x6 Douglas fir #2 × 12', 16\" o.c.", color:0xE2C08A, step:6, wood:true},
+  plate:   {name:"Wall plates (wood)", bom:"21", size:"Treated 2x6 bottom plate; double 2x6 top plate clipped to eave strut", color:0x8FA35A, step:6, wood:true},
+  jamb:    {name:"King/jack studs & sills (wood)", bom:"20, 22", size:"2x6 DF #2 kings and jacks; 2x6 sills", color:0xC99A5B, step:6, wood:true},
+  wheader: {name:"Window & door headers (wood)", bom:"22", size:"2-ply 2x12 (LVL at wide openings)", color:0x9A6A35, step:6, wood:true},
+  istud:   {name:"Interior wall studs (wood)", bom:"28, 29, 30", size:"2x4 SPF #2, 16\" o.c., non-bearing interior partitions", color:0xEBD9AE, step:6, wood:true, interior:true},
+  iplate:  {name:"Interior wall plates (wood)", bom:"31", size:"Treated 2x4 bottom plate; double 2x4 top plate", color:0xB3C27F, step:6, wood:true, interior:true},
+  iframe:  {name:"Interior door framing (wood)", bom:"32", size:"3'-2\" rough openings for 36\" doors (wheelchair); 2x4 king + jack, flat 2x4 header", color:0xCF9E5E, step:6, wood:true, interior:true},
+  sbeam:   {name:"Stained wood beams (great room & master vaults)", bom:"48", size:"8x10 exposed timber, stained, under the stand-alone vaults: great room (10' at the walls to 18' at the ridge, x=78') and master bedroom (10' to 12', x=47'); each has a ridge beam, an edge beam and two cross beams; species, section, structural role and attachment TBD per architect/PE", color:0x8B5A2B, step:6, wood:true},
+  sconn:   {name:"Beam-to-steel connection hardware", bom:"14", size:"Steel hanger straps at the front end and a post/seat plates over the Grid 6/B column at the rear end, bolting the great room ridge beam to the Grid 6 rafter, plus a seat on the Grid 4/A column for the master bedroom ridge beam; sized and detailed by the PE", color:0x5A6670, step:6},
+  ceiling: {name:"Flat ceilings (10', suite 8')", bom:"by others", size:"Flat 10'-0\" ceilings everywhere except the great room (stand-alone vault, 10'-0\" at the walls rising to 18'-0\" at the ridge at x=78') and the master bedroom (stand-alone vault, 10'-0\" at the walls rising to 12'-0\" at the ridge at x=47'); also under the carport and breezeway roofs. Mom's suite and suite porch 8'-0\"", color:0xFFFFFF, step:8, panel:true, attic:true},
+  attic8:  {name:"Attic room, 8' ceiling fits", bom:"study", size:"Floor at ~11' (10' ceiling below + 12\" joists), ceiling at ~19'; in Mom's suite floor ~9', ceiling ~17'", color:0x1F7A45, step:8, panel:true, attic:true},
+  attic7:  {name:"Attic room, 7' ceiling fits", bom:"study", size:"Floor at ~11' (suite ~9'); flat 7' ceiling at ~18' (suite ~16') (sloped ceiling or knee wall beyond)", color:0x4DB377, step:8, panel:true, attic:true},
+  attceil: {name:"Attic room ceilings (7'–8')", bom:"study", size:"Flat drywall ceiling under the foamed roof; sloped to the knee walls", color:0xFFFFFF, step:8, panel:true, attic:true},
+  attic5:  {name:"Attic space, 5'–7' headroom", bom:"study", size:"Low area along the eaves: storage, or counts at half value", color:0xA8D8A0, step:8, panel:true, attic:true},
+  mech:    {name:"Mechanical attics (A/C, water heaters)", bom:"by others", size:"Main house: attic over bedroom 3 and bath 3, floor ~11', ~165 sq ft at 5'+. Mom's suite: her own attic over the suite and its porch, floor ~9', ~400 sq ft at 5'+. Each has an A/C air handler and a water heater on a framed platform", color:0xE07B2A, step:8, panel:true, attic:true},
+  osb:     {name:"OSB sheathing + house wrap", bom:"24, 25", size:"7/16\" OSB, taped WRB", color:0xC9A66B, step:7, panel:true},
+  brace:   {name:"X-bracing", bom:"19", size:"7/8\" rod X-brace", color:0xC23B8C, step:7},
+  window:  {name:"Windows", bom:"owner", size:"Vinyl clad insulated, DP-50, impact-rated recommended", color:0x7FC2EA, step:8, glass:true},
+  door:    {name:"Exterior doors", bom:"owner", size:"Per schedule A/B/C, DP-50", color:0x7A5230, step:8},
+  roof:    {name:"Roof deck & panels", bom:"33, 40", size:"1/2\" plywood + 26 ga standing seam; overhangs 12\" at eaves, 8\" at rakes", color:0x3A3F44, step:8, panel:true},
+  wall:    {name:"Wall panels", bom:"34", size:"26 ga PBR, PVDF, polar white, over 7/16\" OSB; from the stone cap to the eave, or to slab at wainscot-omitted carport/breezeway faces", color:0xF2F2EE, step:8, panel:true},
+  stone:   {name:"Limestone wainscot & porch piers", bom:"35–38", size:"Full-bed chopped Texas limestone (~4\", ~45 psf), 4'-0\" high on scheduled house wall faces except the laundry/pantry shed and four carport/breezeway faces listed in Scale audit; 2\" sawn cap and window sills; 30\" square stone piers, 4'-0\" high, at the front, back and suite porch posts. Sits on a 5\" slab-edge ledge", color:0xD6C9A6, step:8},
+};
+const STEPS = {
+  1:["Anchors & base plates","Set anchor bolts in the slab with templates; check layout and elevations before the pour."],
+  2:["Columns","Stand and plumb frame columns on base plates; temporary brace each one."],
+  3:["Rafters","Lift and bolt rafters to columns; connect at the ridge. Brace the first frame pair before moving on."],
+  4:["Posts & overframes","Set endwall and carport posts. Frame the porch and suite overframes where they ride over the main roof."],
+  5:["Eave struts & purlins","Install eave struts, then purlins from eave to ridge. Tighter spacing at eaves, rakes and corners."],
+  6:["Wood walls & gable girts","Frame 2x6 DF #2 walls at 16\" o.c. between the steel columns: treated bottom plate anchored to slab, double top plate clipped to the eave strut, kings/jacks, 2x12 headers, sills. Steel girts only in the gable triangles. Interior partitions: 2x4 at 16\" o.c., non-bearing; 10' in the main house and 8' in Mom's suite; 36\" door openings."],
+  7:["X-bracing, OSB & wrap","Tension rod bracing; sheathe walls with 7/16\" OSB and tape the house wrap; flash every opening."],
+  8:["Roof, walls & stone","Plywood deck and underlayment, standing seam on uplift-rated clips; 26 ga PBR walls above the stone; limestone wainscot, caps, sills and porch piers on the slab-edge ledge."],
+};
+
+const canvas = document.getElementById('view');
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 2));
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(40, 1, 1, 8000);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.maxPolarAngle = Math.PI*0.495;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a9088, 0.85));
+const sun = new THREE.DirectionalLight(0xffffff, 0.65); sun.position.set(-60,120,90); scene.add(sun);
+
+// Plan coords: x = east (grid 1) to west (grid 7), y = north/front(0) to south/rear(+), z = height. World: X=x, Y=z, Z=-y
+const V = (x,y,z)=> new THREE.Vector3(x,z,-y);
+const STONE_H = 4.0;
+function makeStoneTexture(){
+  const canvas=document.createElement('canvas'); canvas.width=512; canvas.height=512;
+  const ctx=canvas.getContext('2d'), blockW=128, blockH=64;
+  const colors=['#b9b29f','#c9c2af','#aaa38f','#d0c8b5','#b5ad99','#c1b9a5'];
+  ctx.fillStyle='#766f63'; ctx.fillRect(0,0,512,512);
+  for(let row=0;row<8;row++){
+    const offset=row%2 ? -blockW/2 : 0;
+    for(let col=-1;col<5;col++){
+      const x=offset+col*blockW, y=row*blockH, index=((row*7+col*3)%colors.length+colors.length)%colors.length;
+      const shade=colors[index], grad=ctx.createLinearGradient(x,y,x+blockW,y+blockH);
+      grad.addColorStop(0,shade); grad.addColorStop(1,colors[(index+1)%colors.length]);
+      const inset=4, wobble=((row+col+20)%3)-1;
+      ctx.beginPath(); ctx.moveTo(x+inset,y+inset); ctx.lineTo(x+blockW-inset,y+inset+wobble);
+      ctx.lineTo(x+blockW-inset+wobble,y+blockH-inset); ctx.lineTo(x+inset,y+blockH-inset-wobble); ctx.closePath();
+      ctx.fillStyle=grad; ctx.fill(); ctx.lineWidth=5; ctx.strokeStyle='#71695c'; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x+8,y+8); ctx.lineTo(x+blockW-10,y+8+wobble); ctx.strokeStyle='rgba(255,255,255,0.23)'; ctx.lineWidth=2; ctx.stroke();
+      for(let speck=0;speck<24;speck++){
+        const sx=x+10+((speck*37+row*19+col*11)%108), sy=y+10+((speck*23+row*13+col*7)%44);
+        ctx.fillStyle=speck%2?'rgba(75,68,57,0.11)':'rgba(255,255,255,0.13)'; ctx.fillRect(sx,sy,2,2);
+      }
+    }
+  }
+  const texture=new THREE.CanvasTexture(canvas); texture.wrapS=THREE.RepeatWrapping; texture.wrapT=THREE.RepeatWrapping; texture.encoding=THREE.sRGBEncoding;
+  texture.anisotropy=renderer.capabilities.getMaxAnisotropy(); return texture;
+}
+const stoneTexture=makeStoneTexture();
+function applyStoneUV(geometry){
+  const positions=geometry.attributes.position, normals=geometry.attributes.normal, uvs=geometry.attributes.uv;
+  for(let i=0;i<positions.count;i++){
+    const nx=Math.abs(normals.getX(i)), ny=Math.abs(normals.getY(i)); let u,v;
+    if(nx>0.5){u=positions.getZ(i)/4;v=positions.getY(i)/4;}
+    else if(ny>0.5){u=positions.getX(i)/4;v=positions.getZ(i)/4;}
+    else{u=positions.getX(i)/4;v=positions.getY(i)/4;}
+    uvs.setXY(i,u,v);
+  }
+  uvs.needsUpdate=true;
+}
+const groups = {}; Object.keys(TYPES).forEach(k=>{ groups[k]=new THREE.Group(); scene.add(groups[k]); });
+const mats = {}; Object.entries(TYPES).forEach(([k,t])=>{
+  mats[k] = k==='stone' ? new THREE.MeshLambertMaterial({color:0xffffff,map:stoneTexture}) : t.glass ? new THREE.MeshLambertMaterial({color:t.color, transparent:true, opacity:0.75}) : new THREE.MeshLambertMaterial({color:t.color, transparent:!!t.panel, opacity:t.panel?(k==='roof'?0.6:(k==='osb'?0.55:0.4)):1, side:t.panel?THREE.DoubleSide:THREE.FrontSide, depthWrite:!t.panel});
+});
+if (mats.ceiling){ mats.ceiling.opacity=0.35; } if (mats.attic7){ mats.attic7.opacity=0.55; } if (mats.attic8){ mats.attic8.opacity=0.65; } if (mats.attceil){ mats.attceil.opacity=0.3; } if (mats.attic5){ mats.attic5.opacity=0.45; } if (mats.mech){ mats.mech.opacity=0.55; }
+const counts = {}; Object.keys(TYPES).forEach(k=>counts[k]={n:0,lf:0});
+const pickables = [];
+
+function member(type, a, b, w, d, section){
+  const len = a.distanceTo(b); if(len < 0.3) return;
+  const geometry=new THREE.BoxGeometry(w,d,len); if(type==='stone') applyStoneUV(geometry);
+  const m = new THREE.Mesh(geometry, mats[type]);
+  m.position.copy(a).add(b).multiplyScalar(0.5);
+  m.up.set(...(Math.abs(b.y-a.y) > 0.98*len ? [1,0,0] : [0,1,0])); m.lookAt(b);
+  m.userData = {type, len, section};
+  groups[type].add(m); pickables.push(m);
+  counts[type].n++; counts[type].lf += len;
+}
+function box(type, c, sx, sy, sz, section){
+  const geometry=new THREE.BoxGeometry(sx,sy,sz); if(type==='stone') applyStoneUV(geometry);
+  const m = new THREE.Mesh(geometry, mats[type]);
+  m.position.copy(c); m.userData={type,len:0,section};
+  groups[type].add(m); pickables.push(m); counts[type].n++;
+}
+function poly(type, pts){ // fan triangulation of a convex polygon
+  const v=[]; for(let i=1;i<pts.length-1;i++) [pts[0],pts[i],pts[i+1]].forEach(q=>v.push(q.x,q.y,q.z));
+  const g=new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(v,3)); g.computeVertexNormals();
+  groups[type].add(new THREE.Mesh(g, mats[type]));
+}
+
+/* Section: axis = direction the ridge runs ('x' or 'y'); a0..a1 along the ridge; c0..c1 across (span).
+   frames = along-positions of rigid frames; noCol(a,c) skips a column that the main frame already provides.
+   inner/lim: overframe — the roof continues past the frame at 'inner' until it meets the main roof; lim(h) gives that along-position. */
+function mk(s){
+  s.span=s.c1-s.c0; s.mid=(s.c0+s.c1)/2; s.p=s.pitch/12;
+  s.roofZ = c => s.shed ? s.eave + (s.c1-c)*s.p : s.eave + (s.span/2-Math.abs(c-s.mid))*s.p;
+  s.pt = (a,c,z)=> s.axis==='x' ? V(a,c,z) : V(c,a,z);
+  s.across = (x,y)=> s.axis==='x' ? y : x;
+  return s;
+}
+const EAVE = 12; // wall (eave) height, ft
+const mainLimFront = h => (h-EAVE)*12/7;          // along y, from front eave inward
+const mainLimRear  = h => 41.5 - (h-EAVE)*12/7;   // along y, from rear eave inward
+
+const S = {
+  main: mk({id:"Main house", main:true, axis:'x', a0:0, a1:95, c0:0, c1:41.5, eave:EAVE, pitch:7, frames:[0,13.5,27,47,61,78,95], noCol:(a,c)=>a===13.5&&c===0, colAt:(a,c)=>(a===78&&c===41.5)?36.9:undefined, rafT:'rafMain', colT:'colMain', braceBays:[[0,13.5],[47,61]],
+    cut:c=>{ const d=Math.min(c, 41.5-c); if(d>=17) return null; const h=17-d; return [78-h,78+h]; }}),
+  A: mk({id:"A · bedroom 3 bump", axis:'x', a0:95, a1:103.5, c0:10.3, c1:36.9, eave:EAVE, pitch:7, frames:[95,103.5], noCol:(a)=>a===95, rafT:'rafAtt', colT:'colAtt'}),
+  B: mk({id:"B · front porch", axis:'y', a0:-12, a1:0, c0:61, c1:95, eave:EAVE, pitch:7, frames:[-12,0], noCol:(a)=>a===0, inner:'a1', lim:mainLimFront, rafT:'rafAtt', colT:'colAtt'}),
+  C: mk({id:"C · back porch", axis:'y', a0:41.5, a1:53, c0:61, c1:95, eave:EAVE, pitch:7, frames:[41.5,53], noCol:(a)=>a===41.5, inner:'a0', lim:mainLimRear, rafT:'rafAtt', colT:'colAtt'}),
+  D: mk({id:"D · laundry / pantry", axis:'x', a0:47, a1:61, c0:41.5, c1:48.4, eave:EAVE, pitch:2, shed:true, frames:[47,61], noCol:(a,c)=>c===41.5, rafT:'rafShed', colT:'colAtt'}),
+  E: mk({id:"E · Mom's suite", axis:'y', a0:41.5, a1:65, c0:0, c1:27, eave:EAVE, pitch:7, frames:[41.5,49,65], noCol:(a)=>a===41.5, inner:'a0', lim:mainLimRear, rafT:'rafAtt', colT:'colAtt'}),
+};
+ // low eave of shed at y=48.4; high side bears on main rear line
+S.D.roofZ = c => EAVE + (48.4 - c)*S.D.p;
+
+function frameSection(s){
+  const {pt, roofZ, c0, c1, mid} = s;
+  s.frames.forEach(a=>{
+    [c0,c1].forEach(c=>{
+      if (s.noCol && s.noCol(a,c)) return;
+      const cc = (s.colAt && s.colAt(a,c)!==undefined) ? s.colAt(a,c) : c;
+      box('anchor', pt(a,cc,0.05), 1.0, 0.1, 1.0, s.id);
+      const colLabel = a===13.5&&c===41.5 ? s.id+" — Grid 2/B column on main wall at suite ridge axis x=13.5'" : cc!==c&&a===78 ? s.id+" — Grid 6/B column on Great Room wall; 4'-7\" rafter cantilever" : s.id;
+      member(s.colT, pt(a,cc,0), pt(a,cc,roofZ(cc)), 0.5, 0.5, colLabel);
+    });
+    if (s.shed) member(s.rafT, pt(a,c0,roofZ(c0)+0.4), pt(a,c1,roofZ(c1)+0.4), 0.35, 0.67, s.id);
+    else { member(s.rafT, pt(a,c0,s.eave+0.5), pt(a,mid,roofZ(mid)+0.5), 0.35, s.overOnly?0.6:1.0, s.id);
+           member(s.rafT, pt(a,c1,s.eave+0.5), pt(a,mid,roofZ(mid)+0.5), 0.35, s.overOnly?0.6:1.0, s.id); }
+  });
+  // slopes: [eave-side c, ridge-side c]
+  const slopes = s.shed ? [[c1,c0]] : [[c0,mid],[c1,mid]];
+  const outer = s.inner==='a1' ? s.a0 : s.a1;
+  const innerA = c => {               // along-position where this roof line stops
+    if (!s.lim) return s.inner==='a1' ? s.a1 : s.a0;
+    const L = s.lim(roofZ(c)); return s.inner==='a1' ? Math.max(s.a1, L) : Math.min(s.a0, L);
+  };
+  const run = (c)=> s.lim ? [outer, innerA(c)] : [s.a0, s.a1];
+  slopes.forEach(([from,to])=>{
+    const slen = Math.abs(to-from)*Math.sqrt(1+s.p*s.p), edgeOffset = 1;
+    const n = Math.max(1, Math.ceil((slen-2*edgeOffset)/2));
+    const [ea,eb] = run(from);
+    if (!s.overOnly) member('eave', pt(ea,from,roofZ(from)+1.05), pt(eb,from,roofZ(from)+1.05), 0.3, 0.6, s.id);
+    for(let i=0;i<=n;i++){
+      const alongSlope = edgeOffset + (slen-2*edgeOffset)*i/n;
+      const c = from + (to-from)*alongSlope/slen; const [pa,pb]=run(c);
+      const k = s.cut && s.cut(c);
+      const segs = k ? [[pa,k[0]],[k[1],pb]] : [[pa,pb]];
+      segs.forEach(([u,v])=>{ if(Math.abs(v-u)>0.3) member('purlin', pt(u,c,roofZ(c)+1.05), pt(v,c,roofZ(c)+1.05), 0.25, 0.6, s.id); });
+    }
+    if (s.shed) member('eave', pt(s.a0,to,roofZ(to)+1.05), pt(s.a1,to,roofZ(to)+1.05), 0.3, 0.6, s.id);
+    const [fa,fb]=run(from), [ta,tb]=run(to);
+    if (s.cut){ // main roof stops where the porch gables open into the house
+      const K=40;
+      for(let j=0;j<K;j++){
+        const c0_=from+(to-from)*j/K, c1_=from+(to-from)*(j+1)/K, k0=s.cut(c0_), k1=s.cut(c1_);
+        const [ra,rb]=run(c0_);
+        if (!k0 && !k1){ poly('roof',[pt(ra,c0_,roofZ(c0_)+1.4),pt(rb,c0_,roofZ(c0_)+1.4),pt(rb,c1_,roofZ(c1_)+1.4),pt(ra,c1_,roofZ(c1_)+1.4)]); continue; }
+        const L0=k0||[78,78], L1=k1||[78,78];
+        poly('roof',[pt(ra,c0_,roofZ(c0_)+1.4),pt(L0[0],c0_,roofZ(c0_)+1.4),pt(L1[0],c1_,roofZ(c1_)+1.4),pt(ra,c1_,roofZ(c1_)+1.4)]);
+        poly('roof',[pt(L0[1],c0_,roofZ(c0_)+1.4),pt(rb,c0_,roofZ(c0_)+1.4),pt(rb,c1_,roofZ(c1_)+1.4),pt(L1[1],c1_,roofZ(c1_)+1.4)]);
+      }
+    } else poly('roof',[pt(fa,from,roofZ(from)+1.4), pt(fb,from,roofZ(from)+1.4), pt(tb,to,roofZ(to)+1.4), pt(ta,to,roofZ(to)+1.4)]);
+    if (s.lim && !s.shed){ // valley member where this slope meets the main roof
+      member('over', pt(innerA(from),from,roofZ(from)+0.6), pt(innerA(to),to,roofZ(to)+0.6), 0.35,0.6,s.id);
+    }
+    // roof X-bracing in braced bays
+    const bb = s.braceBays || (s.frames.length>1 ? [[s.frames[0], s.frames[1]]] : []);
+    bb.forEach(([fa2,fb2])=>{
+      member('brace', pt(fa2,from,roofZ(from)+1.0), pt(fb2,to,roofZ(to)+1.0), 0.12,0.12,s.id);
+      member('brace', pt(fb2,from,roofZ(from)+1.0), pt(fa2,to,roofZ(to)+1.0), 0.12,0.12,s.id);
+    });
+  });
+  if (s.lim && !s.shed){ // ridge member over the main roof
+    const innerFrame = s.inner==='a1' ? s.a1 : s.a0;
+    member('over', pt(innerFrame,mid,roofZ(mid)+0.6), pt(innerA(mid),mid,roofZ(mid)+0.6), 0.35,0.6,s.id);
+  }
+}
+Object.values(S).forEach(frameSection);
+// Roof overhangs: 12" at the eaves, 8" at the rakes (free roof edges only); roof deck sits 1.4' above the frame line
+const OVH = [[[-0.667, 0.0, 12.0], [60.0, 0.0, 12.0], [60.0, -1.0, 11.417], [-0.667, -1.0, 11.417]], [[28.0, 41.5, 12.0], [46.333, 41.5, 12.0], [46.333, 42.5, 11.417], [28.0, 42.5, 11.417]], [[0.0, -1.0, 11.417], [0.0, 20.75, 24.104], [-0.667, 20.75, 24.104], [-0.667, -1.0, 11.417]], [[0.0, 20.75, 24.104], [0.0, 41.5, 12.0], [-0.667, 41.5, 12.0], [-0.667, 20.75, 24.104]], [[95.0, 0.0, 12.0], [95.0, 20.75, 24.104], [95.667, 20.75, 24.104], [95.667, 0.0, 12.0]], [[95.0, 20.75, 24.104], [95.0, 41.5, 12.0], [95.667, 41.5, 12.0], [95.667, 20.75, 24.104]], [[95.0, 10.3, 12.0], [104.167, 10.3, 12.0], [104.167, 9.3, 11.417], [95.0, 9.3, 11.417]], [[95.0, 36.9, 12.0], [104.167, 36.9, 12.0], [104.167, 37.9, 11.417], [95.0, 37.9, 11.417]], [[103.5, 9.3, 11.417], [103.5, 23.6, 19.758], [104.167, 23.6, 19.758], [104.167, 9.3, 11.417]], [[103.5, 23.6, 19.758], [103.5, 37.9, 11.417], [104.167, 37.9, 11.417], [104.167, 23.6, 19.758]], [[61.0, -12.667, 12.0], [61.0, -1.0, 12.0], [60.0, -1.0, 11.417], [60.0, -12.667, 11.417]], [[95.0, -12.667, 12.0], [95.0, 0.0, 12.0], [96.0, 0.0, 11.417], [96.0, -12.667, 11.417]], [[60.0, -12.0, 11.417], [78, -12.0, 21.917], [78.0, -12.667, 21.917], [60.0, -12.667, 11.417]], [[78, -12.0, 21.917], [96.0, -12.0, 11.417], [96.0, -12.667, 11.417], [78.0, -12.667, 21.917]], [[61.0, 41.5, 12.0], [61.0, 53.667, 12.0], [60.0, 53.667, 11.417], [60.0, 41.5, 11.417]], [[95.0, 41.5, 12.0], [95.0, 53.667, 12.0], [96.0, 53.667, 11.417], [96.0, 41.5, 11.417]], [[60.0, 53.0, 11.417], [78, 53.0, 21.917], [78.0, 53.667, 21.917], [60.0, 53.667, 11.417]], [[78, 53.0, 21.917], [96.0, 53.0, 11.417], [96.0, 53.667, 11.417], [78.0, 53.667, 21.917]], [[46.333, 48.4, 12.0], [61.667, 48.4, 12.0], [61.667, 49.4, 11.833], [46.333, 49.4, 11.833]], [[47.0, 42.5, 12.983], [47.0, 49.4, 11.833], [46.333, 49.4, 11.833], [46.333, 42.5, 12.983]], [[61.0, 41.5, 13.15], [61.0, 49.4, 11.833], [61.667, 49.4, 11.833], [61.667, 41.5, 13.15]], [[0.0, 41.5, 12.0], [0.0, 65.667, 12.0], [-1.0, 65.667, 11.417], [-1.0, 41.5, 11.417]], [[27.0, 42.5, 12.0], [27.0, 65.667, 12.0], [28.0, 65.667, 11.417], [28.0, 42.5, 11.417]], [[-1.0, 65.0, 11.417], [13.5, 65.0, 19.875], [13.5, 65.667, 19.875], [-1.0, 65.667, 11.417]], [[13.5, 65.0, 19.875], [28.0, 65.0, 11.417], [28.0, 65.667, 11.417], [13.5, 65.667, 19.875]]];
+OVH.forEach(q=>poly('roof', q.map(([x,y,z])=>V(x,y,z+1.4))));
+// Carport: 27' clear opening on the north face; the x=12 frame sits on this header instead of a column
+member('header', V(0,0,EAVE-0.67), V(27,0,EAVE-0.67), 0.6, 1.34, "Carport (north opening)");
+member('header', V(13.5,0,EAVE-0.2), V(13.5,39.5,EAVE-0.2), 0.1, 0.1, "Tie rod, Grid 2 frame at x=13.5' (1\" rod, ~7.8 k tension; PE recheck)");
+
+// Posts at free endwalls and the open carport side
+function posts(s, a, list){ list.forEach(c=>{ box('anchor', s.pt(a,c,0.05), 0.9,0.1,0.9, s.id); member('post', s.pt(a,c,0), s.pt(a,c,s.roofZ(c)), 0.34,0.34, s.id); }); }
+posts(S.main, 0,  [10.4, 20.75, 31.1]);   // east end (carport side): posts per floor plan, side left open
+// West end (grid 7): the bedroom 3 bump opens through this line, so no posts stand in the room.
+// HSS 6x6 corner columns at the bump walls run up to the main rafter; one stub post sits on the bump rafter above the ceiling.
+[10.3, 36.9].forEach(c=>{ box('anchor', V(95,c,0.05), 1.0,0.1,1.0, "Grid 7 corner column"); member('colAtt', V(95,c,0), V(95,c,S.main.roofZ(c)), 0.5,0.5, "Grid 7 corner column at the bedroom 3 bump (runs to the main rafter)"); });
+member('post', V(95,20.75,S.A.roofZ(20.75)+0.6), V(95,20.75,S.main.roofZ(20.75)), 0.34,0.34, "Grid 7 gable stub post, on the bump rafter above the bedroom 3 ceiling");
+posts(S.A, 103.5, [19.2, 28]);
+posts(S.E, 65,    [9, 18]);
+
+/* Walls: [x1,y1,x2,y2, section, kind, minH]
+   kind 'girt' = on a frame line (girts + base angle); 'infill' = exterior wall inside the steel footprint; minH>0 = gable-only band;
+   cap = wall top (ft) where the wall stops at the ceiling and the attic runs over it (carport and breezeway walls) */
+const WALLS = [
+  [27,0, 95,0, S.main,'girt',0],         // north (front) wall, master bath through office; carport front left open
+  [0,0, 0,41.5, S.main,'girt',EAVE],       // east gable above the open carport
+  [0,32, 0,41.5, S.main,'girt',0],       // east wall of Mom's suite under main roof
+  [95,0, 95,10.3, S.main,'girt',0],
+  [95,36.9, 95,41.5, S.main,'girt',0],
+  [95,0, 95,41.5, S.main,'girt',EAVE],     // west gable
+  [27,0, 27,25.2, S.main,'infill',0,10],    // carport | master bath (to the 10' ceiling; attic continues above)
+  [0,32, 27,32, S.main,'infill',0,10],      // carport | Mom's suite
+  [27,32, 27,41.5, S.main,'infill',0,10],   // breezeway | Mom's suite
+  [27,25.2, 47,25.2, S.main,'infill',0,10], // breezeway | master closets
+  [47,25.2, 47,41.5, S.main,'infill',0,10], // breezeway | kitchen
+  [61,36.9, 95,36.9, S.main,'infill',0,12], // great room | back porch (12' plate; porch gable wall above, soffit over the recess)
+  [61,36.9, 61,41.5, S.main,'infill',0,12], // kitchen | back porch (east end of the porch recess)
+  [95,10.3, 103.5,10.3, S.A,'girt',0],
+  [95,36.9, 103.5,36.9, S.A,'girt',0],
+  [103.5,10.3, 103.5,36.9, S.A,'girt',0],
+  [103.5,10.3, 103.5,36.9, S.A,'girt',EAVE], // bedroom 3 gable above the eave: steel girts
+  [47,41.5, 47,48.4, S.D,'girt',0],
+  [61,41.5, 61,48.4, S.D,'girt',0],
+  [47,48.4, 61,48.4, S.D,'girt',0],
+  [0,41.5, 0,65, S.E,'girt',0],
+  [27,41.5, 27,57.4, S.E,'girt',0],
+  [0,65, 12.4,65, S.E,'girt',0],
+  [0,65, 27,65, S.E,'girt',EAVE],          // suite rear gable
+  [12.4,57.4, 12.4,65, S.E,'infill',0,8],  // suite porch walls (to the 8' porch ceiling; attic continues above)
+  [12.4,57.4, 27,57.4, S.E,'infill',0,8],
+];
+const BRACED = [[27,0,47,0,S.main],[78,0,95,0,S.main],[0,32,0,41.5,S.main],[95,0,95,10.3,S.main],
+                [95,10.3,103.5,10.3,S.A],[0,41.5,0,49,S.E],[47,48.4,61,48.4,S.D]];
+
+/* Openings from the floor plan and door/window schedule. [mark, x, y, wall runs along 'x'|'y', where]
+   Heads set at 8' so most window heads land on the 8' girt. */
+const OT = {
+  "1":{w:3, sill:2, head:8, kind:'window', desc:"Window 1 · 3'-0\" x 6'-0\" vinyl clad insulated"},
+  "2":{w:6, sill:2, head:8, kind:'window', desc:"Window 2 · (2) 3'-0\" x 6'-0\" vinyl clad insulated"},
+  "3":{w:6, sill:2, head:9.5, kind:'window', desc:"Window 3 · (2) 3'-0\" x 6'-0\" with transom"},
+  "4":{w:4, sill:6, head:8, kind:'window', desc:"Window 4 · 4'-0\" x 2'-0\" vinyl clad insulated"},
+  "A":{w:3, sill:0, head:8, kind:'door', desc:"Door A · 3'-0\" x 8'-0\" exterior arched entry"},
+  "B":{w:3, sill:0, head:6.67, kind:'door', desc:"Door B · 3'-0\" x 6'-8\" exterior French"},
+  "C":{w:3, sill:0, head:6.67, kind:'door', desc:"Door C · 3'-0\" x 6'-8\" exterior panel"},
+};
+const OPENINGS = [
+  ["2",5,65,'x',"Mom's suite · bedroom (rear)"], ["1",23,57.4,'x',"Mom's suite · living (porch)"], ["C",16.7,57.4,'x',"Mom's suite · porch door"],
+  ["1",0,55.5,'y',"Mom's suite · office"], ["2",0,37.6,'y',"Mom's suite · bedroom"], ["1",27,52.5,'y',"Mom's suite · living"],
+  ["1",27,45.5,'y',"Mom's suite · living"], ["C",17.6,32,'x',"Mom's suite · kitchen to carport"],
+  ["C",47,39,'y',"Kitchen hall to breezeway"], ["B",64.1,36.9,'x',"Dining to back porch"],
+  ["3",70.6,36.9,'x',"Great room (rear)"], ["3",85.3,36.9,'x',"Great room (rear)"], ["1",92.6,36.9,'x',"Bedroom 3 (rear)"],
+  ["1",100,36.9,'x',"Bedroom 3 (rear)"], ["1",100.6,10.3,'x',"Bath 3"],
+  ["1",33.8,0,'x',"Master bath"], ["1",41.8,0,'x',"Master bedroom"], ["1",52.9,0,'x',"Master bedroom"],
+  ["2",67.5,0,'x',"Bedroom 2"], ["A",78.1,0,'x',"Foyer · front entry"], ["2",89.4,0,'x',"Office"],
+  ["4",27,11.6,'y',"Master shower (carport side)"],
+];
+const OPS = OPENINGS.map(([m,x,y,ax,where])=>({m, x, y, ax, where, ...OT[m]}));
+function opsOn(x1,y1,x2,y2){ // openings lying on this wall segment, as t-intervals
+  const L=Math.hypot(x2-x1,y2-y1), out=[];
+  OPS.forEach(o=>{
+    const t=((o.x-x1)*(x2-x1)+(o.y-y1)*(y2-y1))/(L*L);
+    const px=x1+(x2-x1)*t, py=y1+(y2-y1)*t;
+    if (t<-0.01||t>1.01||Math.hypot(o.x-px,o.y-py)>0.4) return;
+    const hw=(o.w/2+0.3)/L; out.push({o, t0:t-hw, t1:t+hw});
+  });
+  return out;
+}
+function cut(lo,hi,holes){ // subtract holes from [lo,hi]
+  let segs=[[lo,hi]];
+  holes.forEach(({t0,t1})=>{ segs=segs.flatMap(([a,b])=> (t1<=a||t0>=b) ? [[a,b]] : [[a,Math.max(a,t0)],[Math.min(b,t1),b]].filter(([c,d])=>d-c>0.003)); });
+  return segs;
+}
+
+function sameLine(a,b){ return (a[0]===a[2] && b[0]===b[2] && Math.abs(a[0]-b[0])<0.01) || (a[1]===a[3] && b[1]===b[3] && Math.abs(a[1]-b[1])<0.01); }
+const CENTER=[50,30];
+function covered(x,y){ return (Math.abs(x-95)<0.01 && y>10.3 && y<36.9) ? S.A.roofZ(y) : -Infinity; }
+function wall(w){
+  const [x1,y1,x2,y2,s,kind,minH,cap]=w;
+  const stoneOmitted = [
+    [27,0,27,25.2],
+    [0,32,27,32],
+    [27,25.2,47,25.2],
+    [47,25.2,47,41.5],
+  ].some(([a,b,c,d]) =>
+    (Math.hypot(x1-a,y1-b)<0.01 && Math.hypot(x2-c,y2-d)<0.01) ||
+    (Math.hypot(x1-c,y1-d)<0.01 && Math.hypot(x2-a,y2-b)<0.01)
+  );
+  const hasStone = !minH && s!==S.D && !stoneOmitted;
+  const N=32, P=t=>[x1+(x2-x1)*t, y1+(y2-y1)*t], top=t=>{const [x,y]=P(t); return Math.min(s.roofZ(s.across(x,y)), cap||Infinity);};
+  const L=Math.hypot(x2-x1,y2-y1), lbl=s.id+(kind==='infill'?' (infill)':'');
+  // outward normal (away from the house center) for sheathing and panel layers
+  let nx=-(y2-y1)/L, ny=(x2-x1)/L; const mx=(x1+x2)/2, my=(y1+y2)/2;
+  if (nx*(mx-CENTER[0])+ny*(my-CENTER[1])<0){ nx=-nx; ny=-ny; }
+  const Q=(t,z,off)=>{ const [x,y]=P(t); return V(x+nx*off,y+ny*off,z); };
+  if (minH){
+    // gable triangle above the eave: steel girts
+    const maxTop = Math.max(...Array.from({length:N+1},(_,i)=>top(i/N)));
+    for(let h=minH+EAVE/3; h<maxTop-0.7; h+=EAVE/3){
+      // girts only where the gable is exterior (above any attached roof, e.g. the bedroom 3 bump at grid 7)
+      let lo=null;
+      for(let i=0;i<=200;i++){
+        const [x,y]=P(i/200), ok = top(i/200)>=h+0.7 && h>covered(x,y)+0.2;
+        if (ok && lo===null) lo=i/200;
+        if ((!ok || i===200) && lo!==null){ const hi=(ok?i:i-1)/200; if(hi-lo>=0.02) member('girt', Q(lo,h,0), Q(hi,h,0), 0.3, 0.6, s.id+' gable'); lo=null; }
+      }
+    }
+  } else {
+    // wood stud wall: 2x6 DF #2 at 16" o.c., top plate at the eave (or rake where no steel gable sits above)
+    const gableAbove = WALLS.some(o=>o!==w && o[6]>0 && sameLine(o,w));
+    const zTop = t => (gableAbove ? Math.min(top(t), EAVE) : top(t)) - 0.4;
+    const holes = opsOn(x1,y1,x2,y2), sp = 16/12, n = Math.max(1, Math.round(L/sp));
+    for(let i=0;i<=n;i++){
+      const t=i/n, hole=holes.find(h=>t>h.t0 && t<h.t1), zt=zTop(t);
+      if (!hole){ member('stud', Q(t,0.15,0), Q(t,zt,0), 0.13,0.46, lbl); continue; }
+      const o=hole.o;
+      if (zt-(o.head+0.95)>0.3) member('stud', Q(t,o.head+0.95,0), Q(t,zt,0), 0.13,0.46, lbl+' (cripple)');
+      if (o.sill>0.6) member('stud', Q(t,0.15,0), Q(t,o.sill-0.08,0), 0.13,0.46, lbl+' (cripple)');
+    }
+    const doors = holes.filter(h=>h.o.sill<0.1);
+    cut(0,1,doors).forEach(([a,b])=>member('plate', Q(a,0.07,0), Q(b,0.07,0), 0.46,0.13, lbl+' — treated bottom plate'));
+    for(let i=0;i<N;i++){ const t0=i/N,t1=(i+1)/N; member('plate', Q(t0,zTop(t0)+0.2,0), Q(t1,zTop(t1)+0.2,0), 0.46,0.25, lbl+' — double top plate'); }
+  }
+  for(let i=0;i<N;i++){
+    const t0=i/N,t1=(i+1)/N, z0=top(t0), z1=top(t1);
+    const bt = t => minH ? Math.max(minH, covered(...P(t))) : 0, b0=bt(t0), b1=bt(t1);
+    if (z0<=b0 && z1<=b1) continue;
+    poly('osb',[Q(t0,b0,0.35),Q(t1,b1,0.35),Q(t1,Math.max(b1,z1),0.35),Q(t0,Math.max(b0,z0),0.35)]);
+    const pb0 = hasStone ? Math.max(b0, STONE_H) : b0, pb1 = hasStone ? Math.max(b1, STONE_H) : b1;
+    poly('wall',[Q(t0,pb0,0.55),Q(t1,pb1,0.55),Q(t1,Math.max(pb1,z1),0.55),Q(t0,Math.max(pb0,z0),0.55)]);
+  }
+  if (hasStone) stoneWall(w, L, P, nx, ny);
+}
+// Limestone: 4' wainscot on designated outward-facing walls; not on the laundry shed or listed carport/breezeway faces
+function conditioned(x,y){
+  const inB=(b)=>x>b[0]&&x<b[2]&&y>b[1]&&y<b[3];
+  if (inB([0,0,27,32])||inB([27,25.2,47,41.5])||inB([61,36.9,95,41.5])||inB([12.4,57.4,27,65])) return false;
+  return inB([0,0,95,41.5])||inB([0,41.5,27,65])||inB([95,10.3,103.5,36.9])||inB([47,41.5,61,48.4]);
+}
+function stoneWall(w, L, P, nx, ny){
+  const [x1,y1,x2,y2]=w, lbl='Limestone wainscot';
+  const [mx,my]=P(0.5), sg = conditioned(mx+nx*1.5, my+ny*1.5) ? -1 : 1, off = sg*0.78;
+  const Q=(t,z,o)=>{ const [x,y]=P(t); return V(x+nx*o,y+ny*o,z); };
+  const holes = OPS.map(o=>{ const t=((o.x-x1)*(x2-x1)+(o.y-y1)*(y2-y1))/(L*L), px=x1+(x2-x1)*t, py=y1+(y2-y1)*t;
+      return (t<-0.01||t>1.01||Math.hypot(o.x-px,o.y-py)>0.4) ? null : {o, t0:t-o.w/2/L, t1:t+o.w/2/L}; }).filter(Boolean);
+  cut(0,1,holes).forEach(([a,b])=>{
+    member('stone', Q(a,STONE_H/2,off), Q(b,STONE_H/2,off), 0.34, STONE_H, lbl);
+    member('stone', Q(a,STONE_H+0.08,off-sg*0.05), Q(b,STONE_H+0.08,off-sg*0.05), 0.5, 0.17, lbl+' — 2" sawn cap');
+  });
+  holes.filter(h=>h.o.sill>0.1).forEach(h=>{
+    const sl=Math.min(h.o.sill, STONE_H);
+    member('stone', Q(h.t0,sl/2,off), Q(h.t1,sl/2,off), 0.34, sl, lbl+' — below the window');
+    member('stone', Q(h.t0-0.1/L,sl+0.08,off-sg*0.05), Q(h.t1+0.1/L,sl+0.08,off-sg*0.05), 0.5, 0.17, lbl+' — 2" sawn window sill');
+  });
+}
+WALLS.forEach(wall);
+// stone piers at the front, back and suite porch posts (30" square, 4' high, capped)
+[[61,-12],[95,-12],[61,53],[95,53],[27,65]].forEach(([x,y])=>{
+  box('stone', V(x,y,STONE_H/2), 2.5, STONE_H, 2.5, "Stone pier, 30\" sq x 4'-0\", wrapping the porch post");
+  box('stone', V(x,y,STONE_H+0.08), 2.8, 0.17, 2.8, "Stone pier — 2\" sawn cap");
+});
+// Suite porch: 8' ceiling like the suite; a framed band from the porch ceiling up to the eave / gable closes the attic on the open sides
+[[27,57.4,27,65,"Suite porch band wall (east, ceiling to eave)"],[12.4,65,27,65,"Suite porch band wall (rear, ceiling to gable)"]].forEach(([x1,y1,x2,y2,lbl])=>{
+  const L=Math.hypot(x2-x1,y2-y1), n=Math.max(1,Math.round(L/(16/12))), P=t=>[x1+(x2-x1)*t, y1+(y2-y1)*t];
+  for(let i=0;i<=n;i++){ const [x,y]=P(i/n); member('stud', V(x,y,8.15), V(x,y,EAVE-0.4), 0.13,0.46, lbl); }
+  member('plate', V(x1,y1,8.07), V(x2,y2,8.07), 0.46,0.13, lbl+' — bottom plate on the porch ceiling beam');
+  member('plate', V(x1,y1,EAVE-0.2), V(x2,y2,EAVE-0.2), 0.46,0.25, lbl+' — double top plate');
+  const ox = x1===x2 ? 0.35 : 0, oy = y1===y2 ? 0.35 : 0;
+  poly('osb',[V(x1+ox,y1+oy,8),V(x2+ox,y2+oy,8),V(x2+ox,y2+oy,EAVE),V(x1+ox,y1+oy,EAVE)]);
+  poly('wall',[V(x1+ox*1.6,y1+oy*1.6,8),V(x2+ox*1.6,y2+oy*1.6,8),V(x2+ox*1.6,y2+oy*1.6,EAVE),V(x1+ox*1.6,y1+oy*1.6,EAVE)]);
+});
+// window and door framing (wood): king+jack studs each side, 2-ply 2x12 header, 2x6 sill
+OPS.forEach(o=>{
+  const hw=o.w/2;
+  const E1 = o.ax==='x' ? [o.x-hw,o.y] : [o.x,o.y-hw], E2 = o.ax==='x' ? [o.x+hw,o.y] : [o.x,o.y+hw];
+  const lbl = o.where;
+  [E1,E2].forEach(([x,y])=>member('jamb', V(x,y,0.15), V(x,y,EAVE-0.4), 0.27,0.46,lbl+' — king + jack'));
+  member('wheader', V(E1[0],E1[1],o.head+0.47), V(E2[0],E2[1],o.head+0.47), 0.27,0.94,lbl+' — header');
+  if (o.sill>0) member('jamb', V(E1[0],E1[1],o.sill), V(E2[0],E2[1],o.sill), 0.46,0.13,lbl+' — sill');
+  // the unit itself
+  const g=new THREE.Mesh(new THREE.BoxGeometry(o.ax==='x'?o.w-0.2:0.25, o.head-o.sill-0.1, o.ax==='x'?0.25:o.w-0.2), mats[o.kind]);
+  g.position.copy(V(o.x,o.y,(o.sill+o.head)/2)); g.userData={type:o.kind, len:0, section:lbl, desc:o.desc, mark:o.m};
+  groups[o.kind].add(g); pickables.push(g); counts[o.kind].n++;
+});
+// Open porch gables: the great room vault rises into the back porch gable; the front porch gable is attic space over the foyer, office and bedroom 2. The gable at the house wall is a framed wood wall (no glass)
+const porchZ = x => EAVE + (17-Math.abs(x-78))*7/12;
+[[0,"Front porch gable wall (attic over foyer / office / bedroom 2)"],[36.9,"Rear porch gable wall (great room)"]].forEach(([y,lbl])=>{
+  for(let x=61+16/12; x<95-0.3; x+=16/12){ const zt=porchZ(x)-0.5; if (zt-EAVE>0.6) member('stud', V(x,y,EAVE+0.25), V(x,y,zt), 0.13,0.46, lbl); }
+  member('plate', V(61,y,EAVE+0.15), V(95,y,EAVE+0.15), 0.46,0.13, lbl+' — bottom plate');
+  member('plate', V(61,y,EAVE+0.2), V(78,y,porchZ(78)-0.35), 0.46,0.25, lbl+' — rake plate');
+  member('plate', V(95,y,EAVE+0.2), V(78,y,porchZ(78)-0.35), 0.46,0.25, lbl+' — rake plate');
+  const g=new THREE.BufferGeometry(), v=[]; [V(61,y,EAVE),V(95,y,EAVE),V(78,y,porchZ(78)-0.3)].forEach(q=>v.push(q.x,q.y,q.z));
+  g.setAttribute('position', new THREE.Float32BufferAttribute(v,3)); g.computeVertexNormals(); groups.osb.add(new THREE.Mesh(g, mats.osb));
+});
+// Interior partitions (traced from the Quality First floor plan): 2x4 at 16" o.c., non-bearing.
+// 10'-0" walls in the main house and 8'-0" walls in Mom's suite. Door rough openings sized for 36" doors (wheelchair).
+const INT = {"walls": [{"o": "h", "v": 6.498, "a": 27.5, "b": 31.002, "h": 10.0}, {"o": "h", "v": 7.497, "a": 54.755, "b": 61.0, "h": 10.0}, {"o": "h", "v": 7.622, "a": 61.0, "b": 61.501, "h": 10.0}, {"o": "h", "v": 13.831, "a": 94.5, "b": 95.001, "h": 10.0}, {"o": "h", "v": 14.0, "a": 61.501, "b": 62.002, "h": 12.0}, {"o": "h", "v": 14.0, "a": 65.003, "b": 74.499, "h": 12.0}, {"o": "h", "v": 14.0, "a": 81.502, "b": 90.002, "h": 12.0}, {"o": "h", "v": 14.0, "a": 95.001, "b": 96.749, "h": 10.0}, {"o": "h", "v": 14.995, "a": 27.5, "b": 31.503, "h": 10.0}, {"o": "h", "v": 18.498, "a": 38.75, "b": 47.0, "h": 10.0}, {"o": "h", "v": 18.498, "a": 47.501, "b": 50.752, "h": 10.0}, {"o": "h", "v": 18.498, "a": 53.753, "b": 54.254, "h": 10.0}, {"o": "h", "v": 18.498, "a": 54.755, "b": 61.0, "h": 10.0}, {"o": "h", "v": 19.499, "a": 99.749, "b": 103.0, "h": 10.0}, {"o": "h", "v": 22.995, "a": 94.5, "b": 99.248, "h": 10.0}, {"o": "h", "v": 36.746, "a": 47.501, "b": 49.75, "h": 10.0}, {"o": "h", "v": 36.746, "a": 55.25, "b": 60.505, "h": 10.0}, {"o": "h", "v": 38.249, "a": 12.504, "b": 15.004, "h": 8.0}, {"o": "h", "v": 41.251, "a": 47.501, "b": 51.755, "h": 10.0}, {"o": "h", "v": 43.499, "a": 0.502, "b": 2.256, "h": 8.0}, {"o": "h", "v": 43.499, "a": 4.921, "b": 6.253, "h": 8.0}, {"o": "h", "v": 43.499, "a": 6.754, "b": 9.088, "h": 8.0}, {"o": "v", "v": 6.503, "a": 43.75, "b": 50.002, "h": 8.0}, {"o": "v", "v": 12.128, "a": 43.249, "b": 43.75, "h": 8.0}, {"o": "v", "v": 12.253, "a": 32.499, "b": 37.999, "h": 8.0}, {"o": "v", "v": 12.253, "a": 38.5, "b": 40.334, "h": 8.0}, {"o": "v", "v": 15.255, "a": 38.5, "b": 39.997, "h": 8.0}, {"o": "v", "v": 30.752, "a": 0.499, "b": 3.328, "h": 10.0}, {"o": "v", "v": 34.504, "a": 14.745, "b": 15.998, "h": 10.0}, {"o": "v", "v": 34.504, "a": 16.499, "b": 24.499, "h": 10.0}, {"o": "v", "v": 34.629, "a": 15.998, "b": 16.499, "h": 10.0}, {"o": "v", "v": 38.377, "a": 15.998, "b": 16.499, "h": 10.0}, {"o": "v", "v": 38.503, "a": 0.499, "b": 11.75, "h": 10.0}, {"o": "v", "v": 38.503, "a": 14.745, "b": 15.998, "h": 10.0}, {"o": "v", "v": 38.503, "a": 16.499, "b": 18.247, "h": 10.0}, {"o": "v", "v": 47.251, "a": 18.748, "b": 24.499, "h": 10.0}, {"o": "v", "v": 54.505, "a": 0.499, "b": 7.246, "h": 10.0}, {"o": "v", "v": 54.505, "a": 7.747, "b": 18.247, "h": 10.0}, {"o": "v", "v": 55.002, "a": 36.997, "b": 37.999, "h": 10.0}, {"o": "v", "v": 55.002, "a": 41.0, "b": 47.997, "h": 10.0}, {"o": "v", "v": 61.251, "a": 0.499, "b": 4.581, "h": 10.0}, {"o": "v", "v": 61.251, "a": 10.999, "b": 13.749, "h": 10.0}, {"o": "v", "v": 61.251, "a": 14.25, "b": 18.247, "h": 12.0}, {"o": "v", "v": 74.749, "a": 0.499, "b": 3.5, "h": 10.0}, {"o": "v", "v": 74.749, "a": 3.994, "b": 13.749, "h": 10.0}, {"o": "v", "v": 81.251, "a": 0.499, "b": 3.5, "h": 10.0}, {"o": "v", "v": 81.251, "a": 3.994, "b": 13.749, "h": 10.0}, {"o": "v", "v": 90.253, "a": 14.25, "b": 15.747, "h": 12.0}, {"o": "v", "v": 90.253, "a": 18.748, "b": 22.744, "h": 12.0}, {"o": "v", "v": 90.253, "a": 23.246, "b": 36.495, "h": 12.0}, {"o": "v", "v": 90.378, "a": 22.744, "b": 23.246, "h": 12.0}, {"o": "v", "v": 94.249, "a": 14.25, "b": 15.912, "h": 10.0}, {"o": "v", "v": 94.249, "a": 18.583, "b": 22.744, "h": 10.0}, {"o": "v", "v": 96.999, "a": 10.497, "b": 13.749, "h": 10.0}, {"o": "v", "v": 99.499, "a": 19.75, "b": 22.744, "h": 10.0}, {"o": "v", "v": 12.25, "a": 43.0, "b": 57.4, "h": 8.0}, {"o": "h", "v": 52.8, "a": 0.4, "b": 12.25, "h": 8.0}, {"o": "v", "v": 47.0, "a": 18.5, "b": 25.2, "h": 10.0}], "doors": [{"o": "h", "v": 13.831, "a": 61.946, "b": 65.112}, {"o": "h", "v": 22.995, "a": 90.696, "b": 93.863}, {"o": "h", "v": 13.831, "a": 90.637, "b": 93.803}, {"o": "v", "v": 94.249, "a": 10.523, "b": 13.69}, {"o": "v", "v": 94.249, "a": 15.641, "b": 18.808}, {"o": "h", "v": 22.995, "a": 99.808, "b": 102.974}, {"o": "h", "v": 18.498, "a": 50.639, "b": 53.806}, {"o": "h", "v": 16.44, "a": 34.948, "b": 38.115}, {"o": "v", "v": 61.251, "a": 7.944, "b": 11.111}, {"o": "v", "v": 12.128, "a": 53.276, "b": 56.443}, {"o": "v", "v": 15.255, "a": 35.24889418620051, "b": 37.698993510793265}, {"o": "v", "v": 15.255, "a": 32.79879486160773, "b": 35.25548933916037}, {"o": "h", "v": 43.499, "a": 2.027, "b": 5.193}, {"o": "h", "v": 43.499, "a": 8.811, "b": 11.977}, {"o": "v", "v": 12.128, "a": 40.06, "b": 43.226}]};
+INT.walls.forEach(w=>{ if (w.h===12) w.h=10; });
+INT.walls.forEach(w=>{
+  const P2 = t => w.o==='h' ? [w.a+(w.b-w.a)*t, w.v] : [w.v, w.a+(w.b-w.a)*t];
+  const L = w.b-w.a, top = w.h - 0.375, lbl = `Interior partition, ${w.h}'-0" wall`;
+  const ds = INT.doors.filter(d=>d.o===w.o && Math.abs(d.v-w.v)<0.6 && d.b>w.a && d.a<w.b);
+  const holes = ds.map(d=>[(Math.max(d.a,w.a)-w.a)/L, (Math.min(d.b,w.b)-w.a)/L]);
+  const n = Math.max(1, Math.round(L/(16/12)));
+  for(let i=0;i<=n;i++){
+    const t=i/n, [x,y]=P2(t), h=holes.find(([a,b])=>t>a-0.002 && t<b+0.002);
+    if(!h) member('istud', V(x,y,0.15), V(x,y,top), 0.29,0.125, lbl);
+    else if (top-7.1>0.3) member('istud', V(x,y,7.1), V(x,y,top), 0.29,0.125, lbl+' (cripple over door)');
+  }
+  let segs=[[0,1]]; holes.forEach(([a,b])=>{ segs=segs.flatMap(([p,q])=> (b<=p||a>=q)?[[p,q]]:[[p,Math.max(p,a)],[Math.min(q,b),q]].filter(([c,d])=>d-c>0.003)); });
+  segs.forEach(([p,q])=>{ const [x1,y1]=P2(p),[x2,y2]=P2(q); member('iplate', V(x1,y1,0.07), V(x2,y2,0.07), 0.29,0.125, lbl+' — treated bottom plate'); });
+  const [xa,ya]=P2(0),[xb,yb]=P2(1);
+  member('iplate', V(xa,ya,top+0.13), V(xb,yb,top+0.13), 0.29,0.25, lbl+' — double top plate');
+});
+INT.doors.forEach(d=>{
+  const E1 = d.o==='h' ? [d.a,d.v] : [d.v,d.a], E2 = d.o==='h' ? [d.b,d.v] : [d.v,d.b];
+  const host = INT.walls.find(w=>w.o===d.o && Math.abs(w.v-d.v)<0.6 && Math.min(w.b,d.b)-Math.max(w.a,d.a)>-0.5);
+  const top = (host ? host.h : 10) - 0.375;
+  const lbl = (d.b-d.a) > 3.0 ? `Interior door rough opening 3'-2" (36" door)` : `Closet bifold opening (pair)`;
+  [E1,E2].forEach(([x,y])=>member('iframe', V(x,y,0.15), V(x,y,top), 0.29,0.25, lbl+' — king + jack'));
+  member('iframe', V(E1[0],E1[1],7.0), V(E2[0],E2[1],7.0), 0.29,0.29, lbl+' — flat 2x4 header');
+});
+// Stand-alone vaulted ceilings (wall height rising to a ridge, independent of the roof above); stained ridge, edge and two cross beams hang tight under each
+const SBEAM = {w:8/12, d:10/12, gap:0.05};
+const vaultAt = (v,x) => v.wall + (v.ridge-v.wall)*Math.max(0, 1-Math.abs(x-v.xr)/(x<v.xr ? v.xr-v.x0 : v.x1-v.xr));
+function buildVault(v){
+  const {x0,xr,x1,y0,y1,wall,ridge,bx0,bx1,by0,by1}=v, lbl=v.name+" stained ";
+  poly('ceiling',[V(x0,y0,wall),V(xr,y0,ridge),V(xr,y1,ridge),V(x0,y1,wall)]);
+  poly('ceiling',[V(xr,y0,ridge),V(x1,y0,wall),V(x1,y1,wall),V(xr,y1,ridge)]);
+  const at = ([x,y]) => V(x, y, vaultAt(v,x) - SBEAM.gap - SBEAM.d/2);
+  const beam = (pts,l) => { for(let i=0;i<pts.length-1;i++) member('sbeam', at(pts[i]), at(pts[i+1]), SBEAM.w, SBEAM.d, l); };
+  beam([[xr,by0],[xr,by1]], lbl+"ridge beam");
+  beam([[bx0,by0],[bx0,by1]], lbl+"edge beam");
+  [by0+(by1-by0)/3, by0+2*(by1-by0)/3].forEach((y,i)=> beam([[bx0,y],[xr,y],[bx1,y]], lbl+"cross beam "+(i+1)));
+}
+const VAULT  = {name:"Great room", x0:65.75, xr:78, x1:90.25, y0:14.25, y1:36.65, bx0:65.75, bx1:90.0, by0:14.25, by1:36.65, wall:10, ridge:18};
+const MVAULT = {name:"Master bedroom", x0:38.5, xr:47, x1:54.5, y0:0, y1:18.5, bx0:38.8, bx1:54.2, by0:0.35, by1:18.25, wall:10, ridge:12};
+const vaultZ = x => vaultAt(VAULT,x);
+buildVault(VAULT); buildVault(MVAULT);
+// Ridge beam is in the same vertical plane as the Grid 6 rafter (x=78'): hung from it at the front end, seated on it over the Grid 6/B column at the rear end
+{ const {xr,y0,y1}=VAULT, bw=SBEAM.w/2, zb=vaultZ(xr)-SBEAM.gap-SBEAM.d, rz=y=>S.main.roofZ(y);
+  const yh=y0+0.35, yr=y1-0.35, L1="Beam hanger on Grid 6 rafter (front end of ridge beam)", L2="Beam seat on Grid 6 rafter over the column (rear end of ridge beam)";
+  member('sconn', V(xr,yh-0.35,rz(yh-0.35)-0.03), V(xr,yh+0.35,rz(yh+0.35)-0.03), 0.8,0.06, L1);
+  [-1,1].forEach(s=>box('sconn', V(xr+s*(bw+0.03),yh,(rz(yh)+zb)/2), 0.06, rz(yh)-zb, 0.6, L1));
+  member('sconn', V(xr,yh-0.35,zb-0.03), V(xr,yh+0.35,zb-0.03), 0.8,0.06, L1);
+  member('sconn', V(xr,yr-0.4,rz(yr-0.4)+1.03), V(xr,yr+0.4,rz(yr+0.4)+1.03), 0.5,0.06, L2);
+  member('sconn', V(xr,yr,rz(yr)+1.06), V(xr,yr,zb-0.06), 0.34,0.34, L2);
+  member('sconn', V(xr,yr-0.4,zb-0.03), V(xr,yr+0.4,zb-0.03), 0.8,0.06, L2);
+}
+// Master ridge beam (x=47', on the Grid 4 frame): front end seated on the Grid 4/A column with a bolt plate and a seat plate; rear end bears on the south wall
+{ const {xr}=MVAULT, zb=vaultAt(MVAULT,xr)-SBEAM.gap-SBEAM.d, L="Beam seat on Grid 4/A column (front end of master bedroom ridge beam)";
+  box('sconn', V(xr,0.28,zb+0.33), 0.8, 1.2, 0.06, L);
+  box('sconn', V(xr,0.7,zb-0.03), 0.8, 0.06, 0.9, L);
+}
+const walkSegments = [];
+WALLS.forEach(w=>{
+  const [x1,y1,x2,y2,,,minH]=w;
+  if(minH) return;
+  const length=Math.hypot(x2-x1,y2-y1), pointAt=t=>[x1+(x2-x1)*t,y1+(y2-y1)*t];
+  const doors=opsOn(x1,y1,x2,y2).filter(h=>h.o.kind==='door');
+  cut(0,1,doors).forEach(([a,b])=>walkSegments.push([...pointAt(a),...pointAt(b)]));
+});
+INT.walls.forEach(w=>{
+  const length=w.b-w.a, pointAt=t=>w.o==='h'?[w.a+length*t,w.v]:[w.v,w.a+length*t];
+  const doors=INT.doors.filter(d=>d.o===w.o && Math.abs(d.v-w.v)<0.6 && d.b>w.a && d.a<w.b)
+    .map(d=>({t0:Math.max(0,(Math.max(d.a,w.a)-w.a-0.35)/length),t1:Math.min(1,(Math.min(d.b,w.b)-w.a+0.35)/length)}));
+  cut(0,1,doors).forEach(([a,b])=>walkSegments.push([...pointAt(a),...pointAt(b)]));
+});
+const WALK_RADIUS=0.42;
+function walkBlocked(x,z){
+  const y=-z;
+  return walkSegments.some(([x1,y1,x2,y2])=>{
+    const dx=x2-x1, dy=y2-y1, den=dx*dx+dy*dy;
+    const t=den ? Math.max(0,Math.min(1,((x-x1)*dx+(y-y1)*dy)/den)) : 0;
+    return Math.hypot(x-(x1+t*dx),y-(y1+t*dy))<WALK_RADIUS;
+  });
+}
+// 10' ceilings and the attic space above them (study for a gym / bonus rooms). Great room and master bedroom have their own stand-alone vaults.
+const ATTIC = {"ceil": [[0.0, 0.0, 38.5, 18.5], [0.0, 18.5, 61.0, 32.0], [27.0, 32.0, 61.0, 41.5], [47.0, 41.5, 61.0, 48.5], [54.5, 14.0, 61.0, 18.5], [54.5, 0.0, 95.0, 10.5], [54.5, 10.5, 103.5, 14.0], [90.5, 14.0, 103.5, 37.0]], "mech": [[90.5, 14.0, 95.0, 19.0], [90.5, 28.5, 95.0, 33.0], [90.5, 19.0, 103.5, 28.5]], "master": [[38.5, 0, 54.5, 18.5]], "a8": [[0.0, 14.0, 61.0, 28.0], [0.0, 13.5, 95.0, 14.0], [74.5, 0.0, 81.5, 13.5]], "a7": [[0.0, 28.0, 61.0, 29.5], [0.0, 12.0, 74.5, 13.5], [73.0, 0.0, 74.5, 12.0], [81.5, 0.0, 83.0, 12.0], [81.5, 12.0, 95.0, 13.5]], "a5": [[0.0, 29.5, 61.0, 32.0], [0.0, 8.5, 73.0, 12.0], [27.0, 32.0, 61.0, 33.0], [69.5, 0.0, 73.0, 8.5], [83.0, 0.0, 86.5, 8.5], [83.0, 8.5, 95.0, 12.0]], "ceilS": [[0.0, 32.0, 27.0, 65.0]], "sm8": [], "sm7": [], "sm5": [[0.0, 32.0, 27.0, 33.0]], "sw8": [[10.5, 41.5, 16.5, 65.0]], "sw7": [[8.5, 41.5, 10.5, 65.0], [16.5, 41.5, 18.5, 65.0]], "sw5": [[5.0, 41.5, 8.5, 65.0], [18.5, 41.5, 22.0, 65.0]]};
+function slabRect(type, [x0,y0,x1,y1], z, t){
+  const g=new THREE.Mesh(new THREE.BoxGeometry(x1-x0, t, y1-y0), mats[type]);
+  g.position.copy(V((x0+x1)/2,(y0+y1)/2,z)); g.userData={type, len:0, section: type==='ceiling' ? "10' ceiling" : (type==='mech' ? (y0 > 41 ? "Mom's suite mechanical attic" : 'Mechanical attic over bedroom 3 and bath 3') : 'Attic space')};
+  groups[type].add(g); pickables.push(g); counts[type].n++;
+}
+ATTIC.ceil.forEach(r=>slabRect('ceiling', r, 10.0, 0.05));
+ATTIC.a8.forEach(r=>slabRect('attic8', r, 11.0, 0.08));
+ATTIC.a7.forEach(r=>slabRect('attic7', r, 11.0, 0.08));
+ATTIC.a8.forEach(r=>slabRect('attceil', r, 19.0, 0.05));   // 8' flat ceiling where it fits
+ATTIC.a7.forEach(r=>slabRect('attceil', r, 18.0, 0.05));   // 7' flat ceiling in the next band out
+ATTIC.a5.forEach(r=>slabRect('attic5', r, 11.0, 0.08));
+// Mom's suite: 8' ceilings. Under the suite roof the attic floor is at 9' (ceilings 17' / 16'); under the main roof it stays at 11'.
+// Master bedroom vault (10' at the east and west walls rising to 12' at the ridge) is built with the great room vault in buildVault()
+// Mechanical attic over bedroom 3 and bath 3: A/C air handler and water heater on a platform at ~11'
+ATTIC.mech.forEach(r=>slabRect('mech', r, 11.0, 0.08));
+box('mech', V(92.5,18.5,12.1), 2.0, 2.0, 5.0, "A/C air handler (horizontal) with secondary drain pan and float switch, on the attic platform");
+box('mech', V(92.5,25.0,13.6), 2.0, 5.0, 2.0, "Water heater (50 gal, heat-pump or electric) in a drain pan piped to daylight");
+ATTIC.ceilS.forEach(r=>slabRect('ceiling', r, 8.0, 0.05));
+// Mom's suite attic (floor ~9'): her own A/C air handler and water heater
+[...ATTIC.sw8, ...ATTIC.sw7, ...ATTIC.sw5].forEach(r=>slabRect('mech', r, 9.0, 0.08));
+box('mech', V(13.5,46.0,10.1), 2.0, 2.0, 5.0, "Mom's suite A/C air handler (horizontal) with secondary drain pan and float switch, on the suite attic platform");
+box('mech', V(13.5,52.0,11.6), 2.0, 5.0, 2.0, "Mom's suite water heater (heat-pump or electric) in a drain pan piped to daylight");
+ATTIC.sm8.forEach(r=>{ slabRect('attic8', r, 11.0, 0.08); slabRect('attceil', r, 19.0, 0.05); });
+ATTIC.sm7.forEach(r=>{ slabRect('attic7', r, 11.0, 0.08); slabRect('attceil', r, 18.0, 0.05); });
+ATTIC.sm5.forEach(r=>slabRect('attic5', r, 11.0, 0.08));
+// QC fixes: mid-bay wind posts (girt spans <= ~10'-5", shifted clear of openings) and north-wall portal frames
+[[37,0,"North wall 27'–47'"],[55.1,0,"North wall 47'–61'"],[71.25,0,"North wall 61'–78'"],[85.7,0,"North wall 78'–95'"],
+ [0,57.7,"Mom's suite west wall"],[27,57.4,"Mom's suite porch corner"],[55,48.4,"Laundry/pantry rear wall"],
+ [66.6,36.9,"Great room rear wall"],[75,36.9,"Great room rear wall"],[81.5,36.9,"Great room rear wall"],[90.25,36.9,"Great room rear wall"]].forEach(([x,y,lbl])=>{
+  box('anchor', V(x,y,0.05), 0.9,0.1,0.9, lbl);
+  member('wpost', V(x,y,0), V(x,y,EAVE), 0.34,0.34, lbl);
+});
+[[47,61,0],[78,95,0],[47,61,41.5]].forEach(([a,b,yy])=>{
+  member('portal', V(a,yy,EAVE-2), V(b,yy,EAVE-2), 0.5,1.05, yy ? `Portal frame PF-2 ${a}'–${b}' (grid B, kitchen-to-laundry opening)` : `Portal frame ${a}'–${b}' (north wall)`);
+});
+const blocked=[];
+setTimeout(()=>{ const nW=OPS.filter(o=>o.kind==='window').length, nD=OPS.filter(o=>o.kind==='door').length;
+  document.getElementById('op-note').innerHTML = `<b>${nW} windows, ${nD} exterior doors</b> placed from the floor plan schedule, all framed in wood: 2x6 king and jack studs each side, a 2-ply 2x12 header, and a 2x6 sill under windows. Windows and doors are owner-supplied, DP-50. `
+   + `<b>Lateral bracing:</b> two portal frames on the north wall and one in the grid B laundry bay (purple), and 7/8" rod X-bracing in the laundry rear wall, grid 7 north bay, suite east bay and roof bays.`; },0);
+BRACED.filter(b=>{ if(opsOn(b[0],b[1],b[2],b[3]).length){ blocked.push(b); return false;} return true; }).forEach(([x1,y1,x2,y2,s])=>{
+  const z1=s.roofZ(s.across(x1,y1))-0.3, z2=s.roofZ(s.across(x2,y2))-0.3, e=Math.min(z1,z2,EAVE)-0.3;
+  member('brace', V(x1,y1,0.3), V(x2,y2,e), 0.12,0.12,s.id); member('brace', V(x2,y2,0.3), V(x1,y1,e), 0.12,0.12,s.id);
+});
+
+// Slab zones (lighter = heated, darker = carport, breezeway, porches)
+const heated = new THREE.MeshLambertMaterial({color:0xD6D3CB}), open = new THREE.MeshLambertMaterial({color:0xA7ABA6});
+function slab(x0,y0,x1,y1,m,lift){ const g=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,0.4,y1-y0), m); g.position.copy(V((x0+x1)/2,(y0+y1)/2,-0.2+(lift||0))); scene.add(g); }
+slab(0,0,95,41.5,heated); slab(95,10.3,103.5,36.9,heated); slab(47,41.5,61,48.4,heated); slab(0,41.5,27,65,heated);
+slab(0.2,0.2,26.8,31.8,open,0.02); slab(27.2,25.4,46.8,41.3,open,0.02); slab(61,36.9,95,41.5,open,0.02);
+slab(61,-12,95,0,open); slab(61,41.5,95,53,open); slab(12.4,57.4,27,65,open,0.02);
+const drive = new THREE.Mesh(new THREE.BoxGeometry(27,0.12,22), new THREE.MeshLambertMaterial({color:0x9B9686}));
+drive.position.copy(V(13.5,-11,-0.36)); scene.add(drive);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000,4000), new THREE.MeshLambertMaterial({color:0x8FA37E}));
+ground.rotation.x=-Math.PI/2; ground.position.set(570,-0.41,-540); scene.add(ground);
+const grid = new THREE.GridHelper(260, 26, 0x6f7f66, 0x7d8f72); grid.position.copy(V(50,25,-0.39)); scene.add(grid);
+const gridFar = new THREE.GridHelper(1000, 20, 0x6f7f66, 0x7d8f72); gridFar.position.copy(V(50,25,-0.40)); scene.add(gridFar);
+
+// Site items (plan feet, same x/y as the house). Septic layout is read from the K&B Tech OSSF site plan (08-14-26), good to about 5 ft.
+const site = new THREE.Group(); scene.add(site);
+const POLE = [-11,-52];                       // from the owner's aerial markup: 11' east of the carport corner, 52' north of the front wall; confirm on site
+const TANK = {x:116, y:33, w:6, d:26};        // Pro-Flo 800 PTSL + 1,000 gal pump tank symbol, about 26' N-S
+const SPRAY = [[135,101],[149,175],[167,253]], SPRAY_R = 36;
+const HOUSE_OUT = [103.5,32];                 // building sewer leaves the house at the bump
+const woodM = new THREE.MeshLambertMaterial({color:0x6B5239}), greyM = new THREE.MeshLambertMaterial({color:0x9AA0A3});
+const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.55,38,14), woodM); pole.position.copy(V(POLE[0],POLE[1],18.6)); site.add(pole);
+const arm = new THREE.Mesh(new THREE.BoxGeometry(8,0.35,0.35), woodM); arm.position.copy(V(POLE[0],POLE[1],34)); site.add(arm);
+[-3.2,0,3.2].forEach(dx=>{ const ins = new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.2,0.7,8), new THREE.MeshLambertMaterial({color:0xD8D4C8})); ins.position.copy(V(POLE[0]+dx,POLE[1],34.5)); site.add(ins); });
+const xfmr = new THREE.Mesh(new THREE.CylinderGeometry(0.95,0.95,2.4,16), greyM); xfmr.position.copy(V(POLE[0]+1.5,POLE[1],29.5)); site.add(xfmr);
+const concM = new THREE.MeshLambertMaterial({color:0xB9B5AA}), lidM = new THREE.MeshLambertMaterial({color:0x2F6B3A});
+const tankBox = new THREE.Mesh(new THREE.BoxGeometry(TANK.w,0.5,TANK.d), concM); tankBox.position.copy(V(TANK.x,TANK.y,-0.15)); site.add(tankBox);
+[-9,0,9].forEach(dy=>{ const lid = new THREE.Mesh(new THREE.CylinderGeometry(1.1,1.1,0.4,20), lidM); lid.position.copy(V(TANK.x,TANK.y+dy,0.3)); site.add(lid); });
+function laySeg(a,b,m,w){ const dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy); const g=new THREE.Mesh(new THREE.BoxGeometry(L,0.12,w), m); g.position.copy(V((a[0]+b[0])/2,(a[1]+b[1])/2,-0.27)); g.rotation.y=Math.atan2(dy,dx); site.add(g); }
+const sewerM = new THREE.MeshLambertMaterial({color:0x7A5A3A}), sprayLineM = new THREE.MeshLambertMaterial({color:0x2F7D3A});
+laySeg(HOUSE_OUT,[TANK.x-TANK.w/2,HOUSE_OUT[1]],sewerM,0.5);
+let prev=[TANK.x,TANK.y+TANK.d/2]; SPRAY.forEach(c=>{ laySeg(prev,c,sprayLineM,0.4); prev=c; });
+SPRAY.forEach(([x,y])=>{
+  const disc = new THREE.Mesh(new THREE.CircleGeometry(SPRAY_R,72), new THREE.MeshBasicMaterial({color:0x6FBF73,transparent:true,opacity:0.42,depthWrite:false})); disc.rotation.x=-Math.PI/2; disc.position.copy(V(x,y,-0.3)); site.add(disc);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(SPRAY_R-0.35,SPRAY_R,96), new THREE.MeshBasicMaterial({color:0x2F7D3A,side:THREE.DoubleSide})); ring.rotation.x=-Math.PI/2; ring.position.copy(V(x,y,-0.28)); site.add(ring);
+  const head = new THREE.Mesh(new THREE.CylinderGeometry(0.25,0.25,1,10), new THREE.MeshLambertMaterial({color:0xE0702A})); head.position.copy(V(x,y,0.1)); site.add(head);
+});
+// ---- Property lines, and what depends on them (road, driveway, pond).
+// Plat 23051-3 (H.E. McAdams & Son, surveyed 22 Sep 2023, replat Aug 2025), 13.86 ac. Corners are rebuilt from the plat bearings and distances
+// (misclosure 0.1 ft) from the found iron rod N 10,282,489.20 / E 3,821,736.89 (NAD83 Texas Central, ftUS), then fixed to the model with the owner's
+// GPS pin for the house center (30.788126, -95.473387) = plan (52, 26), house axes on grid north. Good to the pin's accuracy (tens of feet); a stake-out governs.
+const PROP0 = {A:[216.94,-147.68], B:[-51.42,-158.05], C:[523.03,1145.85], D:[308.22,1161.4], E:[383.83,1236.14], F:[1138.76,1181.51]};
+const PEDGES = [['A','B',"N 87°47'10\"E",268.56,'Percy Howard Rd frontage'],['B','C',"S 23°46'36\"W",1424.84,'East line'],['C','D',"S 85°51'40\"E",215.37,''],
+  ['D','E',"S 45°19'51\"W",106.31,'Hwy 19 line'],['E','F',"N 85°51'40\"W",756.9,'South line'],['F','A',"N 34°44'43\"E",1617.57,'West line']];
+const PCORNER = {A:'Corner A · NW, on the road',B:'Corner B · NE, on the road',C:'Corner C',D:'Corner D',E:'Corner E · found iron rod',F:'Corner F · SW'};
+const POND = {x:394.4, y:361, rx:98, ry:67};  // GPS pin 30.787247, -95.474523; about 0.5 acre, size from the owner's aerial
+const ANCH = { pin:[0,0], kb:[-88.03,7.86] };  // kb: carport end 59' from the east line (K&B, C-101) and the owner's 144.2' road measure
+const SETBACK = 10, HOUSE_PTS = [[0,0],[95,0],[103.5,10.3],[103.5,36.9],[61,-12],[95,-12],[95,53],[61,53],[47,48.4],[61,48.4],[27,65],[0,65]];
+let anchor = 'pin', shift = [0,0], propOn = true;
+const roadMat = new THREE.MeshLambertMaterial({color:0xB9AE97}), dwyMat = new THREE.MeshLambertMaterial({color:0xA39D8D});
+const redM = new THREE.MeshBasicMaterial({color:0xC62828}), postM = new THREE.MeshLambertMaterial({color:0xE0902A});
+const curtM = new THREE.MeshBasicMaterial({color:0xC62828,transparent:true,opacity:0.16,side:THREE.DoubleSide,depthWrite:false});
+const fillM = new THREE.MeshBasicMaterial({color:0xBFD39B,transparent:true,opacity:0.35,side:THREE.DoubleSide,depthWrite:false});
+const propG = new THREE.Group(); scene.add(propG);
+const roadG = new THREE.Group(); site.add(roadG);
+const pondG = new THREE.Group(); site.add(pondG);
+const gridProp = new THREE.GridHelper(3000, 30, 0x6f7f66, 0x7d8f72); gridProp.position.copy(V(544,539,-0.38)); gridProp.visible = false; scene.add(gridProp);
+const cornerList = () => ['A','B','C','D','E','F'].map(k=>[PROP0[k][0]+shift[0], PROP0[k][1]+shift[1]]);
+function segDist(p,a,b){ const dx=b[0]-a[0], dy=b[1]-a[1], t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/(dx*dx+dy*dy))); return Math.hypot(p[0]-a[0]-t*dx, p[1]-a[1]-t*dy); }
+function inPoly(p,P){ let c=false; for(let i=0,j=P.length-1;i<P.length;j=i++){ const [x1,y1]=P[i], [x2,y2]=P[j]; if((y1>p[1])!==(y2>p[1]) && p[0]<(x2-x1)*(p[1]-y1)/(y2-y1)+x1) c=!c; } return c; }
+function sdist(p,P){ const d=Math.min(...P.map((a,i)=>segDist(p,a,P[(i+1)%P.length]))); return inPoly(p,P)?d:-d; }
+function yAtX(P,x){ const a=P[0], b=P[1]; return a[1]+(b[1]-a[1])*(x-a[0])/(b[0]-a[0]); }
+function insetPoly(P,d){
+  const n=P.length, area=P.reduce((s,a,i)=>{ const b=P[(i+1)%n]; return s+a[0]*b[1]-b[0]*a[1]; },0)/2, sg=area>0?1:-1;
+  const L=P.map((a,i)=>{ const b=P[(i+1)%n], dx=b[0]-a[0], dy=b[1]-a[1], l=Math.hypot(dx,dy), nx=-dy/l*sg, ny=dx/l*sg; return [[a[0]+nx*d,a[1]+ny*d],[b[0]+nx*d,b[1]+ny*d]]; });
+  return P.map((_,i)=>{ const [p1,p2]=L[(i+n-1)%n], [p3,p4]=L[i]; const den=(p1[0]-p2[0])*(p3[1]-p4[1])-(p1[1]-p2[1])*(p3[0]-p4[0]); const t=((p1[0]-p3[0])*(p3[1]-p4[1])-(p1[1]-p3[1])*(p3[0]-p4[0]))/den; return [p1[0]+t*(p2[0]-p1[0]), p1[1]+t*(p2[1]-p1[1])]; });
+}
+function clearG(g){ while(g.children.length){ const c=g.children.pop(); if(c.geometry) c.geometry.dispose(); } }
+function ribbon(g,a,b,w,m,z){ const dx=b[0]-a[0], dy=b[1]-a[1], s=new THREE.Mesh(new THREE.BoxGeometry(Math.hypot(dx,dy),0.1,w), m); s.position.copy(V((a[0]+b[0])/2,(a[1]+b[1])/2,z)); s.rotation.y=Math.atan2(dy,dx); g.add(s); }
+function buildProp(){
+  clearG(propG); const P=cornerList();
+  const fill=new THREE.Mesh(new THREE.ShapeGeometry(new THREE.Shape(P.map(([x,y])=>new THREE.Vector2(x,y)))), fillM); fill.rotation.x=-Math.PI/2; fill.position.y=-0.3; propG.add(fill);
+  P.forEach((a,i)=>{ const b=P[(i+1)%P.length], dx=b[0]-a[0], dy=b[1]-a[1];
+    ribbon(propG,a,b,2.2,redM,0.05);
+    const c=new THREE.Mesh(new THREE.PlaneGeometry(Math.hypot(dx,dy),14), curtM); c.position.copy(V((a[0]+b[0])/2,(a[1]+b[1])/2,7)); c.rotation.y=Math.atan2(dy,dx); propG.add(c); });
+  P.forEach(([x,y])=>{ const post=new THREE.Mesh(new THREE.CylinderGeometry(0.7,0.7,8,10),postM); post.position.copy(V(x,y,4)); propG.add(post); });
+  const edge=new THREE.Line(new THREE.BufferGeometry().setFromPoints([...P,P[0]].map(([x,y])=>V(x,y,0.2))), new THREE.LineBasicMaterial({color:0xC62828})); propG.add(edge);
+  const S=insetPoly(P,SETBACK), ln=new THREE.Line(new THREE.BufferGeometry().setFromPoints([...S,S[0]].map(([x,y])=>V(x,y,0.25))), new THREE.LineDashedMaterial({color:0xE0902A,dashSize:10,gapSize:6}));
+  ln.computeLineDistances(); propG.add(ln);
+}
+function buildRoad(){
+  clearG(roadG); const P=cornerList(), a=P[0], b=P[1], dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy);
+  const road=new THREE.Mesh(new THREE.BoxGeometry(3600,0.12,22), roadMat);
+  road.position.copy(V((a[0]+b[0])/2-dy/L*11,(a[1]+b[1])/2+dx/L*11,-0.36)); road.rotation.y=Math.atan2(dy,dx); roadG.add(road);
+  const ya=yAtX(P,15.5), dwy=new THREE.Mesh(new THREE.BoxGeometry(16,0.12,Math.abs(ya)-22), dwyMat); dwy.position.copy(V(15.5,(ya-22)/2,-0.35)); roadG.add(dwy);
+}
+const bank = new THREE.Mesh(new THREE.CircleGeometry(1,72), new THREE.MeshBasicMaterial({color:0x7C6B4F})); bank.scale.set(POND.rx+5,POND.ry+5,1); bank.rotation.x=-Math.PI/2; bank.position.copy(V(POND.x,POND.y,-0.33)); pondG.add(bank);
+const water = new THREE.Mesh(new THREE.CircleGeometry(1,72), new THREE.MeshLambertMaterial({color:0x4F7F94})); water.scale.set(POND.rx,POND.ry,1); water.rotation.x=-Math.PI/2; water.position.copy(V(POND.x,POND.y,-0.31)); pondG.add(water);
+// Proposed (not final) water well and 500 gal propane tank: for visualizing only; confirm setbacks, lot lines and slope before drilling or setting
+const WELL = [-5,90], PROPANE = [-28,40];
+const wellPad = new THREE.Mesh(new THREE.CylinderGeometry(2.5,2.5,0.3,24), concM); wellPad.position.copy(V(WELL[0],WELL[1],-0.2)); site.add(wellPad);
+const wellCap = new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,3,16), new THREE.MeshLambertMaterial({color:0x2F5D8A})); wellCap.position.copy(V(WELL[0],WELL[1],1.5)); site.add(wellCap);
+const lpM = new THREE.MeshLambertMaterial({color:0xE9E6DE});
+const lpBody = new THREE.Mesh(new THREE.CylinderGeometry(1.6,1.6,9,24), lpM); lpBody.rotation.x=Math.PI/2; lpBody.position.copy(V(PROPANE[0],PROPANE[1],2.4)); site.add(lpBody);
+[-4.5,4.5].forEach(dy=>{ const cap = new THREE.Mesh(new THREE.SphereGeometry(1.6,16,10), lpM); cap.position.copy(V(PROPANE[0],PROPANE[1]+dy,2.4)); site.add(cap); });
+const gasM = new THREE.MeshLambertMaterial({color:0x9B5DB5}); [[[PROPANE[0],PROPANE[1]+4.5],[PROPANE[0],56]],[[PROPANE[0],56],[-2,56]]].forEach(([a,b])=>laySeg(a,b,gasM,0.4));
+const lpDome = new THREE.Mesh(new THREE.CylinderGeometry(0.6,0.6,0.5,12), new THREE.MeshLambertMaterial({color:0xC0392B})); lpDome.position.copy(V(PROPANE[0],PROPANE[1],4.2)); site.add(lpDome);
+
+// legend
+const visible = {}; Object.keys(TYPES).forEach(k=>visible[k]= !['attic8','attic7','attic5','attceil','mech'].includes(k));
+const legend = document.getElementById('legend');
+Object.entries(TYPES).forEach(([k,t])=>{
+  const li=document.createElement('li'), c=counts[k];
+  const q = t.panel ? '' : (c.lf>1 ? `${c.n} pcs · ${Math.round(c.lf).toLocaleString()} LF` : `${c.n} pcs`);
+  li.innerHTML = `<label for="t-${k}"><input type="checkbox" id="t-${k}" ${visible[k]?'checked':''}><span class="sw" style="background:#${t.color.toString(16).padStart(6,'0')};${t.panel?'border:1px solid var(--line)':''}"></span><span class="lname">${t.name}<small>BOM ${t.bom} · ${t.size}</small></span><span class="lqty">${q}<br><span class="util" data-util="${k}" hidden></span></span></label>`;
+  legend.appendChild(li);
+  li.querySelector('input').addEventListener('change',e=>{visible[k]=e.target.checked; applyVisibility();});
+});
+const stepEl = document.getElementById('step');
+let walkCutaway=false;
+/* Utilization (demand ÷ allowable) from the Stress Test tab of the BOM workbook */
+const STRESS = {
+  fixed:  { colAtt:[0.58,"HSS 6x6x3/16 · unchanged"], rafAtt:[0.55,"W12x14 · unchanged"],
+            roof:[0.41,"1/2\" plywood deck @ 24\"; 26-ga panels and clips not checked"],
+            girt:[0.62,"Gable girts above eave"], wpost:[0.60,"HSS 4x4x1/4, 12', partially enclosed"],
+            stud:[0.72,"2x6 DF #2 @ 16\", 12' — deflection L/272 (limit L/240)"] },
+};
+let stressMode = 'off';
+const baseColors = {}; Object.entries(TYPES).forEach(([k,t])=>baseColors[k]=t.color);
+function cssVar(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+function utilColor(u){ return u==null ? cssVar('--na') : u>1 ? cssVar('--bad') : u>=0.9 ? cssVar('--warn') : cssVar('--ok'); }
+function applyStress(){
+  const S2 = STRESS[stressMode];
+  Object.keys(TYPES).forEach(k=>{
+    const m = mats[k];
+    if (!S2){ m.color.setHex(baseColors[k]); if(k==='roof'){m.opacity=0.6;} if(k==='wall'){m.opacity=0.4;} if(k==='osb'){m.opacity=0.55;} return; }
+    const u = S2[k] ? S2[k][0] : null;
+    if (k==='wall'||k==='window'||k==='door'||k==='osb'){ m.color.set(cssVar('--na')); if(k==='wall'||k==='osb') m.opacity=0.12; return; }
+    m.color.set(utilColor(u)); if(k==='roof') m.opacity=0.45;
+  });
+  document.querySelectorAll('[data-util]').forEach(el=>{
+    const k=el.dataset.util, u = S2 && S2[k] ? S2[k][0] : null;
+    el.hidden = !S2; if (S2){ el.textContent = u==null ? '—' : u.toFixed(2); el.style.background = utilColor(u); }
+  });
+  document.getElementById('s-scale').hidden = !S2;
+  document.getElementById('s-note').innerHTML = !S2 ? "Color each member by how hard it's working (demand ÷ allowable). Tap a member for its number."
+    : "Grid 2 moved to x=13.5' with its rear support on the main wall; Grid 6 moved to x=78' with a 4'7\" rear cantilever. Main-frame, Grid 2 tie-rod, portal, purlin, anchorage and brace checks from the prior geometry are withheld pending PE recalculation.";
+  ['off','fixed'].forEach(n=>document.getElementById('s-'+n).setAttribute('aria-pressed', n===stressMode));
+}
+['off','fixed'].forEach(n=>document.getElementById('s-'+n).addEventListener('click',()=>{ stressMode=n; if(n!=='off'){ stepEl.value=8; applyVisibility(); } applyStress(); }));
+function applyVisibility(){
+  const s = +stepEl.value;
+  Object.entries(TYPES).forEach(([k,t])=>{
+    groups[k].visible = visible[k] && t.step <= s && !(walkCutaway && (k==='ceiling'||k==='roof'));
+    if(!t.panel) mats[k].emissive.setHex(t.step===s && s<8 ? 0x331100 : 0x000000);
+  });
+  document.getElementById('step-now').textContent = `Step ${s} · ${STEPS[s][0]}`;
+  document.getElementById('step-desc').textContent = STEPS[s][1];
+}
+stepEl.addEventListener('input', applyVisibility); applyVisibility();
+
+// labels (plan x, plan y, height)
+const LABELS = [["Carport · open",13.5,16,4],["Drive in from north ↓",13.5,-12,1],
+  ["N",52,-15,0],["S",52,66,0],["E",-3,25,0],["W",107,25,0],["Breezeway",37,33,4],["Mom's suite · E",13.5,52,21],["Suite porch",19.7,61.2,4],
+  ["Main house",70,20,25],["Front porch · B",78,-6,4],["Back porch · C",78,47,4],["Laundry / pantry · D",54,45,14],
+  ["Bedroom 3 · A",99.3,23.6,4],
+  ["Electrical pole",POLE[0],POLE[1],39,'site'],["Pro-Flo 800 + 1,000 gal pump tank",TANK.x,TANK.y,3,'site'],
+  ["Spray area 1 · 36' R",SPRAY[0][0],SPRAY[0][1],2,'site'],["Spray area 2 · 36' R",SPRAY[1][0],SPRAY[1][1],2,'site'],["Spray area 3 · 36' R",SPRAY[2][0],SPRAY[2][1],2,'site'],
+  ["Proposed water well",WELL[0],WELL[1],5,'site'],["Proposed 500 gal propane tank",PROPANE[0],PROPANE[1],6,'site']];
+const labelsEl = document.getElementById('labels'); let showTags = true, siteOn = true;
+const tagEls = LABELS.map(([t,x,y,z,k])=>{ const d=document.createElement('div'); d.className = t.length===1 ? 'tag compass' : 'tag'; d.textContent=t; labelsEl.appendChild(d); return {el:d,p:V(x,y,z),site:k==='site'}; });
+function placeTags(){
+  const w=stage.clientWidth, h=stage.clientHeight;
+  tagEls.concat(propTagEls).forEach(t=>{ const v=t.p.clone().project(camera); const on = showTags && (!t.site || siteOn) && (!t.prop || propOn) && v.z<1 && Math.abs(v.x)<1.05 && Math.abs(v.y)<1.05;
+    t.el.hidden=!on; if(on){ t.el.style.left=((v.x+1)/2*w)+'px'; t.el.style.top=((1-v.y)/2*h)+'px'; } });
+}
+const propTagEls = [];
+function renderProp(){
+  const P=cornerList(), p0=[0,20], eastD=(inPoly(p0,P)?1:-1)*segDist(p0,P[1],P[2]);
+  const hp=HOUSE_PTS.map(p=>[p,sdist(p,P)]).sort((a,b)=>a[1]-b[1])[0];
+  const pondC=[POND.x+shift[0],POND.y+shift[1]];
+  const rows=[['East line to the carport end',eastD],['House, closest corner ('+hp[0][0]+', '+hp[0][1]+')',hp[1]],['Septic tank',sdist([TANK.x,TANK.y],P)],
+    ['Spray areas, nearest edge',Math.min(...SPRAY.map(c=>sdist(c,P)))-SPRAY_R],['Propane tank',sdist(PROPANE,P)],['Water well',sdist(WELL,P)],
+    ['Electrical pole',sdist(POLE,P)],['Pond bank, nearest',sdist(pondC,P)-POND.rx]];
+  const fmt=d=> d<0 ? ['bad','OUTSIDE by '+(-d).toFixed(0)+' ft'] : d<SETBACK ? ['wn',d.toFixed(0)+' ft · in setback'] : ['okc',d.toFixed(0)+' ft inside'];
+  document.getElementById('prop-tbl').innerHTML = rows.map(([l,d])=>{ const [c,t]=fmt(d); return '<tr><td>'+l+'</td><td class="'+c+'">'+t+'</td></tr>'; }).join('')
+    + '<tr><td>Front wall to the road line (driveway)</td><td>'+(-yAtX(P,15.5)).toFixed(0)+' ft</td></tr>';
+  const eTxt = eastD<0 ? (-eastD).toFixed(0)+' ft outside' : eastD.toFixed(0)+' ft inside';
+  document.getElementById('prop-note').innerHTML = anchor==='pin'
+    ? 'House center set at your GPS pin. The pin puts the carport end <b>'+eTxt+'</b> the east line, but K&amp;B and C-101 show 59 ft inside, so they disagree by about '+Math.abs(59-eastD).toFixed(0)+' ft. Get a stake-out before pouring.'
+    : 'Fitted to K&amp;B and C-101 (carport end 59 ft from the east line) and your 144.2 ft road measure. This moves the parcel '+Math.hypot(shift[0],shift[1]).toFixed(0)+' ft from where the GPS pin puts it.';
+}
+function applyAnchor(mode){
+  anchor=mode; shift=ANCH[mode]; buildProp(); buildRoad(); pondG.position.set(shift[0],0,-shift[1]); propG.visible=propOn;
+  const P=cornerList(); propTagEls.forEach(t=>t.el.remove()); propTagEls.length=0;
+  const add=(txt,x,y,z,kind)=>{ const d=document.createElement('div'); d.className='tag'; d.textContent=txt; labelsEl.appendChild(d); propTagEls.push({el:d,p:V(x,y,z),site:kind==='site',prop:kind==='prop'}); };
+  PEDGES.forEach(([a,b,br,L,nm],i)=>{ const A=P[i], B=P[(i+1)%6]; add((nm?nm+' · ':'')+br+' · '+L.toLocaleString('en-US',{minimumFractionDigits:2})+"'",(A[0]+B[0])/2,(A[1]+B[1])/2,3,'prop'); });
+  PEDGES.forEach(([a],i)=>add(PCORNER[a],P[i][0],P[i][1],9,'prop'));
+  add('Percy Howard Road',52,yAtX(P,52)-12,1,'site'); add('Driveway',15.5,(yAtX(P,15.5)-22)/2,1,'site'); add('½-acre pond · approx.',POND.x+shift[0],POND.y+shift[1],1,'site');
+  renderProp(); ['pin','kb'].forEach(k=>document.getElementById('a-'+k).setAttribute('aria-pressed',k===mode));
+}
+applyAnchor('pin');
+['pin','kb'].forEach(k=>document.getElementById('a-'+k).addEventListener('click',()=>applyAnchor(k)));
+document.getElementById('v-proplines').addEventListener('click',e=>{ propOn=!propOn; propG.visible=propOn; e.currentTarget.setAttribute('aria-pressed',propOn); });
+
+// views
+const target = V(52,25,6);
+const VIEWS = { iso:V(-50,-75,90), front:V(52,-125,22), rear:V(52,175,22), top:V(52.01,25.01,190), site:V(210.01,135.01,1000), prop:V(544.01,539.01,2500) };
+function setView(k){
+  const flat = k==='top' || k==='site' || k==='prop';
+  camera.up.set(0,0,flat?1:0);
+  if(!flat) camera.up.set(0,1,0);
+  gridProp.visible = k==='prop';
+  camera.near = k==='prop' ? 25 : 1; camera.updateProjectionMatrix();
+  camera.position.copy(VIEWS[k]); controls.target.copy(k==='site'?V(210,135,0):k==='prop'?V(544,539,0):target); controls.update();
+  ['iso','front','rear','top','site','prop'].forEach(n=>document.getElementById('v-'+n).setAttribute('aria-pressed', n===k));
+}
+['iso','front','rear','top','site','prop'].forEach(n=>document.getElementById('v-'+n).addEventListener('click',()=>setView(n)));
+// View filters can be combined: Wood only (includes interior walls) + Attic space show everything either includes.
+const ATTIC_ZONES = ['attic8','attic7','attic5','attceil','mech'];
+const ATTIC_SHOW = ['ceiling','attic8','attic7','attic5','attceil','mech','colMain','colAtt','rafMain','rafAtt','rafShed','purlin','eave','over','header','post'];
+const METAL_SHOW = ['anchor','sconn','colMain','colAtt','rafMain','rafAtt','rafShed','header','post','wpost','portal','over','eave','purlin','girt','brace','roof','wall'];
+const FILTERS = { wood:false, attic:false, metal:false };
+function applyFilters(){
+  const any = FILTERS.wood || FILTERS.attic || FILTERS.metal;
+  Object.keys(TYPES).forEach(k=>{
+    visible[k] = any ? ((FILTERS.wood && !!TYPES[k].wood) || (FILTERS.attic && ATTIC_SHOW.includes(k)) || (FILTERS.metal && METAL_SHOW.includes(k)))
+                     : !ATTIC_ZONES.includes(k);
+    const cb=document.getElementById('t-'+k); if(cb) cb.checked=visible[k];
+  });
+  if (any) stepEl.value = 8;
+  applyVisibility();
+}
+[['v-wood','wood'],['v-attic','attic'],['v-metal','metal']].forEach(([id,key])=>{
+  document.getElementById(id).addEventListener('click',e=>{
+    if (key==='metal' && !FILTERS.metal){
+      ['wood','attic'].forEach(n=>{ FILTERS[n]=false; document.getElementById('v-'+n).setAttribute('aria-pressed',false); });
+    } else if (key!=='metal' && FILTERS.metal){
+      FILTERS.metal=false; document.getElementById('v-metal').setAttribute('aria-pressed',false);
+    }
+    FILTERS[key] = !FILTERS[key]; e.currentTarget.setAttribute('aria-pressed', FILTERS[key]);
+    if (key==='attic' && FILTERS.attic && !FILTERS.wood && !FILTERS.metal) setView('front');
+    applyFilters();
+  });
+});
+const walkButton=document.getElementById('v-walk'), walkHud=document.getElementById('walk-hud'), walkCeilingButton=document.getElementById('walk-ceiling-toggle');
+const WALK_EYE_HEIGHT=64/12;
+const WALK_PITCH_LIMIT=Math.PI/2-0.05;
+let walkActive=false, walkYaw=0, walkPitch=0, walkSnapshot=null, walkDrag=null, walkLastX=0, walkLastY=0;
+const walkKeys=new Set();
+function updateWalkHud(){
+  walkHud.querySelector('span').textContent="Eye level 5'4\" · WASD/arrows move · Shift faster · drag to look · wheel zoom · cursor stays visible";
+}
+function startWalk(){
+  if(walkActive) return;
+  walkSnapshot={position:camera.position.clone(),quaternion:camera.quaternion.clone(),up:camera.up.clone(),order:camera.rotation.order,fov:camera.fov,target:controls.target.clone(),step:+stepEl.value,filters:{...FILTERS},showTags};
+  walkActive=true; walkDrag=null; walkCutaway=true; controls.enabled=false; walkKeys.clear();
+  Object.keys(FILTERS).forEach(key=>{FILTERS[key]=false;document.getElementById('v-'+key).setAttribute('aria-pressed','false');});
+  stepEl.value=8; applyFilters();
+  showTags=false; document.getElementById('v-tags').setAttribute('aria-pressed','false');
+  camera.position.copy(V(78,18,WALK_EYE_HEIGHT)); camera.up.set(0,1,0); camera.rotation.order='YXZ';
+  walkYaw=Math.PI/2; walkPitch=0; camera.rotation.set(0,walkYaw,0);
+  stage.classList.add('walking'); document.getElementById('card').hidden=true;
+  if(highlighted){highlighted.material=mats[highlighted.userData.type];highlighted=null;}
+  walkButton.setAttribute('aria-pressed','true'); walkButton.textContent='Exit Walk'; walkHud.hidden=false; walkCeilingButton.setAttribute('aria-pressed','true'); updateWalkHud();
+}
+function stopWalk(unlock=true){
+  if(!walkActive) return;
+  walkActive=false; walkDrag=null; walkKeys.clear(); canvas.classList.remove('dragging-look');
+  if(walkSnapshot){
+    camera.position.copy(walkSnapshot.position); camera.up.copy(walkSnapshot.up); camera.rotation.order=walkSnapshot.order; camera.quaternion.copy(walkSnapshot.quaternion); camera.fov=walkSnapshot.fov; camera.updateProjectionMatrix(); controls.target.copy(walkSnapshot.target);
+    Object.assign(FILTERS,walkSnapshot.filters); showTags=walkSnapshot.showTags; walkCutaway=false;
+    Object.entries(FILTERS).forEach(([key,value])=>document.getElementById('v-'+key).setAttribute('aria-pressed',value));
+    document.getElementById('v-tags').setAttribute('aria-pressed',showTags);
+    applyFilters(); stepEl.value=walkSnapshot.step; applyVisibility(); controls.enabled=true; controls.update();
+  }
+  walkSnapshot=null; stage.classList.remove('walking'); walkHud.hidden=true; walkButton.setAttribute('aria-pressed','false'); walkButton.textContent='Walk';
+}
+walkButton.addEventListener('click',()=>walkActive?stopWalk():startWalk());
+walkCeilingButton.addEventListener('click',()=>{
+  if(!walkActive) return;
+  walkCutaway=!walkCutaway; applyVisibility();
+  walkCeilingButton.setAttribute('aria-pressed',walkCutaway);
+});
+function setWalkPitch(pitch){
+  if(!walkActive) return;
+  walkPitch=Math.max(-WALK_PITCH_LIMIT,Math.min(WALK_PITCH_LIMIT,pitch));
+  camera.rotation.set(walkPitch,walkYaw,0,'YXZ');
+}
+document.getElementById('walk-look-up').addEventListener('click',()=>setWalkPitch(WALK_PITCH_LIMIT));
+document.getElementById('walk-look-center').addEventListener('click',()=>setWalkPitch(0));
+document.getElementById('walk-look-down').addEventListener('click',()=>setWalkPitch(-WALK_PITCH_LIMIT));
+canvas.addEventListener('pointerdown',e=>{
+  if(!walkActive) return;
+  walkDrag=e.pointerId; walkLastX=e.clientX; walkLastY=e.clientY; canvas.setPointerCapture(e.pointerId);
+  canvas.classList.add('dragging-look');
+  e.preventDefault(); e.stopImmediatePropagation();
+},true);
+canvas.addEventListener('pointermove',e=>{
+  if(!walkActive||walkDrag!==e.pointerId) return;
+  walkYaw-=(e.clientX-walkLastX)*0.005; walkPitch=Math.max(-WALK_PITCH_LIMIT,Math.min(WALK_PITCH_LIMIT,walkPitch-(e.clientY-walkLastY)*0.005));
+  walkLastX=e.clientX; walkLastY=e.clientY; camera.rotation.set(walkPitch,walkYaw,0,'YXZ'); e.preventDefault(); e.stopImmediatePropagation();
+},true);
+canvas.addEventListener('pointerup',e=>{
+  if(walkDrag!==e.pointerId) return;
+  walkDrag=null; canvas.classList.remove('dragging-look'); if(canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+  e.preventDefault(); e.stopImmediatePropagation();
+},true);
+canvas.addEventListener('pointercancel',e=>{
+  if(walkDrag!==e.pointerId) return;
+  walkDrag=null; canvas.classList.remove('dragging-look');
+});
+canvas.addEventListener('wheel',e=>{
+  if(!walkActive) return;
+  camera.fov=Math.max(25,Math.min(75,camera.fov+e.deltaY*0.04));
+  camera.updateProjectionMatrix(); e.preventDefault();
+},{passive:false});
+document.addEventListener('keydown',e=>{
+  if(!walkActive) return;
+  if(e.code==='Escape'){stopWalk();return;}
+  if(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowLeft','ArrowDown','ArrowRight','ShiftLeft','ShiftRight'].includes(e.code)){walkKeys.add(e.code);e.preventDefault();}
+});
+document.addEventListener('keyup',e=>walkKeys.delete(e.code));
+window.addEventListener('blur',()=>walkKeys.clear());
+function updateWalk(delta){
+  if(!walkActive) return;
+  let forward=(walkKeys.has('KeyW')||walkKeys.has('ArrowUp')?1:0)-(walkKeys.has('KeyS')||walkKeys.has('ArrowDown')?1:0);
+  let sideways=(walkKeys.has('KeyD')||walkKeys.has('ArrowRight')?1:0)-(walkKeys.has('KeyA')||walkKeys.has('ArrowLeft')?1:0);
+  const magnitude=Math.hypot(forward,sideways); if(!magnitude) return;
+  forward/=magnitude; sideways/=magnitude;
+  const speed=(walkKeys.has('ShiftLeft')||walkKeys.has('ShiftRight')?9:6)*delta;
+  const dx=(-Math.sin(walkYaw)*forward+Math.cos(walkYaw)*sideways)*speed;
+  const dz=(-Math.cos(walkYaw)*forward-Math.sin(walkYaw)*sideways)*speed;
+  const nextX=camera.position.x+dx; if(!walkBlocked(nextX,camera.position.z)) camera.position.x=nextX;
+  const nextZ=camera.position.z+dz; if(!walkBlocked(camera.position.x,nextZ)) camera.position.z=nextZ;
+}
+document.getElementById('v-tags').addEventListener('click',e=>{showTags=!showTags; e.currentTarget.setAttribute('aria-pressed',showTags);});
+document.getElementById('v-siteitems').addEventListener('click',e=>{siteOn=!siteOn; site.visible=siteOn; e.currentTarget.setAttribute('aria-pressed',siteOn);});
+setView('iso');
+
+// picking and two-point measurement
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let down=null, highlighted=null, measureMode=false, draggingPoint=-1;
+const hiMat = new THREE.MeshLambertMaterial({color:0xFFE14D, emissive:0x554400});
+const measurePoints = [], measureMarkers = [];
+const measureButton = document.getElementById('v-measure');
+const measureClear = document.getElementById('measure-clear');
+const measureDistance = document.getElementById('measure-distance');
+const measureStatus = document.getElementById('measure-status');
+const measureOutline = document.getElementById('measure-outline');
+const measureSvgLine = document.getElementById('measure-line');
+function clearMeasurement(){
+  if(draggingPoint!==-1){draggingPoint=-1;controls.enabled=true;}
+  measureMarkers.forEach(marker=>{scene.remove(marker); marker.geometry.dispose(); marker.material.dispose();});
+  measureMarkers.length=0; measurePoints.length=0;
+  measureOutline.setAttribute('visibility','hidden'); measureSvgLine.setAttribute('visibility','hidden');
+  measureDistance.textContent='No measurement yet';
+  measureStatus.textContent=measureMode ? 'Click a point on the model, then click a second point.' : 'Turn on Measure, then select two points on the model. Values are approximate model dimensions.';
+  measureClear.disabled=true;
+}
+function formatDistance(feet){
+  const inches=Math.round(feet*12);
+  return `${Math.floor(inches/12)}' ${inches%12}\" (${feet.toFixed(2)} ft)`;
+}
+function updateMeasurement(){
+  measurePoints.forEach((point,index)=>{
+    [measureMarkers[index*2],measureMarkers[index*2+1]].forEach(marker=>marker.position.copy(point));
+  });
+  if(measurePoints.length<2) return;
+  const [first,second]=measurePoints, delta=second.clone().sub(first);
+  measureDistance.textContent=`Direct ${formatDistance(first.distanceTo(second))}`;
+  measureStatus.textContent=`Horizontal ${formatDistance(Math.hypot(delta.x,delta.z))} · vertical ${formatDistance(Math.abs(delta.y))}. Drag either point to adjust.`;
+  updateMeasureOverlay();
+}
+function updateMeasureOverlay(){
+  if(measurePoints.length<2){measureOutline.setAttribute('visibility','hidden');measureSvgLine.setAttribute('visibility','hidden');return;}
+  const projected=measurePoints.map(point=>point.clone().project(camera));
+  if(projected.some(point=>point.z < -1 || point.z > 1)){
+    measureOutline.setAttribute('visibility','hidden');measureSvgLine.setAttribute('visibility','hidden');return;
+  }
+  const width=stage.clientWidth, height=stage.clientHeight;
+  const x1=(projected[0].x+1)*width/2, y1=(1-projected[0].y)*height/2;
+  const x2=(projected[1].x+1)*width/2, y2=(1-projected[1].y)*height/2;
+  [measureOutline,measureSvgLine].forEach(line=>{
+    line.setAttribute('x1',x1);line.setAttribute('y1',y1);line.setAttribute('x2',x2);line.setAttribute('y2',y2);line.setAttribute('visibility','visible');
+  });
+}
+function pointIndexAtPointer(e){
+  const rect=canvas.getBoundingClientRect();
+  let closest=-1, closestDistance=20;
+  measurePoints.forEach((point,index)=>{
+    const projected=point.clone().project(camera);
+    if(projected.z < -1 || projected.z > 1) return;
+    const x=rect.left+(projected.x+1)*rect.width/2, y=rect.top+(1-projected.y)*rect.height/2;
+    const distance=Math.hypot(e.clientX-x,e.clientY-y);
+    if(distance<closestDistance){closest=index;closestDistance=distance;}
+  });
+  return closest;
+}
+function intersectionsAtPointer(e){
+  const rect=canvas.getBoundingClientRect();
+  mouse.set(((e.clientX-rect.left)/rect.width)*2-1,-((e.clientY-rect.top)/rect.height)*2+1);
+  ray.setFromCamera(mouse,camera);
+  return ray.intersectObjects(Object.values(groups).filter(group=>group.visible),true);
+}
+function addMeasurementPoint(point){
+  if(measurePoints.length===2) clearMeasurement();
+  const selected=point.clone();
+  measurePoints.push(selected);
+  const markerOutline=new THREE.Mesh(new THREE.SphereGeometry(0.2,16,12),new THREE.MeshBasicMaterial({color:0x172026,depthTest:false}));
+  const marker=new THREE.Mesh(new THREE.SphereGeometry(0.13,16,12),new THREE.MeshBasicMaterial({color:0xFF00FF,depthTest:false}));
+  [markerOutline,marker].forEach((mesh,index)=>{mesh.position.copy(selected);mesh.renderOrder=1000+index;scene.add(mesh);measureMarkers.push(mesh);});
+  measureClear.disabled=false;
+  if(measurePoints.length===1){
+    measureDistance.textContent='Point 1 selected';
+    measureStatus.textContent='Drag point 1 to adjust it, or click a second point.';
+    return;
+  }
+  updateMeasurement();
+  measureStatus.textContent='Drag either point to adjust it. Click again to measure another span.';
+}
+measureButton.addEventListener('click',e=>{
+  measureMode=!measureMode; e.currentTarget.setAttribute('aria-pressed',measureMode);
+  if(measureMode){
+    if(highlighted){highlighted.material=mats[highlighted.userData.type]; highlighted=null;}
+    document.getElementById('card').hidden=true;
+    if(measurePoints.length===0) measureStatus.textContent='Click a point on the model, then click a second point.';
+  } else if(measurePoints.length<2){
+    measureStatus.textContent='Measurement mode off. Turn on Measure to continue.';
+  }
+});
+measureClear.addEventListener('click',clearMeasurement);
+canvas.addEventListener('pointerdown',e=>{
+  down=[e.clientX,e.clientY];
+  if(!measureMode) return;
+  draggingPoint=pointIndexAtPointer(e);
+  if(draggingPoint!==-1){
+    controls.enabled=false;
+    canvas.setPointerCapture(e.pointerId);
+    measureStatus.textContent=`Dragging point ${draggingPoint+1}. Release to set its location.`;
+    e.preventDefault(); e.stopImmediatePropagation();
+  }
+},true);
+canvas.addEventListener('pointermove',e=>{
+  if(draggingPoint!==-1){
+    const hits=intersectionsAtPointer(e);
+    if(hits.length){measurePoints[draggingPoint].copy(hits[0].point);updateMeasurement();measureStatus.textContent=`Dragging point ${draggingPoint+1}. Release to set its location.`;}
+    e.preventDefault();
+    return;
+  }
+  if(measureMode) canvas.style.cursor=pointIndexAtPointer(e)!==-1?'grab':'';
+});
+canvas.addEventListener('pointerup',e=>{
+  if(draggingPoint!==-1){
+    const adjusted=draggingPoint+1;
+    draggingPoint=-1; controls.enabled=true; down=null; canvas.style.cursor='';
+    measureStatus.textContent=measurePoints.length===2?`Point ${adjusted} adjusted. Drag either point to refine the measurement.`:'Point 1 adjusted. Click a second point.';
+    if(canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+    e.preventDefault();
+    return;
+  }
+  if(!down || Math.hypot(e.clientX-down[0],e.clientY-down[1])>6) return;
+  down=null;
+  if(measureMode){
+    const measureHits=intersectionsAtPointer(e);
+    if(measureHits.length) addMeasurementPoint(measureHits[0].point);
+    return;
+  }
+  const r=canvas.getBoundingClientRect();
+  mouse.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1);
+  ray.setFromCamera(mouse,camera);
+  const hits = ray.intersectObjects(pickables.filter(m=>m.parent.visible), false);
+  if(!hits.length) return;
+  const m = hits[0].object, t = TYPES[m.userData.type];
+  if(highlighted) highlighted.material = mats[highlighted.userData.type];
+  m.material = hiMat; highlighted = m;
+  const ft = m.userData.len, totalInches = Math.round(ft*12);
+  const fts = ft>0 ? `${Math.floor(totalInches/12)}' ${totalInches%12}\\"` : '—';
+  if (m.userData.desc){
+    const o=OPS.find(q=>q.desc===m.userData.desc);
+    document.getElementById('c-title').textContent = m.userData.desc;
+    if(!o){ document.getElementById('c-dl').innerHTML = `<dt>Location</dt><dd>Interior partition</dd><dt>Framing</dt><dd>2x4 king + jack each side; flat 2x4 header with cripples</dd><dt>Supply</dt><dd>Per Quality First door schedule</dd>`; document.getElementById('card').hidden=false; return; }
+    document.getElementById('c-dl').innerHTML = `<dt>Location</dt><dd>${m.userData.section}</dd><dt>Sill / head</dt><dd>${o.sill}' / ${o.head===6.67?"6'-8\"":o.head+"'"}</dd><dt>Framing</dt><dd>2x6 DF king + jack each side; 2-ply 2x12 header; 2x6 sill (windows)</dd><dt>Supply</dt><dd>Owner-supplied</dd>`;
+    document.getElementById('card').hidden=false; return;
+  }
+  document.getElementById('c-title').textContent = t.name;
+  const st = STRESS[stressMode] && STRESS[stressMode][m.userData.type];
+  const stRow = STRESS[stressMode] ? `<dt>Stress</dt><dd>${st ? st[0].toFixed(2)+' · '+st[1] : 'not checked'}</dd>` : '';
+  document.getElementById('c-dl').innerHTML = stRow + `<dt>BOM line</dt><dd>${t.bom}</dd><dt>Size</dt><dd>${t.size}</dd><dt>Section</dt><dd>${m.userData.section||'—'}</dd><dt>Length</dt><dd>${fts} (approx.)</dd><dt>Step</dt><dd>${t.step} · ${STEPS[t.step][0]}</dd>`;
+  document.getElementById('card').hidden = false;
+});
+canvas.addEventListener('pointercancel',()=>{if(draggingPoint!==-1){draggingPoint=-1;controls.enabled=true;down=null;canvas.style.cursor='';}});
+document.getElementById('card-x').addEventListener('click',()=>{ document.getElementById('card').hidden=true; if(highlighted){highlighted.material=mats[highlighted.userData.type]; highlighted=null;} });
+
+function syncBg(){ if (typeof applyStress==='function') try{applyStress();}catch(e){} const c=getComputedStyle(document.documentElement).getPropertyValue('--scene').trim()||'#E4E8E6'; scene.background=new THREE.Color(c); }
+syncBg(); try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',syncBg);}catch(e){}
+new MutationObserver(syncBg).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+function resize(){ const w=stage.clientWidth, h=stage.clientHeight; if(!w||!h) return; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+new ResizeObserver(resize).observe(stage); resize();
+let previousFrame=performance.now();
+(function loop(){
+  const now=performance.now(), delta=Math.min((now-previousFrame)/1000,0.05); previousFrame=now;
+  if(walkActive) updateWalk(delta); else controls.update();
+  renderer.render(scene,camera); placeTags(); updateMeasureOverlay(); requestAnimationFrame(loop);
+})();
+})();
+</script>
+
+</body></html>
